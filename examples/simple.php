@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use Bluesky\Bluesky;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
 // By default, the client assumes we're going to authenticate as a valid user
-$username = (string)getenv('BLUESKY_USERNAME');
-$password = (string)getenv('BLUESKY_PASSWORD');
+$username = $_ENV['BLUESKY_USERNAME'];
+$password = $_ENV['BLUESKY_PASSWORD'];
 
 // Construct the client using the default builder with no customizations
 $client = Bluesky::client();

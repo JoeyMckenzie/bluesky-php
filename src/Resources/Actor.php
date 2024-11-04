@@ -15,9 +15,8 @@ final readonly class Actor implements ActorContract
 {
     public function __construct(
         private ConnectorContract $connector,
-        private ?string           $accessJwt
-    )
-    {
+        private ?string $accessJwt
+    ) {
         //
     }
 

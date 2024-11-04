@@ -20,7 +20,7 @@ final readonly class Headers implements Arrayable
     /**
      * Creates a new Headers value object.
      *
-     * @param array<string, string> $headers
+     * @param  array<string, string>  $headers
      */
     private function __construct(private array $headers)
     {
@@ -42,7 +42,7 @@ final readonly class Headers implements Arrayable
     {
         return new self([
             ...$this->headers,
-            'Accept' => $mediaType->value . $suffix,
+            'Accept' => $mediaType->value.$suffix,
         ]);
     }
 
@@ -50,7 +50,7 @@ final readonly class Headers implements Arrayable
     {
         return new self([
             ...$this->headers,
-            'Content-Type' => $mediaType->value . $suffix,
+            'Content-Type' => $mediaType->value.$suffix,
         ]);
     }
 
@@ -58,7 +58,7 @@ final readonly class Headers implements Arrayable
     {
         return new self([
             ...$this->headers,
-            'Authorization' => 'Bearer ' . $accessToken,
+            'Authorization' => 'Bearer '.$accessToken,
         ]);
     }
 

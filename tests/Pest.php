@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests;
+
 use Bluesky\Client;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Enums\HttpMethod;
@@ -10,17 +12,18 @@ use Bluesky\ValueObjects\Connector\Headers;
 use Bluesky\ValueObjects\Connector\QueryParams;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
+use Mockery;
 use Psr\Http\Message\ResponseInterface;
 
-function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true)
+function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true): \Bluesky\Client
 {
     $connector = Mockery::mock(ConnectorContract::class);
     $connector
         ->shouldReceive($methodName)
         ->once()
-        ->withArgs(function (Payload $payload) use ($method, $resource, $params, $validateParams) {
+        ->withArgs(function (Payload $payload) use ($method, $resource, $params, $validateParams): bool {
             $baseUri = BaseUri::from('bsky.social/xrpc');
-            $headers = Headers::create()->withAccessToken("token");
+            $headers = Headers::create()->withAccessToken('token');
             $queryParams = QueryParams::create();
             $request = $payload->toRequest($baseUri, $headers, $queryParams);
             $path = $request->getUri()->getPath();
@@ -29,14 +32,11 @@ function mockClient(HttpMethod $method, string $resource, array $params, Respons
                 if ($method === HttpMethod::GET) {
                     $query = $request->getUri()->getQuery();
                     $expectedQuery = http_build_query($params);
-
                     if ($query !== $expectedQuery) {
                         return false;
                     }
-                } else {
-                    if ($request->getBody()->getContents() !== json_encode($params)) {
-                        return false;
-                    }
+                } elseif ($request->getBody()->getContents() !== json_encode($params)) {
+                    return false;
                 }
             }
 

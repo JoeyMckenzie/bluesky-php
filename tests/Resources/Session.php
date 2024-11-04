@@ -4,20 +4,44 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
-use Bluesky\Bluesky;
+use Bluesky\Enums\HttpMethod;
+use Bluesky\Responses\Session\CreateResponse;
+use Bluesky\ValueObjects\Connector\Response;
 
-it('can create sessions', function (): void {
-    // Arrange
-    $username = (string) getenv('BLUESKY_USERNAME');
-    $password = (string) getenv('BLUESKY_PASSWORD');
-    $client = Bluesky::client();
+use function Tests\mockClient;
 
-    // Act
-    $result = $client->session()->createSession($username, $password);
+describe('Session resource', function (): void {
+    $session = fn(): array => [
+        'did' => 'did:plc:abc123',
+        'handle' => 'joeymckenzie.bsky.social',
+        'email' => 'test@gmail.com',
+        'emailConfirmed' => true,
+        'emailAuthFactor' => false,
+        'accessJwt' => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRlc3QgVXNlciIsImlhdCI6MTY5ODc2MjAwMH0.RuopNsX-kPK2zFQM85mKtQMZCUFNKcPtJPiYf1v7HCI',
+        'refreshJwt' => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRlc3QgVXNlciIsImlhdCI6MTY5ODc2MjAwMH0.RuopNsX-kPK2zFQM85mKtQMZCUFNKcPtJPiYf1v7HCI',
+        'active' => true,
+    ];
 
-    // Assert, spot check a few properties
-    expect($result)->not->toBeNull()
-        ->and($result->accessJwt)->not->toBeNull()
-        ->and($result->refreshJwt)->not->toBeNull()
-        ->and($result->active)->toBeTrue();
+    it('can create sessions', function () use ($session): void {
+        // Arrange
+        $client = mockClient(
+            HttpMethod::POST,
+            'com.atproto.server.createSession',
+            [
+                'identifier' => 'username',
+                'password' => 'password',
+            ],
+            Response::from($session()),
+        );
+
+        // Act
+        $result = $client->session()->createSession('username', 'password');
+
+        // Assert, spot check a few properties
+        expect($result)->not->toBeNull()
+            ->and($result)->toBeInstanceOf(CreateResponse::class)
+            ->accessJwt->not->toBeNull()
+            ->refreshJwt->not->toBeNull()
+            ->active->toBeTrue();
+    });
 });
