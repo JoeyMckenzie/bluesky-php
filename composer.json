@@ -8,6 +8,7 @@
             "email": "joey.mckenzie27@gmail.com"
         }
     ],
+    "version": "0.1.0",
     "require": {
         "php": "^8.3",
         "php-http/discovery": "^1.19.2",
@@ -27,7 +28,8 @@
         "phpstan/phpstan-strict-rules": "^1.6",
         "phpstan/extension-installer": "^1.4",
         "rector/rector": "^1.2",
-        "symfony/http-client": "^7.1"
+        "symfony/http-client": "^7.1",
+        "vlucas/phpdotenv": "^5.6"
     },
     "license": "MIT",
     "autoload": {
