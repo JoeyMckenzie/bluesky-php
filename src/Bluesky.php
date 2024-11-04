@@ -9,11 +9,12 @@ final class Bluesky
     /**
      * Creates a new default client instance.
      */
-    public static function client(): Client
+    public static function client(string $username): Client
     {
         $version = Version::getComposerVersion();
 
         return self::builder()
+            ->withUsername($username)
             ->withHeader('User-Agent', "bluesky-php-client/$version")
             ->build();
     }

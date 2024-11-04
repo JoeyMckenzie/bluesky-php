@@ -24,6 +24,7 @@
         "pestphp/pest": "^v3.5.1",
         "pestphp/pest-plugin-type-coverage": "^v3.1.0",
         "pestphp/pest-plugin-watch": "^v3.0.0",
+        "pestphp/pest-plugin-faker": "^3.0",
         "phpstan/phpstan": "^1.12.7",
         "phpstan/phpstan-strict-rules": "^1.6",
         "phpstan/extension-installer": "^1.4",

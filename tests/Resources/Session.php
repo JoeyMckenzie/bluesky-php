@@ -11,7 +11,7 @@ use Bluesky\ValueObjects\Connector\Response;
 use function Tests\mockClient;
 
 describe('Session resource', function (): void {
-    $session = fn(): array => [
+    $session = fn (): array => [
         'did' => 'did:plc:abc123',
         'handle' => 'joeymckenzie.bsky.social',
         'email' => 'test@gmail.com',

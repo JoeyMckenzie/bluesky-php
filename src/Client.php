@@ -6,8 +6,10 @@ namespace Bluesky;
 
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
+use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Contracts\Resources\SessionContract;
 use Bluesky\Resources\Actor;
+use Bluesky\Resources\Feed;
 use Bluesky\Resources\Session;
 
 /**
@@ -28,14 +30,15 @@ final class Client
      * Creates a client instance with the provided client transport abstraction.
      */
     public function __construct(
-        private readonly ConnectorContract $connector
+        private readonly ConnectorContract $connector,
+        public readonly string $username
     ) {
         //
     }
 
-    public function newSession(string $username, string $password): self
+    public function newSession(string $password): self
     {
-        $newSession = $this->session()->createSession($username, $password);
+        $newSession = $this->session()->createSession($this->username, $password);
         $this->accessJwt = $newSession->accessJwt;
         $this->refreshJwt = $newSession->refreshJwt;
 
@@ -50,5 +53,10 @@ final class Client
     public function actor(): ActorContract
     {
         return new Actor($this->connector, $this->accessJwt);
+    }
+
+    public function feed(): FeedContract
+    {
+        return new Feed($this->connector, $this->username, $this->accessJwt);
     }
 }

@@ -35,6 +35,8 @@ final class Builder
      */
     private array $queryParams = [];
 
+    private ?string $username = null;
+
     /**
      * Sets the HTTP client for the requests. If no client is provided the
      * factory will try to find one using PSR-18 HTTP Client Discovery.
@@ -62,6 +64,16 @@ final class Builder
     public function withQueryParam(string $name, string $value): self
     {
         $this->queryParams[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * The username associated to the client instance.
+     */
+    public function withUsername(string $username): self
+    {
+        $this->username = $username;
 
         return $this;
     }
@@ -105,6 +117,6 @@ final class Builder
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
         $connector = new Connector($client, $baseUri, $headers, $queryParams);
 
-        return new Client($connector);
+        return new Client($connector, $this->username ?? '');
     }
 }

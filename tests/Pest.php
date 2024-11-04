@@ -15,7 +15,7 @@ use Bluesky\ValueObjects\Payload;
 use Mockery;
 use Psr\Http\Message\ResponseInterface;
 
-function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true): \Bluesky\Client
+function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true): Client
 {
     $connector = Mockery::mock(ConnectorContract::class);
     $connector
@@ -43,5 +43,5 @@ function mockClient(HttpMethod $method, string $resource, array $params, Respons
             return $request->getMethod() === $method->value && $path === "/xrpc/$resource";
         })->andReturn($response);
 
-    return new Client($connector);
+    return new Client($connector, 'username');
 }

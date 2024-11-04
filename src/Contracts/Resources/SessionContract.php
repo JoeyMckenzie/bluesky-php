@@ -14,5 +14,5 @@ interface SessionContract
     /**
      * Creates a new session, returning a valid JWT for both the current session and refresh sessions.
      */
-    public function createSession(string $username, string $password): CreateResponse;
+    public function createSession(string $password): CreateResponse;
 }
