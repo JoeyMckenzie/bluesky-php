@@ -94,7 +94,7 @@ final readonly class Payload
 
         $headers = $headers->withAccept($this->accept);
 
-        if ($this->contentType instanceof \Bluesky\Enums\MediaType) {
+        if ($this->contentType instanceof MediaType) {
             $headers = $headers->withContentType($this->contentType);
         }
 

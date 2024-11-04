@@ -10,6 +10,7 @@ use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Session\CreateResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
+use Override;
 
 final readonly class Session implements SessionContract
 {
@@ -21,7 +22,7 @@ final readonly class Session implements SessionContract
     /**
      * {@inheritDoc}
      */
-    #[\Override]
+    #[Override]
     public function createSession(string $username, string $password): CreateResponse
     {
         $payload = Payload::create('com.atproto.server.createSession', [
