@@ -18,7 +18,7 @@ describe('Actor resource', function (): void {
         'did' => fake()->uuid(),
         'handle' => fake()->userName().'bsky.social',
         'displayName' => fake()->name(),
-        'avatar' => fake()->imageUrl(),
+        'avatar' => fake()->uuid(),
         'associated' => [
             'lists' => fake()->numberBetween(1, 10),
             'feedgens' => fake()->numberBetween(1, 10),

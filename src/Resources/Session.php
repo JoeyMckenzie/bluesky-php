@@ -14,8 +14,10 @@ use Override;
 
 final readonly class Session implements SessionContract
 {
-    public function __construct(private ConnectorContract $connector)
-    {
+    public function __construct(
+        private ConnectorContract $connector,
+        private string $username
+    ) {
         //
     }
 
@@ -23,10 +25,10 @@ final readonly class Session implements SessionContract
      * {@inheritDoc}
      */
     #[Override]
-    public function createSession(string $username, string $password): CreateResponse
+    public function createSession(string $password): CreateResponse
     {
         $payload = Payload::create('com.atproto.server.createSession', [
-            'identifier' => $username,
+            'identifier' => $this->username,
             'password' => $password,
         ], MediaType::JSON);
 

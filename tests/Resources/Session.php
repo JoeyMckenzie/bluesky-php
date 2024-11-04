@@ -35,7 +35,7 @@ describe('Session resource', function (): void {
         );
 
         // Act
-        $result = $client->session()->createSession('username', 'password');
+        $result = $client->session()->createSession('password');
 
         // Assert, spot check a few properties
         expect($result)->not->toBeNull()

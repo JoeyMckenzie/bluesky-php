@@ -38,7 +38,7 @@ final class Client
 
     public function newSession(string $password): self
     {
-        $newSession = $this->session()->createSession($this->username, $password);
+        $newSession = $this->session()->createSession($password);
         $this->accessJwt = $newSession->accessJwt;
         $this->refreshJwt = $newSession->refreshJwt;
 
@@ -47,7 +47,7 @@ final class Client
 
     public function session(): SessionContract
     {
-        return new Session($this->connector);
+        return new Session($this->connector, $this->username);
     }
 
     public function actor(): ActorContract
