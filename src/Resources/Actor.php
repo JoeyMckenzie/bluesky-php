@@ -6,8 +6,9 @@ namespace Bluesky\Resources;
 
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
+use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
-use Bluesky\Responses\Actor\Profile\ListResponse;
+use Bluesky\Responses\Actor\Profile\ListResponse as ProfileListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -40,7 +41,7 @@ final readonly class Actor implements ActorContract
      * @param  string[]  $actors
      */
     #[Override]
-    public function getProfiles(array $actors, ?string $accessJwt = null): ListResponse
+    public function getProfiles(array $actors, ?string $accessJwt = null): ProfileListResponse
     {
         $payload = Payload::list('app.bsky.actor.getProfiles', [
             'actors' => $actors,
@@ -51,6 +52,19 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt ?? $accessJwt ?? '');
 
-        return ListResponse::from($response->data());
+        return ProfileListResponse::from($response->data());
+    }
+
+    #[Override]
+    public function getPreferences(?string $accessJwt = null): PreferencesListResponse
+    {
+        $payload = Payload::list('app.bsky.actor.getPreferences');
+
+        /**
+         * @var Response<array{preferences: array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>}> $response
+         */
+        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt ?? $accessJwt ?? '');
+
+        return PreferencesListResponse::from($response->data());
     }
 }
