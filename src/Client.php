@@ -8,6 +8,7 @@ use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Contracts\Resources\SessionContract;
+use Bluesky\Exceptions\RefreshTokenNotFound;
 use Bluesky\Resources\Actor;
 use Bluesky\Resources\Feed;
 use Bluesky\Resources\Session;
@@ -48,6 +49,22 @@ final class Client
     public function session(): SessionContract
     {
         return new Session($this->connector, $this->username);
+    }
+
+    /**
+     * @throws RefreshTokenNotFound
+     */
+    public function refreshSession(): self
+    {
+        if ($this->refreshJwt === null) {
+            throw new RefreshTokenNotFound;
+        }
+
+        $refreshedSession = $this->session()->refreshSession($this->refreshJwt);
+        $this->accessJwt = $refreshedSession->accessJwt;
+        $this->refreshJwt = $refreshedSession->refreshJwt;
+
+        return $this;
     }
 
     public function actor(): ActorContract

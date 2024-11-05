@@ -24,6 +24,7 @@ final readonly class Payload
      * Creates a new Request value object.
      *
      * @param  array<string, mixed>  $parameters
+     * @param  null|array<string, string>  $headers
      */
     private function __construct(
         private MediaType $accept,
@@ -31,6 +32,8 @@ final readonly class Payload
         private ResourceUri $uri,
         private array $parameters = [],
         private ?MediaType $contentType = null,
+        private ?array $headers = [],
+        public bool $includeBody = true,
     ) {
         //
     }
@@ -67,14 +70,15 @@ final readonly class Payload
      * Creates a new Payload value object from the given parameters.
      *
      * @param  array<string, mixed>  $parameters
+     * @param  array<string, string>  $headers
      */
-    public static function create(string $resource, array $parameters, ?MediaType $contentType = null): self
+    public static function create(string $resource, array $parameters, ?MediaType $contentType = null, ?array $headers = [], bool $includeBody = true): self
     {
         $accept = MediaType::JSON;
         $method = HttpMethod::POST;
         $uri = ResourceUri::create($resource);
 
-        return new self($accept, $method, $uri, $parameters, $contentType);
+        return new self($accept, $method, $uri, $parameters, $contentType, $headers, $includeBody);
     }
 
     /**
@@ -98,7 +102,13 @@ final readonly class Payload
             $headers = $headers->withContentType($this->contentType);
         }
 
-        $body = $this->method === HttpMethod::POST
+        if ($this->headers !== null && $this->headers !== []) {
+            foreach ($this->headers as $name => $value) {
+                $headers = $headers->withCustomHeader($name, $value);
+            }
+        }
+
+        $body = $this->method === HttpMethod::POST && $this->includeBody
             ? $psr17Factory->createStream(json_encode($this->parameters, JSON_THROW_ON_ERROR))
             : null;
         $request = $psr17Factory->createRequest($this->method->value, $uri);

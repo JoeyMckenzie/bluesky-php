@@ -9,21 +9,21 @@ use Bluesky\Responses\Concerns\ArrayAccessible;
 use Override;
 
 /**
- * @implements ResponseContract<array{did: string, handle: string, email: string, emailConfirmed: bool, emailAuthFactor: bool, accessJwt: string, refreshJwt: string, active: bool}>
+ * @implements ResponseContract<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}>
  */
 final readonly class CreateResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{did: string, handle: string, email: string, emailConfirmed: bool, emailAuthFactor: bool, accessJwt: string, refreshJwt: string, active: bool}>
+     * @use ArrayAccessible<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}>
      */
     use ArrayAccessible;
 
     private function __construct(
         public string $did,
         public string $handle,
-        public string $email,
-        public bool $emailConfirmed,
-        public bool $emailAuthFactor,
+        public ?string $email,
+        public ?bool $emailConfirmed,
+        public ?bool $emailAuthFactor,
         public string $accessJwt,
         public string $refreshJwt,
         public bool $active,
@@ -32,16 +32,16 @@ final readonly class CreateResponse implements ResponseContract
     }
 
     /**
-     * @param  array{did: string, handle: string, email: string, emailConfirmed: bool, emailAuthFactor: bool, accessJwt: string, refreshJwt: string, active: bool}  $attributes
+     * @param  array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}  $attributes
      */
     public static function from(array $attributes): self
     {
         return new self(
             $attributes['did'],
             $attributes['handle'],
-            $attributes['email'],
-            $attributes['emailConfirmed'],
-            $attributes['emailAuthFactor'],
+            $attributes['email'] ?? null,
+            $attributes['emailConfirmed'] ?? null,
+            $attributes['emailAuthFactor'] ?? null,
             $attributes['accessJwt'],
             $attributes['refreshJwt'],
             $attributes['active'],

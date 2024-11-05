@@ -5,7 +5,7 @@ Endpoints still to implement for client
 - [x] `app.bsky.actor.getPreferences`
 - [x] `app.bsky.actor.getProfile`
 - [x] `app.bsky.actor.getProfiles`
-- [] `app.bsky.actor.getSuggestions`
+- [x] `app.bsky.actor.getSuggestions`
 - [] `app.bsky.actor.putPreferences`
 - [] `app.bsky.actor.searchActorsTypeahead`
 - [] `app.bsky.actor.searchActors`

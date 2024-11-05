@@ -19,15 +19,20 @@ foreach (glob(__DIR__.'/Fixtures/*Fixture.php') as $fixture) {
     require_once $fixture;
 }
 
-function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true): Client
+function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true, array $additionalHeaders = [], bool $includeBody = true): Client
 {
     $connector = Mockery::mock(ConnectorContract::class);
     $connector
         ->shouldReceive($methodName)
         ->once()
-        ->withArgs(function (Payload $payload) use ($method, $resource, $params, $validateParams): bool {
-            $baseUri = BaseUri::from('bsky.social/xrpc');
+        ->withArgs(function (Payload $payload) use ($method, $resource, $params, $validateParams, $additionalHeaders): bool {
             $headers = Headers::create()->withAccessToken('token');
+
+            foreach ($additionalHeaders as $name => $value) {
+                $headers = $headers->withCustomHeader($name, $value);
+            }
+
+            $baseUri = BaseUri::from('bsky.social/xrpc');
             $queryParams = QueryParams::create();
             $request = $payload->toRequest($baseUri, $headers, $queryParams);
             $path = $request->getUri()->getPath();
@@ -39,8 +44,19 @@ function mockClient(HttpMethod $method, string $resource, array $params, Respons
                     if ($query !== $expectedQuery) {
                         return false;
                     }
-                } elseif ($request->getBody()->getContents() !== json_encode($params)) {
-                    return false;
+                }
+
+                if ($method === HttpMethod::POST) {
+                    if ($payload->includeBody) {
+                        if ($request->getBody()->getContents() !== json_encode($params)) {
+                            return false;
+                        }
+                    } else {
+                        $size = $request->getBody()->getSize();
+                        if ($size !== null && $size > 0) {
+                            return false;
+                        }
+                    }
                 }
             }
 

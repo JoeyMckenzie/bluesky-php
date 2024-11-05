@@ -39,4 +39,22 @@ final readonly class Session implements SessionContract
 
         return CreateResponse::from($response->data());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    #[Override]
+    public function refreshSession(string $refreshJwt): CreateResponse
+    {
+        $payload = Payload::create('com.atproto.server.refreshSession', [], MediaType::JSON, [
+            'Authorization' => 'Bearer '.$refreshJwt,
+        ], false);
+
+        /**
+         * @var Response<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}> $response
+         */
+        $response = $this->connector->requestData($payload);
+
+        return CreateResponse::from($response->data());
+    }
 }
