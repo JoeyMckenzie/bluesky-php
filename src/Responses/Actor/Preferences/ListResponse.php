@@ -6,6 +6,7 @@ namespace Bluesky\Responses\Actor\Preferences;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
+use Override;
 
 /**
  * @implements ResponseContract<array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>>
@@ -36,7 +37,7 @@ final class ListResponse implements ResponseContract
     /**
      * {@inheritDoc}
      */
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return $this->data;

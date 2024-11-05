@@ -69,7 +69,7 @@ final readonly class Actor implements ActorContract
         return PreferencesListResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getSuggestions(?int $limit = 50, ?int $cursor = 0, ?string $accessJwt = null): SuggestionsListResponse
     {
         $payload = Payload::list('app.bsky.actor.getSuggestions', [
