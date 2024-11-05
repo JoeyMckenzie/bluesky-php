@@ -6,6 +6,9 @@ namespace Tests\Fixtures;
 
 use function Pest\Faker\fake;
 
+/**
+ * @return array<int, string>
+ */
 function post(): array
 {
     return [

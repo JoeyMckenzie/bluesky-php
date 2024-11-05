@@ -7,6 +7,14 @@ namespace Bluesky;
 final class Bluesky
 {
     /**
+     * Creates a new client instance with a default session.
+     */
+    public static function clientWithSession(string $username, string $password): Client
+    {
+        return self::client($username)->newSession($password);
+    }
+
+    /**
      * Creates a new default client instance.
      */
     public static function client(string $username): Client

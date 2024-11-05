@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Session;
 
-use Bluesky\Responses\Feed\CreateResponse;
+use Bluesky\Responses\Feed\Post\CreateResponse;
 
 use function Tests\Fixtures\post;
 

@@ -7,7 +7,7 @@ namespace Tests\Fixtures;
 use function Pest\Faker\fake;
 
 /**
- * @return array<string, mixed>
+ * @return array<string, string|bool>
  */
 function session(): array
 {

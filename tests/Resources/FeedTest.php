@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
-use Bluesky\Responses\Feed\CreateResponse;
+use Bluesky\Responses\Feed\Post\CreateResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 
