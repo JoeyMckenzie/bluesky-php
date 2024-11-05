@@ -9,7 +9,7 @@ use Bluesky\Responses\Actor\Preferences\ListResponse;
 use function Tests\Fixtures\preferences;
 
 describe(ListResponse::class, function (): void {
-    it('returns a valid typed actor profile object', function (): void {
+    it('returns a valid typed preferences list', function (): void {
         // Arrange & Act
         $response = ListResponse::from(preferences());
 

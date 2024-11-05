@@ -9,6 +9,7 @@ use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfileListResponse;
+use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -66,5 +67,21 @@ final readonly class Actor implements ActorContract
         $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt ?? $accessJwt ?? '');
 
         return PreferencesListResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getSuggestions(?int $limit = 50, ?int $cursor = 0, ?string $accessJwt = null): SuggestionsListResponse
+    {
+        $payload = Payload::list('app.bsky.actor.getSuggestions', [
+            'limit' => $limit,
+            'cursor' => $cursor,
+        ]);
+
+        /**
+         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>, cursor: string}> $response
+         */
+        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt ?? $accessJwt ?? '');
+
+        return SuggestionsListResponse::from($response->data());
     }
 }

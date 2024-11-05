@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
+use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
-use Bluesky\Responses\Actor\Profile\ListResponse;
+use Bluesky\Responses\Actor\Profile\ListResponse as ProfilesListResponse;
+use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 
+use function Tests\Fixtures\preferences;
 use function Tests\Fixtures\profile;
+use function Tests\Fixtures\suggestions;
 use function Tests\mockClient;
 
 describe('Actor resource', function (): void {
@@ -60,8 +64,77 @@ describe('Actor resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(ListResponse::class)
+            ->toBeInstanceOf(ProfilesListResponse::class)
             ->data->toBeArray()->toHaveCount(2)
             ->each->toBeInstanceOf(FindResponse::class);
+    });
+
+    it('can retrieve preferences', function (): void {
+        // Arrange
+        $client = mockClient(
+            HttpMethod::GET,
+            'app.bsky.actor.getPreferences',
+            [],
+            Response::from(preferences()),
+            'requestDataWithAccessToken'
+        );
+
+        // Act
+        $result = $client->actor()->getPreferences();
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(PreferencesListResponse::class)
+            ->data->toBeArray()->toHaveCount(4);
+    });
+
+    it('can retrieve suggestions', function (): void {
+        // Arrange
+        $client = mockClient(
+            HttpMethod::GET,
+            'app.bsky.actor.getSuggestions',
+            [
+                'limit' => 50,
+                'cursor' => 0,
+            ],
+            Response::from(suggestions()),
+            'requestDataWithAccessToken'
+        );
+
+        // Act
+        $result = $client->actor()->getSuggestions();
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(SuggestionsListResponse::class)
+            ->data->toBeArray()
+            ->and(count($result->data))->toBeBetween(1, 50)
+            ->and($result->cursor)->toEqual(50);
+    });
+
+    it('can retrieve suggestions with limit and cursor parameters', function (): void {
+        // Arrange
+        $limit = 42;
+        $cursor = 69;
+        $client = mockClient(
+            HttpMethod::GET,
+            'app.bsky.actor.getSuggestions',
+            [
+                'limit' => $limit,
+                'cursor' => $cursor,
+            ],
+            Response::from(suggestions($limit, $cursor)),
+            'requestDataWithAccessToken'
+        );
+
+        // Act
+        $result = $client->actor()->getSuggestions($limit, $cursor);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(SuggestionsListResponse::class)
+            ->data->toBeArray()
+            ->and(count($result->data))->toEqual($limit)
+            ->and(intval($result->cursor))->toBe($limit + $cursor);
     });
 });

@@ -85,3 +85,43 @@ function preferences(): array
         ],
     ];
 }
+
+/**
+ * @return array<string, mixed>
+ */
+function suggestions(?int $limit = 50, ?int $cursor = 0): array
+{
+    return [
+        'actors' => array_map(
+            fn (): array => [
+                'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
+                'handle' => fake()->userName().'.bsky.social',
+                'displayName' => fake()->name(),
+                'avatar' => sprintf(
+                    'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+                    fake()->regexify('[a-z0-9]{24}'),
+                    'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+                ),
+                'associated' => fake()->boolean(30) ? [
+                    'chat' => [
+                        'allowIncoming' => fake()->randomElement(['following', 'mutual']),
+                    ],
+                ] : null,
+                'viewer' => [
+                    'muted' => fake()->boolean(20),      // 20% chance of being muted
+                    'blockedBy' => fake()->boolean(10),  // 10% chance of being blocked
+                ],
+                'labels' => [],
+                'createdAt' => Carbon::now('UTC')
+                    ->subDays(fake()->numberBetween(1, 365))
+                    ->toString(),
+                'description' => fake()->optional(0.8)->text(),  // 80% chance of having a description
+                'indexedAt' => Carbon::now('UTC')
+                    ->subHours(fake()->numberBetween(1, 48))
+                    ->toString(),
+            ],
+            range(1, $limit)
+        ),
+        'cursor' => (string) ($cursor + $limit),
+    ];
+}
