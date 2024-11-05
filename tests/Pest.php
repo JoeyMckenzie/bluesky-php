@@ -15,6 +15,10 @@ use Bluesky\ValueObjects\Payload;
 use Mockery;
 use Psr\Http\Message\ResponseInterface;
 
+foreach (glob(__DIR__.'/Fixtures/*Fixture.php') as $fixture) {
+    require_once $fixture;
+}
+
 function mockClient(HttpMethod $method, string $resource, array $params, Response|ResponseInterface|string $response, string $methodName = 'requestData', bool $validateParams = true): Client
 {
     $connector = Mockery::mock(ConnectorContract::class);

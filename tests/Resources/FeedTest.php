@@ -10,6 +10,7 @@ use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 
 use function Pest\Faker\fake;
+use function Tests\Fixtures\post;
 use function Tests\mockClient;
 
 describe('Feed resource', function (): void {
@@ -28,10 +29,7 @@ describe('Feed resource', function (): void {
                     'createdAt' => $createdAt->toIso8601String(),
                 ],
             ],
-            Response::from([
-                'uri' => fake()->url(),
-                'cid' => fake()->uuid(),
-            ]),
+            Response::from(post()),
             'requestDataWithAccessToken'
         );
 
