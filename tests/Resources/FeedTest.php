@@ -30,7 +30,6 @@ describe('Feed resource', function (): void {
                 ],
             ],
             Response::from(post()),
-            'requestDataWithAccessToken'
         );
 
         // Act

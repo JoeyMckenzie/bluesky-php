@@ -25,7 +25,6 @@ describe('Actor resource', function (): void {
             'app.bsky.actor.getProfile',
             ['actor' => 'test'],
             Response::from(profile()),
-            'requestDataWithAccessToken'
         );
 
         // Act
@@ -56,7 +55,6 @@ describe('Actor resource', function (): void {
                     profile(),
                 ],
             ]),
-            'requestDataWithAccessToken'
         );
 
         // Act
@@ -76,7 +74,6 @@ describe('Actor resource', function (): void {
             'app.bsky.actor.getPreferences',
             [],
             Response::from(preferences()),
-            'requestDataWithAccessToken'
         );
 
         // Act
@@ -98,7 +95,6 @@ describe('Actor resource', function (): void {
                 'cursor' => 0,
             ],
             Response::from(suggestions()),
-            'requestDataWithAccessToken'
         );
 
         // Act
@@ -124,7 +120,6 @@ describe('Actor resource', function (): void {
                 'cursor' => $cursor,
             ],
             Response::from(suggestions($limit, $cursor)),
-            'requestDataWithAccessToken'
         );
 
         // Act

@@ -26,8 +26,13 @@ final class Client
     /**
      * Creates a client instance with the provided client transport abstraction.
      */
-    public function __construct(private readonly ConnectorContract $connector, public readonly string $username, public ?string $accessJwt = null, public ?string $refreshJwt = null)
+    public function __construct(
+        private readonly ConnectorContract $connector,
+        public readonly string $username,
+        public ?string $accessJwt = null,
+        public ?string $refreshJwt = null)
     {
+        //
     }
 
     public function newSession(string $password): self
