@@ -121,7 +121,7 @@ Endpoints still to implement for client
 - [] `com.atproto.server.getServiceAuth`
 - [] `com.atproto.server.getSession`
 - [] `com.atproto.server.listAppPasswords`
-- [] `com.atproto.server.refreshSession`
+- [x] `com.atproto.server.refreshSession`
 - [] `com.atproto.server.requestAccountDelete`
 - [] `com.atproto.server.requestEmailConfirmation`
 - [] `com.atproto.server.requestEmailUpdate`

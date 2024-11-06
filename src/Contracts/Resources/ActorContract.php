@@ -14,18 +14,14 @@ use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
  */
 interface ActorContract
 {
-    /**
-     * @param  string  $actor  User's ID or their handle.
-     * @param  null|string  $accessJwt  Optional access token.
-     */
-    public function getProfile(string $actor, ?string $accessJwt = null): FindResponse;
+    public function getProfile(string $actor): FindResponse;
 
     /**
      * @param  string[]  $actors
      */
-    public function getProfiles(array $actors, ?string $accessJwt = null): ProfilesListResponse;
+    public function getProfiles(array $actors): ProfilesListResponse;
 
-    public function getPreferences(?string $accessJwt = null): PreferencesListResponse;
+    public function getPreferences(): PreferencesListResponse;
 
-    public function getSuggestions(?int $limit = 50, ?int $cursor = 0, ?string $accessJwt = null): SuggestionsListResponse;
+    public function getSuggestions(?int $limit = 50, ?int $cursor = 0): SuggestionsListResponse;
 }

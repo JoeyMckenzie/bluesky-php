@@ -8,7 +8,7 @@ use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Contracts\Resources\SessionContract;
-use Bluesky\Exceptions\RefreshTokenNotFound;
+use Bluesky\Exceptions\AuthenticationTokenException;
 use Bluesky\Resources\Actor;
 use Bluesky\Resources\Feed;
 use Bluesky\Resources\Session;
@@ -23,18 +23,11 @@ final class Client
      */
     public const string API_BASE_URL = 'https://bsky.social/xrpc';
 
-    public ?string $accessJwt = null;
-
-    public ?string $refreshJwt = null;
-
     /**
      * Creates a client instance with the provided client transport abstraction.
      */
-    public function __construct(
-        private readonly ConnectorContract $connector,
-        public readonly string $username
-    ) {
-        //
+    public function __construct(private readonly ConnectorContract $connector, public readonly string $username, public ?string $accessJwt = null, public ?string $refreshJwt = null)
+    {
     }
 
     public function newSession(string $password): self
@@ -52,12 +45,12 @@ final class Client
     }
 
     /**
-     * @throws RefreshTokenNotFound
+     * @throws AuthenticationTokenException
      */
     public function refreshSession(): self
     {
         if ($this->refreshJwt === null) {
-            throw new RefreshTokenNotFound;
+            throw new AuthenticationTokenException('No refresh token available, create a session first.');
         }
 
         $refreshedSession = $this->session()->refreshSession($this->refreshJwt);
@@ -67,13 +60,27 @@ final class Client
         return $this;
     }
 
+    /**
+     * @throws AuthenticationTokenException
+     */
     public function actor(): ActorContract
     {
+        if ($this->accessJwt === null) {
+            throw new AuthenticationTokenException('No access token available, create a session first.');
+        }
+
         return new Actor($this->connector, $this->accessJwt);
     }
 
+    /**
+     * @throws AuthenticationTokenException
+     */
     public function feed(): FeedContract
     {
+        if ($this->accessJwt === null) {
+            throw new AuthenticationTokenException('No access token available, create a session first.');
+        }
+
         return new Feed($this->connector, $this->username, $this->accessJwt);
     }
 }

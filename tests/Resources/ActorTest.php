@@ -10,17 +10,17 @@ use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfilesListResponse;
 use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
 use Bluesky\ValueObjects\Connector\Response;
+use Tests\Mocks\ClientMock;
 
 use function Tests\Fixtures\preferences;
 use function Tests\Fixtures\profile;
 use function Tests\Fixtures\suggestions;
-use function Tests\mockClient;
 
 describe('Actor resource', function (): void {
 
     it('can retrieve a profile given a did or handle', function (): void {
         // Arrange
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::GET,
             'app.bsky.actor.getProfile',
             ['actor' => 'test'],
@@ -41,7 +41,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve profile given a list of dids or handles', function (): void {
         // Arrange
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::GET,
             'app.bsky.actor.getProfiles',
             [
@@ -71,7 +71,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve preferences', function (): void {
         // Arrange
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::GET,
             'app.bsky.actor.getPreferences',
             [],
@@ -90,7 +90,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve suggestions', function (): void {
         // Arrange
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::GET,
             'app.bsky.actor.getSuggestions',
             [
@@ -116,7 +116,7 @@ describe('Actor resource', function (): void {
         // Arrange
         $limit = 42;
         $cursor = 69;
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::GET,
             'app.bsky.actor.getSuggestions',
             [

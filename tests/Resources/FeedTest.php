@@ -8,17 +8,17 @@ use Bluesky\Enums\HttpMethod;
 use Bluesky\Responses\Feed\Post\CreateResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
+use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
 use function Tests\Fixtures\post;
-use function Tests\mockClient;
 
 describe('Feed resource', function (): void {
     it('can create posts with a default timestamp', function (): void {
         // Arrange
         $text = fake()->text();
         $createdAt = Carbon::now('UTC');
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::POST,
             'com.atproto.repo.createRecord',
             [

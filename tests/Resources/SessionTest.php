@@ -7,16 +7,16 @@ namespace Tests\Resources;
 use Bluesky\Enums\HttpMethod;
 use Bluesky\Responses\Session\CreateResponse;
 use Bluesky\ValueObjects\Connector\Response;
+use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
 use function Tests\Fixtures\refreshedSession;
 use function Tests\Fixtures\session;
-use function Tests\mockClient;
 
 describe('Session resource', function (): void {
     it('can create sessions', function (): void {
         // Arrange
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::POST,
             'com.atproto.server.createSession',
             [
@@ -24,6 +24,7 @@ describe('Session resource', function (): void {
                 'password' => 'password',
             ],
             Response::from(session()),
+            'requestData',
         );
 
         // Act
@@ -43,14 +44,15 @@ describe('Session resource', function (): void {
     it('can refresh sessions', function (): void {
         // Arrange
         $refreshToken = fake()->uuid();
-        $client = mockClient(
+        $client = ClientMock::mockClient(
             HttpMethod::POST,
             'com.atproto.server.refreshSession',
             [],
             Response::from(refreshedSession()),
+            'requestData',
             additionalHeaders: [
                 'Authorization' => 'Bearer '.$refreshToken,
-            ]
+            ],
         );
 
         // Act

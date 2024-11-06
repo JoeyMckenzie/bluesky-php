@@ -18,13 +18,13 @@ final readonly class Feed implements FeedContract
     public function __construct(
         private ConnectorContract $connector,
         private string $username,
-        private ?string $accessJwt
+        private string $accessJwt
     ) {
         //
     }
 
     #[Override]
-    public function post(string $text, ?Carbon $createdAt = null, ?string $accessJwt = null): CreateResponse
+    public function post(string $text, ?Carbon $createdAt = null): CreateResponse
     {
         $payload = Payload::create('com.atproto.repo.createRecord', [
             'repo' => $this->username,
@@ -38,7 +38,7 @@ final readonly class Feed implements FeedContract
         /**
          * @var Response<array{uri: string, cid: string}> $response
          */
-        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt ?? $accessJwt ?? '');
+        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
 
         return CreateResponse::from($response->data());
     }
