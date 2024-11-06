@@ -20,7 +20,7 @@ $client = Bluesky::client($username);
 $session = $client->session()->createSession($password);
 var_dump($session);
 
-$profile = $client->actor()->getProfile($username, $session->accessJwt);
+$profile = $client->actor()->getProfile($username);
 var_dump($profile);
 
 // OR option 2, create a new session through the client instance
