@@ -21,7 +21,7 @@ final class ClientMock
 {
     private const string BASE_URI = 'bsky.social/xrpc';
 
-    private const string DEFAULT_METHOD = 'requestDataWithAccessToken';
+    private const string DEFAULT_METHOD = 'makeRequest';
 
     public static function createForPost(
         string $resource,

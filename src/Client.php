@@ -24,6 +24,11 @@ final class Client
     public const string API_BASE_URL = 'https://bsky.social/xrpc';
 
     /**
+     * The base URL for Open Brewery DB API.
+     */
+    public const string PUBLIC_API_BASE_URL = 'https://public.api.bsky.app/xrpc';
+
+    /**
      * Creates a client instance with the provided client transport abstraction.
      */
     public function __construct(
@@ -55,7 +60,7 @@ final class Client
     public function refreshSession(): self
     {
         if ($this->refreshJwt === null) {
-            throw new AuthenticationTokenException('No refresh token available, create a session first.');
+            throw new AuthenticationTokenException('Refresh JWT is required to refresh a session.');
         }
 
         $refreshedSession = $this->session()->refreshSession($this->refreshJwt);
@@ -65,27 +70,13 @@ final class Client
         return $this;
     }
 
-    /**
-     * @throws AuthenticationTokenException
-     */
     public function actor(): ActorContract
     {
-        if ($this->accessJwt === null) {
-            throw new AuthenticationTokenException('No access token available, create a session first.');
-        }
-
         return new Actor($this->connector, $this->accessJwt);
     }
 
-    /**
-     * @throws AuthenticationTokenException
-     */
     public function feed(): FeedContract
     {
-        if ($this->accessJwt === null) {
-            throw new AuthenticationTokenException('No access token available, create a session first.');
-        }
-
         return new Feed($this->connector, $this->username, $this->accessJwt);
     }
 }

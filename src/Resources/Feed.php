@@ -18,7 +18,7 @@ final readonly class Feed implements FeedContract
     public function __construct(
         private ConnectorContract $connector,
         private string $username,
-        private string $accessJwt
+        private ?string $accessJwt
     ) {
         //
     }
@@ -38,7 +38,7 @@ final readonly class Feed implements FeedContract
         /**
          * @var Response<array{uri: string, cid: string}> $response
          */
-        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return CreateResponse::from($response->data());
     }

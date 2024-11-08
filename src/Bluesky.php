@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bluesky;
 
+use Bluesky\Enums\TargetApi;
+
 final class Bluesky
 {
     /**
@@ -33,5 +35,18 @@ final class Bluesky
     public static function builder(): Builder
     {
         return new Builder;
+    }
+
+    /**
+     * Creates a new public client instance.
+     */
+    public static function publicClient(): Client
+    {
+        $version = Version::getComposerVersion();
+
+        return self::builder()
+            ->withHeader('User-Agent', "bluesky-php-client/$version")
+            ->withTargetApi(TargetApi::PUBLIC)
+            ->build();
     }
 }

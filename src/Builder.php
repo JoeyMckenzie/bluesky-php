@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bluesky;
 
+use Bluesky\Enums\TargetApi;
 use Bluesky\Http\Connector;
 use Bluesky\ValueObjects\Connector\BaseUri;
 use Bluesky\ValueObjects\Connector\Headers;
@@ -35,7 +36,15 @@ final class Builder
      */
     private array $queryParams = [];
 
+    /**
+     * Username associated to client authenticated requests.
+     */
     private ?string $username = null;
+
+    /**
+     * The endpoint to send calls to. Bluesky offers a public API as well, but we default to the authenticated API.
+     */
+    private string $baseUri = Client::API_BASE_URL;
 
     /**
      * Sets the HTTP client for the requests. If no client is provided the
@@ -79,18 +88,15 @@ final class Builder
     }
 
     /**
-     * Adds an access JWT to the current client builder.
+     * The API to send calls, either public or authenticated.
      */
-    public function withAccessJwt(): self
+    public function withTargetApi(TargetApi $targetApi): self
     {
-        return $this;
-    }
+        $this->baseUri = match ($targetApi) {
+            TargetApi::PUBLIC => Client::PUBLIC_API_BASE_URL,
+            TargetApi::AUTHENTICATED => Client::API_BASE_URL,
+        };
 
-    /**
-     * Adds a refresh JWT to the current client builder.
-     */
-    public function withRefreshJwt(): self
-    {
         return $this;
     }
 
@@ -106,7 +112,7 @@ final class Builder
             $headers = $headers->withCustomHeader($name, $value);
         }
 
-        $baseUri = BaseUri::from(Client::API_BASE_URL);
+        $baseUri = BaseUri::from($this->baseUri);
         $queryParams = QueryParams::create();
 
         // As with the headers, we'll also include any query params configured on each request

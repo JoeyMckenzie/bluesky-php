@@ -18,6 +18,15 @@ use Bluesky\ValueObjects\Payload;
 interface ConnectorContract
 {
     /**
+     * Sends a request to the server, determining if authentication is required.
+     *
+     * @return null|Response<array<array-key, mixed>>
+     *
+     * @throws ErrorException|UnserializableResponseException|ConnectorException
+     */
+    public function makeRequest(Payload $payload, ?string $accessToken): ?Response;
+
+    /**
      * Sends a request to the server.
      *
      * @return null|Response<array<array-key, mixed>>

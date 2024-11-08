@@ -9,18 +9,18 @@ use Bluesky\Responses\Concerns\ArrayAccessible;
 use Override;
 
 /**
- * @implements ResponseContract<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>
+ * @implements ResponseContract<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>
  */
 final readonly class FindResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>
+     * @use ArrayAccessible<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>
      */
     use ArrayAccessible;
 
     /**
      * @param  array{lists: int, feedgens: int, starterPacks: int, labeler: bool}  $associated
-     * @param  array{muted: bool, blockedBy: bool}  $viewer
+     * @param  null|array{muted: bool, blockedBy: bool}  $viewer
      * @param  array<int, mixed>  $labels
      */
     private function __construct(
@@ -35,14 +35,14 @@ final readonly class FindResponse implements ResponseContract
         public int $followsCount,
         public int $postsCount,
         public array $associated,
-        public array $viewer,
+        public ?array $viewer,
         public array $labels,
     ) {
         //
     }
 
     /**
-     * @param  array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}  $attributes
+     * @param  array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}  $attributes
      */
     public static function from(array $attributes): self
     {

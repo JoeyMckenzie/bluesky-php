@@ -45,11 +45,11 @@ final class Connector implements ConnectorContract
      * {@inheritDoc}
      */
     #[Override]
-    public function requestDataWithAccessToken(Payload $payload, string $accessToken): ?Response
+    public function makeRequest(Payload $payload, ?string $accessToken): ?Response
     {
-        $this->headers = $this->headers->withAccessToken($accessToken);
-
-        return self::requestData($payload);
+        return $accessToken === null
+            ? $this->requestData($payload)
+            : $this->requestDataWithAccessToken($payload, $accessToken);
     }
 
     /**
@@ -77,6 +77,17 @@ final class Connector implements ConnectorContract
 
         // @phpstan-ignore-next-line: we'll assume the $data in the response model is a valid model
         return Response::from($data);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    #[Override]
+    public function requestDataWithAccessToken(Payload $payload, string $accessToken): ?Response
+    {
+        $this->headers = $this->headers->withAccessToken($accessToken);
+
+        return self::requestData($payload);
     }
 
     /**

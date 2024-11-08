@@ -19,7 +19,7 @@ final readonly class Actor implements ActorContract
 {
     public function __construct(
         private ConnectorContract $connector,
-        private string $accessJwt
+        private ?string $accessJwt
     ) {
         //
     }
@@ -34,7 +34,7 @@ final readonly class Actor implements ActorContract
         /**
          * @var Response<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}> $response
          */
-        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return FindResponse::from($response->data());
     }
@@ -50,9 +50,9 @@ final readonly class Actor implements ActorContract
         ]);
 
         /**
-         * @var Response<array{profiles: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>}> $response
+         * @var Response<array{profiles: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: null|array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>}> $response
          */
-        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return ProfileListResponse::from($response->data());
     }
@@ -65,7 +65,7 @@ final readonly class Actor implements ActorContract
         /**
          * @var Response<array{preferences: list<array{"$type": string}&array<string, mixed>>}> $response
          */
-        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return PreferencesListResponse::from($response->data());
     }
@@ -81,7 +81,7 @@ final readonly class Actor implements ActorContract
         /**
          * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>, cursor: string}> $response
          */
-        $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return SuggestionsListResponse::from($response->data());
     }
@@ -95,6 +95,6 @@ final readonly class Actor implements ActorContract
             ],
             contentType: MediaType::JSON);
 
-        $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
+        $this->connector->makeRequest($payload, $this->accessJwt);
     }
 }
