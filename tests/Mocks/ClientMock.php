@@ -23,7 +23,7 @@ final class ClientMock
 
     private const string DEFAULT_METHOD = 'requestDataWithAccessToken';
 
-    public static function mockClientPost(
+    public static function createForPost(
         string $resource,
         array $params,
         Response|ResponseInterface|string $response,
@@ -31,10 +31,10 @@ final class ClientMock
         bool $validateParams = true,
         array $additionalHeaders = []
     ): Client {
-        return self::mockClient(HttpMethod::POST, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
+        return self::create(HttpMethod::POST, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
     }
 
-    public static function mockClient(
+    public static function create(
         HttpMethod $method,
         string $resource,
         array $params,
@@ -68,7 +68,7 @@ final class ClientMock
         bool $validateParams = true,
         array $additionalHeaders = []
     ): Client {
-        return self::mockClient(HttpMethod::GET, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
+        return self::create(HttpMethod::GET, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
     }
 
     private static function validatePayload(

@@ -45,7 +45,7 @@ final class Connector implements ConnectorContract
      * {@inheritDoc}
      */
     #[Override]
-    public function requestDataWithAccessToken(Payload $payload, string $accessToken): Response
+    public function requestDataWithAccessToken(Payload $payload, string $accessToken): ?Response
     {
         $this->headers = $this->headers->withAccessToken($accessToken);
 
@@ -56,10 +56,15 @@ final class Connector implements ConnectorContract
      * {@inheritDoc}
      */
     #[Override]
-    public function requestData(Payload $payload): Response
+    public function requestData(Payload $payload): ?Response
     {
         $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
         $response = $this->sendRequest(fn (): ResponseInterface => $this->client->sendRequest($request));
+
+        if ($payload->skipResponse) {
+            return null;
+        }
+
         $contents = $response->getBody()->getContents();
 
         $this->throwIfJsonError($response, $contents);

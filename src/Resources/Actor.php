@@ -6,6 +6,7 @@ namespace Bluesky\Resources;
 
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
+use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfileListResponse;
@@ -62,7 +63,7 @@ final readonly class Actor implements ActorContract
         $payload = Payload::list('app.bsky.actor.getPreferences');
 
         /**
-         * @var Response<array{preferences: array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>}> $response
+         * @var Response<array{preferences: list<array{"$type": string}&array<string, mixed>>}> $response
          */
         $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
 
@@ -83,5 +84,17 @@ final readonly class Actor implements ActorContract
         $response = $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
 
         return SuggestionsListResponse::from($response->data());
+    }
+
+    #[Override]
+    public function putPreferences(array $preferences): void
+    {
+        $payload = Payload::createWithoutResponse('app.bsky.actor.putPreferences',
+            [
+                'preferences' => $preferences,
+            ],
+            contentType: MediaType::JSON);
+
+        $this->connector->requestDataWithAccessToken($payload, $this->accessJwt);
     }
 }

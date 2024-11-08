@@ -18,7 +18,7 @@ describe('Feed resource', function (): void {
         // Arrange
         $text = fake()->text();
         $createdAt = Carbon::now('UTC');
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::POST,
             'com.atproto.repo.createRecord',
             [

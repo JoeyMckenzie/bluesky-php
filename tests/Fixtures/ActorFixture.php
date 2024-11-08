@@ -39,7 +39,7 @@ function profile(): array
 }
 
 /**
- * @return array<string, mixed>
+ * @return array{preferences: list<array{"$type": string}&array<string, mixed>>}
  */
 function preferences(): array
 {

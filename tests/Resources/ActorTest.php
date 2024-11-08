@@ -20,7 +20,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve a profile given a did or handle', function (): void {
         // Arrange
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::GET,
             'app.bsky.actor.getProfile',
             ['actor' => 'test'],
@@ -40,7 +40,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve profile given a list of dids or handles', function (): void {
         // Arrange
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::GET,
             'app.bsky.actor.getProfiles',
             [
@@ -69,7 +69,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve preferences', function (): void {
         // Arrange
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::GET,
             'app.bsky.actor.getPreferences',
             [],
@@ -87,7 +87,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve suggestions', function (): void {
         // Arrange
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::GET,
             'app.bsky.actor.getSuggestions',
             [
@@ -112,7 +112,7 @@ describe('Actor resource', function (): void {
         // Arrange
         $limit = 42;
         $cursor = 69;
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::GET,
             'app.bsky.actor.getSuggestions',
             [

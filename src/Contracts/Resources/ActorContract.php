@@ -23,5 +23,10 @@ interface ActorContract
 
     public function getPreferences(): PreferencesListResponse;
 
+    /**
+     * @param  list<array{"$type": string}&array<string, mixed>>  $preferences
+     */
+    public function putPreferences(array $preferences): void;
+
     public function getSuggestions(?int $limit = 50, ?int $cursor = 0): SuggestionsListResponse;
 }

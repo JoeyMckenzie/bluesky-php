@@ -9,17 +9,17 @@ use Bluesky\Responses\Concerns\ArrayAccessible;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>>
+ * @implements ResponseContract<list<array{"$type": string}&array<string, mixed>>>
  */
 final class ListResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>>
+     * @use ArrayAccessible<list<array{"$type": string}&array<string, mixed>>>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>  $data
+     * @param  list<array{"$type": string}&array<string, mixed>>  $data
      */
     private function __construct(public array $data)
     {
@@ -27,7 +27,7 @@ final class ListResponse implements ResponseContract
     }
 
     /**
-     * @param  array{preferences: array<int, array{"$type": string, birthDate?: string, tags?: array<int, string>, items?: array<int, array{type: string, value: string, pinned: bool, id: string}>, nuxs?: array<int, array{id: string, completed: bool}>}>}  $attributes
+     * @param  array{preferences: list<array{"$type": string}&array<string, mixed>>}  $attributes
      */
     public static function from(array $attributes): self
     {

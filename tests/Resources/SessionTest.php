@@ -16,7 +16,7 @@ use function Tests\Fixtures\session;
 describe('Session resource', function (): void {
     it('can create sessions', function (): void {
         // Arrange
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::POST,
             'com.atproto.server.createSession',
             [
@@ -44,7 +44,7 @@ describe('Session resource', function (): void {
     it('can refresh sessions', function (): void {
         // Arrange
         $refreshToken = fake()->uuid();
-        $client = ClientMock::mockClient(
+        $client = ClientMock::create(
             HttpMethod::POST,
             'com.atproto.server.refreshSession',
             [],

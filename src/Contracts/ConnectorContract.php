@@ -20,18 +20,18 @@ interface ConnectorContract
     /**
      * Sends a request to the server.
      *
-     * @return Response<array<array-key, mixed>>
+     * @return null|Response<array<array-key, mixed>>
      *
      * @throws ErrorException|UnserializableResponseException|ConnectorException
      */
-    public function requestData(Payload $payload): Response;
+    public function requestData(Payload $payload): ?Response;
 
     /**
      * Sends a request to the server with an access token.
      *
-     * @return Response<array<array-key, mixed>>
+     * @return null|Response<array<array-key, mixed>>
      *
      * @throws ErrorException|UnserializableResponseException|ConnectorException
      */
-    public function requestDataWithAccessToken(Payload $payload, string $accessToken): Response;
+    public function requestDataWithAccessToken(Payload $payload, string $accessToken): ?Response;
 }

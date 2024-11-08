@@ -34,6 +34,7 @@ final readonly class Payload
         private ?MediaType $contentType = null,
         private ?array $headers = [],
         public bool $includeBody = true,
+        public bool $skipResponse = false,
     ) {
         //
     }
@@ -72,7 +73,32 @@ final readonly class Payload
      * @param  array<string, mixed>  $parameters
      * @param  array<string, string>  $headers
      */
-    public static function create(string $resource, array $parameters, ?MediaType $contentType = null, ?array $headers = [], bool $includeBody = true): self
+    public static function createWithoutResponse(
+        string $resource,
+        array $parameters,
+        ?MediaType $contentType = null,
+        ?array $headers = [],
+        bool $includeBody = true): self
+    {
+        $accept = MediaType::JSON;
+        $method = HttpMethod::POST;
+        $uri = ResourceUri::create($resource);
+
+        return new self($accept, $method, $uri, $parameters, $contentType, $headers, $includeBody, true);
+    }
+
+    /**
+     * Creates a new Payload value object from the given parameters.
+     *
+     * @param  array<string, mixed>  $parameters
+     * @param  array<string, string>  $headers
+     */
+    public static function create(
+        string $resource,
+        array $parameters,
+        ?MediaType $contentType = null,
+        ?array $headers = [],
+        bool $includeBody = true): self
     {
         $accept = MediaType::JSON;
         $method = HttpMethod::POST;
