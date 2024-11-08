@@ -15,3 +15,9 @@ pre-commit:
       glob: "*.php"
       run: composer run fix {staged_files}
       stage_fixed: true
+
+commit-msg:
+  scripts:
+    validate:
+      runner: bash
+      command: ./scripts/commit-msg.sh $LEFTHOOK_COMMITRG
