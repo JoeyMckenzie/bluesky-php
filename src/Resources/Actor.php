@@ -99,7 +99,7 @@ final readonly class Actor implements ActorContract
         $this->connector->makeRequest($payload, $this->accessJwt);
     }
 
-    #[\Override]
+    #[Override]
     public function searchActors(string $query, int $limit = 25, int $cursor = 0): SearchListResponse
     {
         $payload = Payload::list('app.bsky.actor.searchActors', [
@@ -116,7 +116,7 @@ final readonly class Actor implements ActorContract
         return SearchListResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function searchActorsTypeahead(string $query, int $limit = 25): SearchListResponse
     {
         $payload = Payload::list('app.bsky.actor.searchActorsTypeahead', [
