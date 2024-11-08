@@ -18,6 +18,5 @@ pre-commit:
 
 commit-msg:
   scripts:
-    validate:
+    "validate.sh":
       runner: bash
-      command: ./scripts/commit-msg.sh $LEFTHOOK_COMMIT_MESSAGE

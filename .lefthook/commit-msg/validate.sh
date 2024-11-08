@@ -8,7 +8,9 @@ print_error() {
 
 # Function to validate the commit message
 validate_commit_message() {
-    local message="$1"
+    local message="$(head -n1 $1)"
+
+    echo "$message"
 
     # Regular expressions for different parts of the commit message
     local type_regex="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)"
