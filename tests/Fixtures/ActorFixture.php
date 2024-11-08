@@ -87,9 +87,9 @@ function preferences(): array
 }
 
 /**
- * @return array<string, mixed>
+ * @return array{actors: mixed, cursor: numeric-string}
  */
-function suggestions(?int $limit = 50, ?int $cursor = 0): array
+function suggestions(int $limit = 50, int $cursor = 0): array
 {
     return [
         'actors' => array_map(

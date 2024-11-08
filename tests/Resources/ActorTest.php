@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
-use Bluesky\Enums\HttpMethod;
 use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfilesListResponse;
@@ -20,8 +19,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve a profile given a did or handle', function (): void {
         // Arrange
-        $client = ClientMock::create(
-            HttpMethod::GET,
+        $client = ClientMock::createForGet(
             'app.bsky.actor.getProfile',
             ['actor' => 'test'],
             Response::from(profile()),
@@ -40,8 +38,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve profile given a list of dids or handles', function (): void {
         // Arrange
-        $client = ClientMock::create(
-            HttpMethod::GET,
+        $client = ClientMock::createForGet(
             'app.bsky.actor.getProfiles',
             [
                 'actors' => [
@@ -69,8 +66,7 @@ describe('Actor resource', function (): void {
 
     it('can retrieve preferences', function (): void {
         // Arrange
-        $client = ClientMock::create(
-            HttpMethod::GET,
+        $client = ClientMock::createForGet(
             'app.bsky.actor.getPreferences',
             [],
             Response::from(preferences()),
@@ -85,10 +81,22 @@ describe('Actor resource', function (): void {
             ->data->toBeArray()->toHaveCount(4);
     });
 
+    it('can update preferences', function (): void {
+        // Arrange
+        $preferences = preferences();
+        $client = ClientMock::createForPost(
+            'app.bsky.actor.putPreferences',
+            $preferences,
+            null,
+        );
+
+        // Act & Assert the call went through as expected
+        $client->actor()->putPreferences($preferences['preferences']);
+    });
+
     it('can retrieve suggestions', function (): void {
         // Arrange
-        $client = ClientMock::create(
-            HttpMethod::GET,
+        $client = ClientMock::createForGet(
             'app.bsky.actor.getSuggestions',
             [
                 'limit' => 50,
@@ -112,8 +120,7 @@ describe('Actor resource', function (): void {
         // Arrange
         $limit = 42;
         $cursor = 69;
-        $client = ClientMock::create(
-            HttpMethod::GET,
+        $client = ClientMock::createForGet(
             'app.bsky.actor.getSuggestions',
             [
                 'limit' => $limit,

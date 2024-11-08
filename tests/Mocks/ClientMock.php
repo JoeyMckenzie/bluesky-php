@@ -26,7 +26,7 @@ final class ClientMock
     public static function createForPost(
         string $resource,
         array $params,
-        Response|ResponseInterface|string $response,
+        Response|ResponseInterface|string|null $response,
         string $methodName = self::DEFAULT_METHOD,
         bool $validateParams = true,
         array $additionalHeaders = []
@@ -38,7 +38,7 @@ final class ClientMock
         HttpMethod $method,
         string $resource,
         array $params,
-        Response|ResponseInterface|string $response,
+        Response|ResponseInterface|string|null $response,
         string $methodName = self::DEFAULT_METHOD,
         bool $validateParams = true,
         array $additionalHeaders = [],
@@ -58,6 +58,17 @@ final class ClientMock
             ->andReturn($response);
 
         return new Client($connector, 'username', stubJwt());
+    }
+
+    public static function createForGet(
+        string $resource,
+        array $params,
+        Response|ResponseInterface|string $response,
+        string $methodName = self::DEFAULT_METHOD,
+        bool $validateParams = true,
+        array $additionalHeaders = []
+    ): Client {
+        return self::create(HttpMethod::GET, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
     }
 
     public static function mockClientGet(
@@ -129,7 +140,10 @@ final class ClientMock
     private static function validatePostBody(mixed $request, Payload $payload, array $params): bool
     {
         if ($payload->includeBody) {
-            return $request->getBody()->getContents() === json_encode($params);
+            $requestContents = $request->getBody()->getContents();
+            $encodedParams = json_encode($params);
+
+            return $requestContents === $encodedParams;
         }
 
         $size = $request->getBody()->getSize();
