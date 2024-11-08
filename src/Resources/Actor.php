@@ -10,6 +10,7 @@ use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfileListResponse;
+use Bluesky\Responses\Actor\Search\ListResponse as SearchListResponse;
 use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
@@ -71,7 +72,7 @@ final readonly class Actor implements ActorContract
     }
 
     #[Override]
-    public function getSuggestions(?int $limit = 50, ?int $cursor = 0, ?string $accessJwt = null): SuggestionsListResponse
+    public function getSuggestions(int $limit = 50, int $cursor = 0, ?string $accessJwt = null): SuggestionsListResponse
     {
         $payload = Payload::list('app.bsky.actor.getSuggestions', [
             'limit' => $limit,
@@ -96,5 +97,38 @@ final readonly class Actor implements ActorContract
             contentType: MediaType::JSON);
 
         $this->connector->makeRequest($payload, $this->accessJwt);
+    }
+
+    #[\Override]
+    public function searchActors(string $query, int $limit = 25, int $cursor = 0): SearchListResponse
+    {
+        $payload = Payload::list('app.bsky.actor.searchActors', [
+            'q' => $query,
+            'limit' => $limit,
+            'cursor' => $cursor,
+        ]);
+
+        /**
+         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, description: ?string, viewer: ?array{muted: bool, blockedBy: bool, following: string}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: ?string, associated?: array{chat: array{allowIncoming: string}}}>, cursor: string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return SearchListResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function searchActorsTypeahead(string $query, int $limit = 25): SearchListResponse
+    {
+        $payload = Payload::list('app.bsky.actor.searchActorsTypeahead', [
+            'q' => $query,
+            'limit' => $limit,
+        ]);
+
+        /**
+         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, description: ?string, viewer: ?array{muted: bool, blockedBy: bool, following: string}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: ?string, associated?: array{chat: array{allowIncoming: string}}}>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return SearchListResponse::from($response->data());
     }
 }

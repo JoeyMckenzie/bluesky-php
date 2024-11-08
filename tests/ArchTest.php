@@ -18,10 +18,21 @@ arch('Value objects should be immutable')
     ->and('Bluesky\\ValueObjects\\')
     ->toBeReadonly();
 
-arch('Responses should be immutable')
-    ->expect('Bluesky\\Responses\\Breweries\\')
+arch('Responses should be immutable and implement response contracts')
+    ->expect('Bluesky\\Responses\\')
+    ->classes()
     ->toBeFinal()
-    ->and('Bluesky\\Responses\\Breweries\\')
+    ->and('Bluesky\\Responses\\')
+    ->classes()
+    ->toBeReadonly()
+    ->and('Bluesky\\Responses\\')
+    ->classes()
+    ->toImplement(\Bluesky\Contracts\ResponseContract::class);
+
+arch('Resources should be immutable')
+    ->expect('Bluesky\\Resources\\')
+    ->classes()
+    ->toBeFinal()
     ->toBeReadonly();
 
 arch('Contracts should be abstract')

@@ -11,7 +11,7 @@ use Override;
 /**
  * @implements ResponseContract<list<array{"$type": string}&array<string, mixed>>>
  */
-final class ListResponse implements ResponseContract
+final readonly class ListResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<list<array{"$type": string}&array<string, mixed>>>

@@ -125,3 +125,48 @@ function suggestions(int $limit = 50, int $cursor = 0): array
         'cursor' => (string) ($cursor + $limit),
     ];
 }
+
+/**
+ * @return array{actors: mixed, cursor: numeric-string}
+ */
+function search(int $limit = 25, int $cursor = 0): array
+{
+    return [
+        'actors' => array_map(
+            fn (): array => [
+                'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
+                'handle' => fake()->userName().'.'.fake()->randomElement(['com', 'dev', 'bsky.social']),
+                'displayName' => fake()->name(),
+                'avatar' => sprintf(
+                    'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+                    fake()->regexify('[a-z0-9]{24}'),
+                    'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+                ),
+                'viewer' => [
+                    'muted' => fake()->boolean(20),      // 20% chance of being muted
+                    'blockedBy' => fake()->boolean(10),  // 10% chance of being blocked
+                    'following' => sprintf(
+                        'at://did:plc:%s/app.bsky.graph.follow/%s',
+                        fake()->regexify('[a-z0-9]{24}'),
+                        '3l7'.fake()->regexify('[a-z0-9]{10}')
+                    ),
+                ],
+                'labels' => [],
+                'createdAt' => Carbon::now('UTC')
+                    ->subDays(fake()->numberBetween(1, 365))
+                    ->toString(),
+                'description' => fake()->optional(0.8)->realText(150),  // 80% chance of having a description
+                'indexedAt' => Carbon::now('UTC')
+                    ->subHours(fake()->numberBetween(1, 48))
+                    ->toString(),
+                'associated' => fake()->boolean(30) ? [  // 30% chance of having associated data
+                    'chat' => [
+                        'allowIncoming' => fake()->randomElement(['all']),
+                    ],
+                ] : null,
+            ],
+            range(1, $limit)
+        ),
+        'cursor' => (string) ($cursor + $limit),
+    ];
+}

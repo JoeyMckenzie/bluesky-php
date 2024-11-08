@@ -7,12 +7,14 @@ namespace Tests\Resources;
 use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfilesListResponse;
+use Bluesky\Responses\Actor\Search\ListResponse as SearchListResponse;
 use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
 use function Tests\Fixtures\preferences;
 use function Tests\Fixtures\profile;
+use function Tests\Fixtures\search;
 use function Tests\Fixtures\suggestions;
 
 describe('Actor resource', function (): void {
@@ -138,5 +140,97 @@ describe('Actor resource', function (): void {
             ->data->toBeArray()
             ->and(count($result->data))->toEqual($limit)
             ->and(intval($result->cursor))->toBe($limit + $cursor);
+    });
+
+    it('can search actors with default parameters', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.actor.searchActors',
+            [
+                'q' => 'php',
+                'limit' => 25,
+                'cursor' => 0,
+            ],
+            Response::from(search()),
+        );
+
+        // Act
+        $result = $client->actor()->searchActors('php');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(SearchListResponse::class)
+            ->data->toBeArray()
+            ->and(count($result->data))->toBeBetween(1, 25)
+            ->and($result->cursor)->toEqual(25);
+    })->with();
+
+    it('can search actors with custom parameters', function (): void {
+        // Arrange
+        $limit = 69;
+        $cursor = 42;
+        $client = ClientMock::createForGet(
+            'app.bsky.actor.searchActors',
+            [
+                'q' => 'php',
+                'limit' => $limit,
+                'cursor' => $cursor,
+            ],
+            Response::from(search($limit, $cursor)),
+        );
+
+        // Act
+        $result = $client->actor()->searchActors('php', $limit, $cursor);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(SearchListResponse::class)
+            ->data->toBeArray()
+            ->and(count($result->data))->toBeBetween(1, $limit)
+            ->and($result->cursor)->toEqual($cursor + $limit);
+    });
+
+    it('can search actors with default parameters by typeahead', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.actor.searchActorsTypeahead',
+            [
+                'q' => 'php',
+                'limit' => 25,
+            ],
+            Response::from(search()),
+        );
+
+        // Act
+        $result = $client->actor()->searchActorsTypeahead('php');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(SearchListResponse::class)
+            ->data->toBeArray()
+            ->and(count($result->data))->toBeBetween(1, 25);
+    })->with();
+
+    it('can search actors with custom parameters by typeahead', function (): void {
+        // Arrange
+        $limit = 69;
+        $cursor = 42;
+        $client = ClientMock::createForGet(
+            'app.bsky.actor.searchActorsTypeahead',
+            [
+                'q' => 'php',
+                'limit' => $limit,
+            ],
+            Response::from(search($limit)),
+        );
+
+        // Act
+        $result = $client->actor()->searchActorsTypeahead('php', $limit);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(SearchListResponse::class)
+            ->data->toBeArray()
+            ->and(count($result->data))->toBeBetween(1, $limit);
     });
 });
