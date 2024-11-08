@@ -20,4 +20,4 @@ commit-msg:
   scripts:
     validate:
       runner: bash
-      command: ./scripts/commit-msg.sh $LEFTHOOK_COMMITRG
+      command: ./scripts/commit-msg.sh $LEFTHOOK_COMMIT_MESSAGE
