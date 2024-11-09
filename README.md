@@ -2,8 +2,6 @@
     <img src="images/bluesky_logo.svg" height="150" width="150" alt="logo"/>
 </div>
 
-# Bluesky PHP
-
 <div align="center" style="padding-top: 2rem">
     <a href="https://packagist.org/packages/joeymckenzie/bluesky-php">
         <img src="https://img.shields.io/packagist/v/joeymckenzie/bluesky-php.svg?style=flat-square" alt="packgist downloads" />
@@ -18,6 +16,8 @@
         <img src="https://img.shields.io/packagist/dt/joeymckenzie/bluesky-php.svg?style=flat-square" alt="packgist downloads" />
     </a>
 </div>
+
+# Bluesky PHP
 
 A Bluesky PHP client compatible with your HTTP client of choice. The goal of this project is to provide a simple,
 easy-to-use PHP HTTP client to interact with [Bluesky's API](https://docs.bsky.app/), providing methods for calling
