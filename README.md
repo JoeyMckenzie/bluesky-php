@@ -2,7 +2,7 @@
     <img src="images/bluesky_logo.svg" height="150" width="150" alt="logo"/>
 </div>
 
-<div align="center" style="padding-top: 2rem">
+<div align="center" style="padding-top: 16px">
     <div style="display: inline-block;">
         <img src="https://img.shields.io/packagist/v/joeymckenzie/bluesky-php.svg?style=flat-square" alt="packgist downloads" />
         <img src="https://img.shields.io/github/actions/workflow/status/joeymckenzie/bluesky-php/run-tests.yml?branch=main&label=tests&style=flat-square" alt="tests ci" />
