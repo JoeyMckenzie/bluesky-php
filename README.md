@@ -1,3 +1,7 @@
+<div align="center">
+    <img src="images/bluesky_logo.svg" height="150" width="150" alt="logo"/>
+</div>
+
 # Bluesky PHP
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/joeymckenzie/bluesky-php.svg?style=flat-square)](https://packagist.org/packages/joeymckenzie/bluesky-php)
