@@ -16,6 +16,9 @@ $password = $_ENV['BLUESKY_PASSWORD'];
 // Construct the client using the default builder with no customizations
 $client = Bluesky::client($username);
 
+// It's also possible to use the public API as well
+$publicApi = Bluesky::publicClient();
+
 // Option 1, we can manually a session and forward the token
 $session = $client->session()->createSession($password);
 var_dump($session);
