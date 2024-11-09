@@ -10,6 +10,8 @@
 
 # Bluesky PHP
 
+> This package is still in early development, with no major releases at the moment. Use with precaution!
+
 A Bluesky PHP client compatible with your HTTP client of choice. The goal of this project is to provide a simple,
 easy-to-use PHP HTTP client to interact with [Bluesky's API](https://docs.bsky.app/), providing methods for calling
 both the authenticated and public endpoints.
