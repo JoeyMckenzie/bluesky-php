@@ -8,7 +8,7 @@
             "email": "joey.mckenzie27@gmail.com"
         }
     ],
-    "version": "0.1.0",
+    "version": "0.0.1",
     "require": {
         "php": "^8.3",
         "php-http/discovery": "^1.19.2",
