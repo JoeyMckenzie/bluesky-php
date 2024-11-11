@@ -30,5 +30,8 @@ assert($refreshed->refreshJwt !== null);
 assert($refreshed->accessJwt !== $originalAccessJwt);
 assert($refreshed->refreshJwt !== $originalRefreshJwt);
 
-$result = $client->feed()->getActorLikes('joeymckenzie.tech', 69);
+$likes = $client->feed()->getActorLikes('joeymckenzie.tech');
+var_dump($likes);
+
+$result = $client->feed()->getAuthorFeed('joeymckenzie.tech');
 var_dump($result);

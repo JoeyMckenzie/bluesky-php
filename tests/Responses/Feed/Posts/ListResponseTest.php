@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Feed\Likes;
 
-use Bluesky\Responses\Feed\Likes\ListResponse;
+use Bluesky\Responses\Feed\Post\ListResponse;
 
 use function Tests\Fixtures\posts;
 
 describe(ListResponse::class, function (): void {
-    it('returns a valid typed likes list', function (): void {
+    it('returns a valid typed posts list', function (): void {
         // Arrange & Act
         $response = ListResponse::from(posts());
 
@@ -29,6 +29,9 @@ describe(ListResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toBe($likes['feed']);
+            ->toBe([
+                'data' => $likes['feed'],
+                'cursor' => $likes['cursor'],
+            ]);
     });
 });

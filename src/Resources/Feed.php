@@ -7,8 +7,8 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
-use Bluesky\Responses\Feed\Likes\ListResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
+use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\Types\Post;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
@@ -52,6 +52,30 @@ final readonly class Feed implements FeedContract
             'actor' => $username,
             'limit' => $limit,
         ]);
+
+        /**
+         * @var Response<array{feed: array<int, Post>, cursor: string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return ListResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): ListResponse
+    {
+        $params = [
+            'actor' => $username,
+            'limit' => $limit,
+            'filter' => $filter,
+            'includePins' => $includePins ? 'true' : 'false',
+        ];
+
+        if ($cursor !== null) {
+            $params['cursor'] = $cursor;
+        }
+
+        $payload = Payload::list('app.bsky.feed.getAuthorFeed', $params);
 
         /**
          * @var Response<array{feed: array<int, Post>, cursor: string}> $response

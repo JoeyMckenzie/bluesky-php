@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
-use Bluesky\Responses\Feed\Likes\ListResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
+use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use Tests\Mocks\ClientMock;
@@ -44,7 +44,7 @@ describe('Feed resource', function (): void {
             ->uri->not->toBeNull();
     });
 
-    it('can retrieve lists of likes', function (): void {
+    it('can retrieve lists of actor likes', function (): void {
         // Arrange
         $username = 'username';
         $client = ClientMock::createForGet(
@@ -58,6 +58,55 @@ describe('Feed resource', function (): void {
 
         // Act
         $result = $client->feed()->getActorLikes($username);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(ListResponse::class)
+            ->data->toBeArray()
+            ->cursor->not->toBeNull();
+    });
+
+    it('can retrieve author feeds', function (): void {
+        // Arrange
+        $username = 'username';
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getAuthorFeed',
+            [
+                'actor' => $username,
+                'limit' => 50,
+                'filter' => 'posts_with_replies',
+                'includePins' => 'false',
+            ],
+            Response::from(posts()),
+        );
+
+        // Act
+        $result = $client->feed()->getAuthorFeed($username);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(ListResponse::class)
+            ->data->toBeArray()
+            ->cursor->not->toBeNull();
+    });
+
+    it('can retrieve author feeds with params', function (): void {
+        // Arrange
+        $username = 'username';
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getAuthorFeed',
+            [
+                'actor' => $username,
+                'limit' => 69,
+                'filter' => 'another_filter',
+                'includePins' => 'true',
+                'cursor' => '420',
+            ],
+            Response::from(posts()),
+        );
+
+        // Act
+        $result = $client->feed()->getAuthorFeed($username, 69, '420', 'another_filter', true);
 
         // Assert
         expect($result)

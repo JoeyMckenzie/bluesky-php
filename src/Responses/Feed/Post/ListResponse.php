@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Responses\Feed\Likes;
+namespace Bluesky\Responses\Feed\Post;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
@@ -24,13 +24,13 @@ final readonly class ListResponse implements ResponseContract
      */
     public function __construct(
         public array $data,
-        public string $cursor)
+        public ?string $cursor)
     {
         //
     }
 
     /**
-     * @param  array{feed: array<int, Post>, cursor: string}  $attributes
+     * @param  array{feed: array<int, Post>, cursor: null|string}  $attributes
      */
     public static function from(mixed $attributes): self
     {
@@ -43,6 +43,9 @@ final readonly class ListResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return $this->data;
+        return [
+            'data' => $this->data,
+            'cursor' => $this->cursor ?? '',
+        ];
     }
 }
