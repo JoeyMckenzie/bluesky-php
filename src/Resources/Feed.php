@@ -82,7 +82,7 @@ final readonly class Feed implements FeedContract
     public function getFeedGenerators(array $feeds): FeedsResponse
     {
         $payload = Payload::list('app.bsky.feed.getFeedGenerators', [
-            'feeds' => implode(',', $feeds),
+            'feeds' => $feeds,
         ]);
 
         /**

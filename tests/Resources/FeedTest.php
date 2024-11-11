@@ -145,7 +145,10 @@ describe('Feed resource', function (): void {
         $client = ClientMock::createForGet(
             'app.bsky.feed.getFeedGenerators',
             [
-                'feeds' => 'feed_1,feed_2',
+                'feeds' => [
+                    'feed_1',
+                    'feed_2',
+                ],
             ],
             Response::from(feedGenerators()),
         );
