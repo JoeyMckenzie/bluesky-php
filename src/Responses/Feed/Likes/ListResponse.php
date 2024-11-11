@@ -6,14 +6,11 @@ namespace Bluesky\Responses\Feed\Likes;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Likes\FeedResponse;
 use Bluesky\Types\Likes\LikedPost;
 use Override;
 
 /**
  * @implements ResponseContract<array<int, LikedPost>>
- *
- * @phpstan-import-type BlueskyFeedResponse from FeedResponse
  */
 final readonly class ListResponse implements ResponseContract
 {
@@ -35,7 +32,7 @@ final readonly class ListResponse implements ResponseContract
     /**
      * @param  array{feed: array<int, LikedPost>, cursor: string}  $attributes
      */
-    public static function fromResponse(mixed $attributes): self
+    public static function from(mixed $attributes): self
     {
         return new self($attributes['feed'], $attributes['cursor']);
     }

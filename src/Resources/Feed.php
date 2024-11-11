@@ -59,6 +59,6 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return ListResponse::fromResponse($response->data());
+        return ListResponse::from($response->data());
     }
 }
