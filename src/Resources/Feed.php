@@ -61,7 +61,7 @@ final readonly class Feed implements FeedContract
         return ListResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): ListResponse
     {
         $params = [
