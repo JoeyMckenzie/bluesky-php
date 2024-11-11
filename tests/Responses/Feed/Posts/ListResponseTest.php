@@ -29,9 +29,6 @@ describe(ListResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toBe([
-                'data' => $likes['feed'],
-                'cursor' => $likes['cursor'],
-            ]);
+            ->toBe($likes['feed']);
     });
 });

@@ -43,9 +43,6 @@ final readonly class ListResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return [
-            'data' => $this->data,
-            'cursor' => $this->cursor ?? '',
-        ];
+        return $this->data;
     }
 }
