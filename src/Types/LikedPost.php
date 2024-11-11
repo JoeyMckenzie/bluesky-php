@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Types\Likes;
+namespace Bluesky\Types;
 
 /**
  * @phpstan-type LikedPostResponse array{

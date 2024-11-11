@@ -6,7 +6,7 @@ namespace Bluesky\Responses\Feed\Likes;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Likes\LikedPost;
+use Bluesky\Types\LikedPost;
 use Override;
 
 /**

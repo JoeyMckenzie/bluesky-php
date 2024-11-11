@@ -9,7 +9,7 @@ use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Feed\Likes\ListResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
-use Bluesky\Types\Likes\LikedPost;
+use Bluesky\Types\LikedPost;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
