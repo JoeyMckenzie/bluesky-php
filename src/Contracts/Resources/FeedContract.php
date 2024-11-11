@@ -12,5 +12,5 @@ interface FeedContract
 {
     public function post(string $text, ?Carbon $createdAt = null): CreateResponse;
 
-    public function getActorLikes(string $username, int $limit = 25, int $cursor = 0): ListResponse;
+    public function getActorLikes(string $username, int $limit = 25): ListResponse;
 }

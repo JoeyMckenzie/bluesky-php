@@ -30,14 +30,5 @@ assert($refreshed->refreshJwt !== null);
 assert($refreshed->accessJwt !== $originalAccessJwt);
 assert($refreshed->refreshJwt !== $originalRefreshJwt);
 
-$result = $client->actor()->searchActors('php', 69, 42);
+$result = $client->feed()->getActorLikes('joeymckenzie.tech', 69);
 var_dump($result);
-
-$publicResult = $publicClient->actor()->searchActors('php', 69, 42);
-var_dump($publicResult);
-
-$result = $client->actor()->searchActorsTypeahead('php', 69);
-var_dump($result);
-
-$publicResult = $publicClient->actor()->searchActorsTypeahead('php', 69);
-var_dump($publicResult);
