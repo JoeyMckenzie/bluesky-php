@@ -15,7 +15,7 @@ use Override;
  *
  * @phpstan-import-type BlueskyFeedResponse from FeedResponse
  */
-final class ListResponse implements ResponseContract
+final readonly class ListResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array<int, LikedPost>>
