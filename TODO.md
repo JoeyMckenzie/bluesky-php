@@ -12,7 +12,7 @@ Endpoints still to implement for client
 - [ ] `app.bsky.feed.describeFeedGenerator` ⚠️(not working)
 - [ ] `app.bsky.feed.getActorFeeds` ⚠️(need some feeds to test with)
 - [x] `app.bsky.feed.getActorLikes`
-- [ ] `app.bsky.feed.getAuthorFeed`
+- [x] `app.bsky.feed.getAuthorFeed`
 - [ ] `app.bsky.feed.getFeedGenerator`
 - [ ] `app.bsky.feed.getFeedGenerators`
 - [ ] `app.bsky.feed.getFeedSkeleton`
