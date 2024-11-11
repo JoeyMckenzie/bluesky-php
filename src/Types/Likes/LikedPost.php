@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Bluesky\Types\Likes;
 
 /**
- * @phpstan-type BlueskyFeedResponse array{
+ * @phpstan-type LikedPostResponse array{
  *    post: array{
  *        uri: string,
  *        cid: string,

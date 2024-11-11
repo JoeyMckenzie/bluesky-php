@@ -48,7 +48,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getActorLikes(string $username, int $limit = 25, int $cursor = 0): ListResponse
     {
-        $payload = Payload::list('app.bsky.actor.searchActorsTypeahead', [
+        $payload = Payload::list('app.bsky.actor.getActorLikes', [
             'actor' => $username,
             'limit' => $limit,
             'cursor' => $cursor,
