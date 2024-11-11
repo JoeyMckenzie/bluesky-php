@@ -1,0 +1,160 @@
+{
+    "feeds": [
+        {
+            "uri": "at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot",
+            "cid": "bafyreievgu2ty7qbiaaom5zhmkznsnajuzideek3lo7e65dwqlrvrxnmo4",
+            "did": "did:web:discover.bsky.app",
+            "creator": {
+                "did": "did:plc:z72i7hdynmk6r22z27h6tvur",
+                "handle": "bsky.app",
+                "displayName": "Bluesky",
+                "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:z72i7hdynmk6r22z27h6tvur/bafkreihagr2cmvl2jt4mgx3sppwe2it3fwolkrbtjrhcnwjk4jdijhsoze@jpeg",
+                "associated": {
+                    "chat": {
+                        "allowIncoming": "none"
+                    }
+                },
+                "viewer": {
+                    "muted": false,
+                    "blockedBy": false,
+                    "following": "at://did:plc:3ond7kebhvszgzsqo5llyipd/app.bsky.graph.follow/3l7caacik632j"
+                },
+                "labels": [],
+                "createdAt": "2023-04-12T04:53:57.057Z",
+                "description": "official Bluesky account (check domain👆)\n\nPress: press@blueskyweb.xyz\nSupport: support@bsky.app",
+                "indexedAt": "2024-10-17T07:17:00.612Z"
+            },
+            "displayName": "Discover",
+            "description": "Trending content from your personal network",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:z72i7hdynmk6r22z27h6tvur/bafkreidljdg62x3zhlweyzshoekrw2znokytt5tmib7g4xsngwvpnf6ule@jpeg",
+            "likeCount": 24421,
+            "labels": [],
+            "viewer": {},
+            "indexedAt": "2023-05-19T23:19:19.592Z"
+        },
+        {
+            "uri": "at://did:plc:jfhpnnst6flqway4eaeqzj2a/app.bsky.feed.generator/for-science",
+            "cid": "bafyreihkf7336jzjp6o3qqfmah34jltrcytonakhnq6giwh4k7m4hxsmli",
+            "did": "did:web:bs.bossett.io",
+            "creator": {
+                "did": "did:plc:jfhpnnst6flqway4eaeqzj2a",
+                "handle": "bossett.social",
+                "displayName": "Bossett",
+                "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:jfhpnnst6flqway4eaeqzj2a/bafkreid42e2su4sju7hl2nm4ouacw3icvvytf7r6gab3pvc2qxhqhc5ji4@jpeg",
+                "associated": {
+                    "chat": {
+                        "allowIncoming": "all"
+                    }
+                },
+                "viewer": {
+                    "muted": false,
+                    "blockedBy": false
+                },
+                "labels": [],
+                "createdAt": "2023-05-27T07:05:12.214Z",
+                "description": "Profile labeller: @profile-labels.bossett.social\nDiscord for feeds, lists, mod tools: https://discord.gg/tYuDvuzbVA\nFeeds I host (incl. Science 🧪): http://l.bossett.io/w9iM2\n\nhe/him\n📍 🇦🇺\n\n👾 bossett\n📧 bossett@bossett.io",
+                "indexedAt": "2024-11-10T18:52:33.180Z"
+            },
+            "displayName": "Science",
+            "description": "The Science Feed. A curated feed from Bluesky professional scientists,  science communicators, and science/nature photographer/artists. See https://l.bossett.io/vkeNf for more information! 🧪",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:jfhpnnst6flqway4eaeqzj2a/bafkreiexbusja2q52nwi44ov5rpyyz7d5n74kxr4ucunfigmv2e26dxrim@jpeg",
+            "likeCount": 8762,
+            "labels": [],
+            "viewer": {},
+            "indexedAt": "2023-11-26T19:34:54.335Z"
+        },
+        {
+            "uri": "at://did:plc:kkf4naxqmweop7dv4l2iqqf5/app.bsky.feed.generator/verified-news",
+            "cid": "bafyreiddt6h2zmkyncddkzrjfnqe2342ef6g36uyob5a2bg7q4o4v7ayha",
+            "did": "did:web:news.aendra.dev",
+            "creator": {
+                "did": "did:plc:kkf4naxqmweop7dv4l2iqqf5",
+                "handle": "aendra.com",
+                "displayName": "ændra.",
+                "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:kkf4naxqmweop7dv4l2iqqf5/bafkreigosfbtnpslezippn5rhfhut3s26nhfwotw324ibqjji3fn6gswfu@jpeg",
+                "associated": {
+                    "chat": {
+                        "allowIncoming": "all"
+                    }
+                },
+                "viewer": {
+                    "muted": false,
+                    "blockedBy": false
+                },
+                "labels": [],
+                "createdAt": "2023-05-04T16:59:41.121Z",
+                "description": "News Feed and @xblock.aendra.dev maintainer. I work at @data.ft.com as an engineer; opinions presented herein are mine alone.\n\nze/hir/she/her 🏳️‍⚧️\n\n🌐 aendra.com\n📸 aendra.photos\nSignal: aendra.01\n\nHeader: street art by goldloxe; Brick Lane, London",
+                "indexedAt": "2024-11-11T15:07:27.381Z"
+            },
+            "displayName": "📰 News",
+            "description": "Headlines from verified news organisations. Maintained by @aendra.com.",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:kkf4naxqmweop7dv4l2iqqf5/bafkreiae3cclh5b5qha5wqgdwshjoj6iiocbtaldubn2xbywp6u72cb2fm@jpeg",
+            "likeCount": 8551,
+            "labels": [],
+            "viewer": {},
+            "indexedAt": "2024-09-02T00:09:41.684Z"
+        },
+        {
+            "uri": "at://did:plc:jcoy7v3a2t4rcfdh6i4kza25/app.bsky.feed.generator/astro",
+            "cid": "bafyreie5pkkbg6epfyu63dclhcqibnjsuqavmheibgacnejjucfdgku2xq",
+            "did": "did:web:feed-all.astronomy.blue",
+            "creator": {
+                "did": "did:plc:jcoy7v3a2t4rcfdh6i4kza25",
+                "handle": "emily.space",
+                "displayName": "Emily Hunt",
+                "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:jcoy7v3a2t4rcfdh6i4kza25/bafkreigimy7cusltjpk5ifoxc2g46zypd2mlybkju3agzss47hy6cnxfki@jpeg",
+                "associated": {
+                    "chat": {
+                        "allowIncoming": "following"
+                    }
+                },
+                "viewer": {
+                    "muted": false,
+                    "blockedBy": false
+                },
+                "labels": [],
+                "createdAt": "2023-07-03T08:01:03.118Z",
+                "description": "Astronomy postdoc in Heidelberg, 🇩🇪. Works with machine learning & star clusters. Maintains the Astronomy feeds (https://signup.astronomy.blue).\n\nBi 🏳️‍🌈, trans (she/her), Ⓥ\n\nWebsite: https://emily.space\nGitHub: https://github.com/emilyhunt",
+                "indexedAt": "2024-10-19T06:47:58.108Z"
+            },
+            "displayName": "Astronomy",
+            "description": "Astronomy posts, from astronomers!\nAny astronomer can post here by signing up via @bot.astronomy.blue\nContains posts from signed up users with a 🔭, #astronomy, or #astro.",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:jcoy7v3a2t4rcfdh6i4kza25/bafkreidaqyviajpxpjuwbbjmxgbhkieqtzk4ffioh6umt4vy3pmj6lj5ry@jpeg",
+            "likeCount": 3513,
+            "labels": [],
+            "viewer": {},
+            "indexedAt": "2024-09-12T15:17:10.149Z"
+        },
+        {
+            "uri": "at://did:plc:4jrld6fwpnwqehtce56qshzv/app.bsky.feed.generator/game-dev",
+            "cid": "bafyreihki4efuy24ojiic7fgs7meatew27jln4cuh7zgohgyns2brv4n24",
+            "did": "did:web:bsky-feeds.trezy.studio",
+            "creator": {
+                "did": "did:plc:4jrld6fwpnwqehtce56qshzv",
+                "handle": "trezy.codes",
+                "displayName": "Trezy",
+                "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:4jrld6fwpnwqehtce56qshzv/bafkreidsmzizrclg4npliuq5ibbv4vzwhh2zfouovz3bkdzt5lmc7xhwtm@jpeg",
+                "associated": {
+                    "chat": {
+                        "allowIncoming": "all"
+                    }
+                },
+                "viewer": {
+                    "muted": false,
+                    "blockedBy": false
+                },
+                "labels": [],
+                "createdAt": "2023-04-22T16:48:08.952Z",
+                "description": "I run the Game Dev feed and the Games Industry Labeler. Game dev. Oxford comma enthusiast. He/him/his.\n\nI also run @birb.house where we make cool games.",
+                "indexedAt": "2024-10-12T11:41:47.606Z"
+            },
+            "displayName": "Game Dev",
+            "description": "\nPosts about all aspects of game development.\n\nOpt in with \"game\", followed by animation, art, audio, design, dev, jam, lighting, music, narrative, or writing.\nOpt out with #Private, #NoFeed, or #NoGameDev.\n\nDiscuss at https://trezy.studio/discord.\nImage by @nascent-space.bsky.social.\n",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:4jrld6fwpnwqehtce56qshzv/bafkreigz5uhyigkiw35xcpmb65auiu6oi3o4b4j3sltyh47ablsihlmdlm@jpeg",
+            "likeCount": 4362,
+            "labels": [],
+            "viewer": {},
+            "indexedAt": "2024-01-26T15:48:06.780Z"
+        }
+    ]
+}

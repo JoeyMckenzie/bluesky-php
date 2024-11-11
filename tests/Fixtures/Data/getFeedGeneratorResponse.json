@@ -1,0 +1,35 @@
+{
+    "view": {
+        "uri": "at://did:plc:4jrld6fwpnwqehtce56qshzv/app.bsky.feed.generator/game-dev",
+        "cid": "bafyreihki4efuy24ojiic7fgs7meatew27jln4cuh7zgohgyns2brv4n24",
+        "did": "did:web:bsky-feeds.trezy.studio",
+        "creator": {
+            "did": "did:plc:4jrld6fwpnwqehtce56qshzv",
+            "handle": "trezy.codes",
+            "displayName": "Trezy",
+            "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:4jrld6fwpnwqehtce56qshzv/bafkreidsmzizrclg4npliuq5ibbv4vzwhh2zfouovz3bkdzt5lmc7xhwtm@jpeg",
+            "associated": {
+                "chat": {
+                    "allowIncoming": "all"
+                }
+            },
+            "viewer": {
+                "muted": false,
+                "blockedBy": false
+            },
+            "labels": [],
+            "createdAt": "2023-04-22T16:48:08.952Z",
+            "description": "I run the Game Dev feed and the Games Industry Labeler. Game dev. Oxford comma enthusiast. He/him/his.\n\nI also run @birb.house where we make cool games.",
+            "indexedAt": "2024-10-12T11:41:47.606Z"
+        },
+        "displayName": "Game Dev",
+        "description": "\nPosts about all aspects of game development.\n\nOpt in with \"game\", followed by animation, art, audio, design, dev, jam, lighting, music, narrative, or writing.\nOpt out with #Private, #NoFeed, or #NoGameDev.\n\nDiscuss at https://trezy.studio/discord.\nImage by @nascent-space.bsky.social.\n",
+        "avatar": "https://cdn.bsky.app/img/avatar/plain/did:plc:4jrld6fwpnwqehtce56qshzv/bafkreigz5uhyigkiw35xcpmb65auiu6oi3o4b4j3sltyh47ablsihlmdlm@jpeg",
+        "likeCount": 4362,
+        "labels": [],
+        "viewer": {},
+        "indexedAt": "2024-01-26T15:48:06.780Z"
+    },
+    "isOnline": true,
+    "isValid": true
+}

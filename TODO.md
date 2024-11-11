@@ -13,8 +13,8 @@ Endpoints still to implement for client
 - [ ] `app.bsky.feed.getActorFeeds` ⚠️(need some feeds to test with)
 - [x] `app.bsky.feed.getActorLikes`
 - [x] `app.bsky.feed.getAuthorFeed`
-- [ ] `app.bsky.feed.getFeedGenerator`
-- [ ] `app.bsky.feed.getFeedGenerators`
+- [x] `app.bsky.feed.getFeedGenerator`
+- [x] `app.bsky.feed.getFeedGenerators`
 - [ ] `app.bsky.feed.getFeedSkeleton`
 - [ ] `app.bsky.feed.getFeed`
 - [ ] `app.bsky.feed.getLikes`

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
+use Bluesky\Responses\Feed\Generator\FindResponse;
+use Bluesky\Responses\Feed\Generator\ListResponse as FeedGeneratorsResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
 use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\ValueObjects\Connector\Response;
@@ -12,6 +14,8 @@ use Carbon\Carbon;
 use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
+use function Tests\Fixtures\feedGenerator;
+use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\post;
 use function Tests\Fixtures\posts;
 
@@ -113,5 +117,45 @@ describe('Feed resource', function (): void {
             ->toBeInstanceOf(ListResponse::class)
             ->data->toBeArray()
             ->cursor->not->toBeNull();
+    });
+
+    it('can retrieve feed generator', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getFeedGenerator',
+            [
+                'feed' => 'feed_uri',
+            ],
+            Response::from(feedGenerator()),
+        );
+
+        // Act
+        $result = $client->feed()->getFeedGenerator('feed_uri');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(FindResponse::class)
+            ->view->toBeArray()
+            ->isValid->toBeTrue()
+            ->isOnline->toBeTrue();
+    });
+
+    it('can retrieve feed generators', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getFeedGenerators',
+            [
+                'feeds' => 'feed_1,feed_2',
+            ],
+            Response::from(feedGenerators()),
+        );
+
+        // Act
+        $result = $client->feed()->getFeedGenerators(['feed_1', 'feed_2']);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(FeedGeneratorsResponse::class)
+            ->data->toBeArray();
     });
 });

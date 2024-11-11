@@ -7,6 +7,8 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
+use Bluesky\Responses\Feed\Generator\FindResponse;
+use Bluesky\Responses\Feed\Generator\ListResponse as FeedsResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
 use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\Types\Post;
@@ -59,6 +61,36 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return ListResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getFeedGenerator(string $feed): FindResponse
+    {
+        $payload = Payload::list('app.bsky.feed.getFeedGenerator', [
+            'feed' => $feed,
+        ]);
+
+        /**
+         * @var Response<array{view: \Bluesky\Types\Feed, isOnline: bool, isValid: bool}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return FindResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getFeedGenerators(array $feeds): FeedsResponse
+    {
+        $payload = Payload::list('app.bsky.feed.getFeedGenerators', [
+            'feeds' => implode(',', $feeds),
+        ]);
+
+        /**
+         * @var Response<array{feeds: array<int, \Bluesky\Types\Feed>}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return FeedsResponse::from($response->data());
     }
 
     #[Override]
