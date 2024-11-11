@@ -6,12 +6,12 @@ namespace Tests\Responses\Feed\Likes;
 
 use Bluesky\Responses\Feed\Likes\ListResponse;
 
-use function Tests\Fixtures\likes;
+use function Tests\Fixtures\posts;
 
 describe(ListResponse::class, function (): void {
     it('returns a valid typed likes list', function (): void {
         // Arrange & Act
-        $response = ListResponse::from(likes());
+        $response = ListResponse::from(posts());
 
         // Assert
         expect($response)->toBeInstanceOf(ListResponse::class)
@@ -21,7 +21,7 @@ describe(ListResponse::class, function (): void {
 
     it('prints to an array', function (): void {
         // Arrange
-        $likes = likes();
+        $likes = posts();
 
         // Act
         $response = ListResponse::from($likes);

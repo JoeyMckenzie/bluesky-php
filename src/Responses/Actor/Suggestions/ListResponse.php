@@ -6,20 +6,21 @@ namespace Bluesky\Responses\Actor\Suggestions;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
+use Bluesky\Types\Suggestion;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>>
+ * @implements ResponseContract<array<int, Suggestion>>
  */
 final readonly class ListResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>>
+     * @use ArrayAccessible<array<int, Suggestion>>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>  $data
+     * @param  array<int, Suggestion>  $data
      */
     private function __construct(
         public array $data,
@@ -28,7 +29,9 @@ final readonly class ListResponse implements ResponseContract
         //
     }
 
-    /** @param array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>, cursor: string} $attributes */
+    /**
+     * @param  array{actors: array<int, Suggestion>, cursor: string}  $attributes
+     */
     public static function from(array $attributes): self
     {
         return new self($attributes['actors'], $attributes['cursor']);

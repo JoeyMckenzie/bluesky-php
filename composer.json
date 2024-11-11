@@ -27,6 +27,8 @@
         "pestphp/pest-plugin-faker": "^3.0",
         "phpstan/phpstan": "^1.12.7",
         "phpstan/phpstan-strict-rules": "^1.6",
+        "phpstan/phpstan-deprecation-rules": "^1.2",
+        "phpstan/phpstan-phpunit": "^1.4",
         "phpstan/extension-installer": "^1.4",
         "rector/rector": "^1.2",
         "vlucas/phpdotenv": "^5.6",
@@ -49,10 +51,14 @@
     },
     "scripts": {
         "prepare": "git config core.hookspath .githooks && lefthook install",
-        "test": "vendor/bin/pest",
+        "test:unit": "vendor/bin/pest",
         "test:coverage": "vendor/bin/pest --coverage",
         "test:watch": "vendor/bin/pest --watch",
         "test:types": "./vendor/bin/pest --type-coverage --min=100",
+        "test": [
+            "@test:unit",
+            "@test:types"
+        ],
         "fmt": "vendor/bin/pint",
         "fmt:test": "./vendor/bin/pint --test",
         "lint": "vendor/bin/phpstan analyze",
@@ -60,7 +66,6 @@
         "refactor:test": "vendor/bin/rector process --dry-run",
         "check": [
             "@test",
-            "@test:types",
             "@fmt:test",
             "@lint",
             "@refactor:test"

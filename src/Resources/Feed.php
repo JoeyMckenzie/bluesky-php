@@ -9,7 +9,7 @@ use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Feed\Likes\ListResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
-use Bluesky\Types\LikedPost;
+use Bluesky\Types\Post;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
@@ -54,7 +54,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{feed: array<int, LikedPost>, cursor: string}> $response
+         * @var Response<array{feed: array<int, Post>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 

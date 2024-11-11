@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Bluesky\Types;
 
 /**
- * @phpstan-type LikedPostResponse array{
+ * @phpstan-type PostResponse array{
  *    post: array{
  *        uri: string,
  *        cid: string,
@@ -149,4 +149,4 @@ namespace Bluesky\Types;
  *    }
  * }
  */
-final class LikedPost {}
+final class Post {}

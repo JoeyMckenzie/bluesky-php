@@ -12,8 +12,8 @@ use Carbon\Carbon;
 use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
-use function Tests\Fixtures\likes;
 use function Tests\Fixtures\post;
+use function Tests\Fixtures\posts;
 
 describe('Feed resource', function (): void {
     it('can create posts with a default timestamp', function (): void {
@@ -53,7 +53,7 @@ describe('Feed resource', function (): void {
                 'actor' => $username,
                 'limit' => 25,
             ],
-            Response::from(likes()),
+            Response::from(posts()),
         );
 
         // Act

@@ -12,6 +12,8 @@ use Bluesky\Responses\Actor\Profile\FindResponse;
 use Bluesky\Responses\Actor\Profile\ListResponse as ProfileListResponse;
 use Bluesky\Responses\Actor\Search\ListResponse as SearchListResponse;
 use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
+use Bluesky\Types\ActorProfile;
+use Bluesky\Types\Suggestion;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -80,7 +82,7 @@ final readonly class Actor implements ActorContract
         ]);
 
         /**
-         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>, cursor: string}> $response
+         * @var Response<array{actors: array<int, Suggestion>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -109,7 +111,7 @@ final readonly class Actor implements ActorContract
         ]);
 
         /**
-         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, description: ?string, viewer: ?array{muted: bool, blockedBy: bool, following: string}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: ?string, associated?: array{chat: array{allowIncoming: string}}}>, cursor: string}> $response
+         * @var Response<array{actors: array<int, ActorProfile>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -125,7 +127,7 @@ final readonly class Actor implements ActorContract
         ]);
 
         /**
-         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, description: ?string, viewer: ?array{muted: bool, blockedBy: bool, following: string}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: ?string, associated?: array{chat: array{allowIncoming: string}}}>, cursor: ?string}> $response
+         * @var Response<array{actors: array<int, ActorProfile>, cursor: ?string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
