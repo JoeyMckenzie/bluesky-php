@@ -25,3 +25,20 @@ Keeping some notes on the behavior of the API I notice as I development.
 results in:
 
 ![no thread preference](screenshots/no_thread_preference.png)
+
+- `app.bsky.feed.describeFeedGenerator` doesn't seem to be working, neither private nor public
+
+```shell
+curl --location 'https://public.api.bsky.app/xrpc/app.bsky.feed.describeFeedGenerator'
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /xrpc/app.bsky.feed.describeFeedGenerator</pre>
+</body>
+</html>
+```

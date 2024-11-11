@@ -7,7 +7,9 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
+use Bluesky\Responses\Feed\Likes\ListResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
+use Bluesky\Types\Likes\LikedPost;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
@@ -41,5 +43,22 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return CreateResponse::from($response->data());
+    }
+
+    #[Override]
+    public function getActorLikes(string $username, int $limit = 25, int $cursor = 0): ListResponse
+    {
+        $payload = Payload::list('app.bsky.actor.searchActorsTypeahead', [
+            'actor' => $username,
+            'limit' => $limit,
+            'cursor' => $cursor,
+        ]);
+
+        /**
+         * @var Response<array{feed: array<int, LikedPost>, cursor: string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return ListResponse::fromResponse($response->data());
     }
 }
