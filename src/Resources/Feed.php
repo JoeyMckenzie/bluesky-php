@@ -63,7 +63,7 @@ final readonly class Feed implements FeedContract
         return ListResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getFeedGenerator(string $feed): FindResponse
     {
         $payload = Payload::list('app.bsky.feed.getFeedGenerator', [
@@ -78,7 +78,7 @@ final readonly class Feed implements FeedContract
         return FindResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getFeedGenerators(array $feeds): FeedsResponse
     {
         $payload = Payload::list('app.bsky.feed.getFeedGenerators', [

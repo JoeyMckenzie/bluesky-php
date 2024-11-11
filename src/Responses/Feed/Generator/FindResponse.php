@@ -7,6 +7,7 @@ namespace Bluesky\Responses\Feed\Generator;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\Feed;
+use Override;
 
 /**
  * @implements ResponseContract<array{view: Feed, isOnline: bool, isValid: bool}>
@@ -44,7 +45,7 @@ final readonly class FindResponse implements ResponseContract
     /**
      * {@inheritDoc}
      */
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [

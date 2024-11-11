@@ -7,6 +7,7 @@ namespace Bluesky\Responses\Feed\Generator;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\Feed;
+use Override;
 
 /**
  * @implements ResponseContract<array<int, Feed>>
@@ -37,7 +38,7 @@ final readonly class ListResponse implements ResponseContract
     /**
      * {@inheritDoc}
      */
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return $this->data;
