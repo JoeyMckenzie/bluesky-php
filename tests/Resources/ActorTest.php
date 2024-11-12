@@ -113,8 +113,8 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(SuggestionsListResponse::class)
-            ->data->toBeArray()
-            ->and(count($result->data))->toBeBetween(1, 50)
+            ->actors->toBeArray()
+            ->and(count($result->actors))->toBeBetween(1, 50)
             ->and($result->cursor)->toEqual(50);
     });
 
@@ -137,8 +137,8 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(SuggestionsListResponse::class)
-            ->data->toBeArray()
-            ->and(count($result->data))->toEqual($limit)
+            ->actors->toBeArray()
+            ->and(count($result->actors))->toEqual($limit)
             ->and(intval($result->cursor))->toBe($limit + $cursor);
     });
 

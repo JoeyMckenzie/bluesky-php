@@ -13,7 +13,6 @@ use Bluesky\Responses\Actor\GetProfilesResponse;
 use Bluesky\Responses\Actor\GetSuggestionsResponse;
 use Bluesky\Responses\Actor\SearchActorsResponse;
 use Bluesky\Types\ActorProfile;
-use Bluesky\Types\Suggestion;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -82,7 +81,7 @@ final readonly class Actor implements ActorContract
         ]);
 
         /**
-         * @var Response<array{actors: array<int, Suggestion>, cursor: string}> $response
+         * @var Response<array{actors: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated?: array{chat?: array{allowIncoming?: string}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string}>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 

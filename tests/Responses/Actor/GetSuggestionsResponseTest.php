@@ -8,6 +8,8 @@ use Bluesky\Responses\Actor\GetSuggestionsResponse;
 
 use function Tests\Fixtures\suggestions;
 
+covers(GetSuggestionsResponse::class);
+
 describe(GetSuggestionsResponse::class, function (): void {
     it('returns a valid typed suggestions list', function (): void {
         // Arrange & Act
@@ -15,7 +17,7 @@ describe(GetSuggestionsResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(GetSuggestionsResponse::class)
-            ->data->toBeArray()
+            ->actors->toBeArray()
             ->cursor->toEqual(50);
     });
 
@@ -29,9 +31,21 @@ describe(GetSuggestionsResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(GetSuggestionsResponse::class)
-            ->data->toBeArray()
-            ->and($response->data)->toHaveCount($limit)
+            ->actors->toBeArray()
+            ->and($response->actors)->toHaveCount($limit)
             ->and(intval($response->cursor))->toEqual($cursor + $limit);
+    });
+
+    it('is accessible from an array', function (): void {
+        // Arrange
+        $suggestions = suggestions();
+
+        // Act
+        $response = GetSuggestionsResponse::from($suggestions);
+
+        // Assert
+        expect($response['actors'])->toBe($suggestions['actors'])
+            ->and($suggestions['cursor'])->toBe($response['cursor']);
     });
 
     it('prints to an array', function (): void {
@@ -40,10 +54,12 @@ describe(GetSuggestionsResponse::class, function (): void {
 
         // Act
         $response = GetSuggestionsResponse::from($suggestions);
+        $asArray = $response->toArray();
 
         // Assert
-        expect($response->toArray())
+        expect($asArray)
             ->toBeArray()
-            ->toBe($suggestions['actors']);
+            ->and($asArray['actors'])->toBe($suggestions['actors'])
+            ->and($asArray['cursor'])->toEqual($suggestions['cursor']);
     });
 });
