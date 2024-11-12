@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
-use Bluesky\Responses\Feed\Generator\FindResponse;
-use Bluesky\Responses\Feed\Generator\ListResponse as FeedGeneratorsResponse;
+use Bluesky\Responses\Feed\CreatePostResponse;
+use Bluesky\Responses\Feed\GetActorLikesResponse;
+use Bluesky\Responses\Feed\GetAuthorFeedResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorsResponse as FeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse as FeedsResponse;
-use Bluesky\Responses\Feed\Post\CreateResponse;
-use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use Tests\Mocks\ClientMock;
@@ -45,7 +46,7 @@ describe('Feed resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(CreateResponse::class)
+            ->toBeInstanceOf(CreatePostResponse::class)
             ->cid->not->toBeNull()
             ->uri->not->toBeNull();
     });
@@ -67,7 +68,7 @@ describe('Feed resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(ListResponse::class)
+            ->toBeInstanceOf(GetActorLikesResponse::class)
             ->data->toBeArray()
             ->cursor->not->toBeNull();
     });
@@ -91,7 +92,7 @@ describe('Feed resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(ListResponse::class)
+            ->toBeInstanceOf(GetAuthorFeedResponse::class)
             ->data->toBeArray()
             ->cursor->not->toBeNull();
     });
@@ -116,7 +117,7 @@ describe('Feed resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(ListResponse::class)
+            ->toBeInstanceOf(GetAuthorFeedResponse::class)
             ->data->toBeArray()
             ->cursor->not->toBeNull();
     });
@@ -136,7 +137,7 @@ describe('Feed resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(FindResponse::class)
+            ->toBeInstanceOf(GetFeedGeneratorResponse::class)
             ->view->toBeArray()
             ->isValid->toBeTrue()
             ->isOnline->toBeTrue();

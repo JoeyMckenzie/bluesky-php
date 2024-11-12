@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Responses\Actor\Profile;
+namespace Bluesky\Responses\Actor;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
@@ -11,7 +11,7 @@ use Override;
 /**
  * @implements ResponseContract<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>
  */
-final readonly class FindResponse implements ResponseContract
+final readonly class GetProfileResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>

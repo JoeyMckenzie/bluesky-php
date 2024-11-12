@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Session;
 
-use Bluesky\Responses\Feed\Generator\FindResponse;
-use Bluesky\Responses\Feed\Post\CreateResponse;
+use Bluesky\Responses\Feed\CreatePostResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 
 use function Tests\Fixtures\feedGenerator;
 use function Tests\Fixtures\post;
 
-describe(FindResponse::class, function (): void {
+describe(GetFeedGeneratorResponse::class, function (): void {
     it('returns a valid typed feed generator object', function (): void {
         // Arrange & Act
-        $response = FindResponse::from(feedGenerator());
+        $response = GetFeedGeneratorResponse::from(feedGenerator());
 
         // Assert
-        expect($response)->toBeInstanceOf(FindResponse::class)
+        expect($response)->toBeInstanceOf(GetFeedGeneratorResponse::class)
             ->view->toBeArray()
             ->isOnline->toBeTrue()
             ->isValid->toBeTrue();
@@ -24,7 +24,7 @@ describe(FindResponse::class, function (): void {
 
     it('is accessible from an array', function (): void {
         // Arrange & Act
-        $response = FindResponse::from(feedGenerator());
+        $response = GetFeedGeneratorResponse::from(feedGenerator());
 
         // Assert
         expect($response['view'])->toBeArray()
@@ -37,7 +37,7 @@ describe(FindResponse::class, function (): void {
         $post = post();
 
         // Act
-        $response = CreateResponse::from($post);
+        $response = CreatePostResponse::from($post);
 
         // Assert
         expect($response->toArray())

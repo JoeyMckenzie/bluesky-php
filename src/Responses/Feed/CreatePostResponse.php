@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Responses\Feed\Post;
+namespace Bluesky\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
@@ -11,7 +11,7 @@ use Override;
 /**
  * @implements ResponseContract<array{uri: string, cid: string}>
  */
-final readonly class CreateResponse implements ResponseContract
+final readonly class CreatePostResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{uri: string, cid: string}>

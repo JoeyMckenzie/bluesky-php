@@ -7,11 +7,12 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
-use Bluesky\Responses\Feed\Generator\FindResponse;
-use Bluesky\Responses\Feed\Generator\ListResponse as FeedsResponse;
+use Bluesky\Responses\Feed\CreatePostResponse;
+use Bluesky\Responses\Feed\GetActorLikesResponse;
+use Bluesky\Responses\Feed\GetAuthorFeedResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
-use Bluesky\Responses\Feed\Post\CreateResponse;
-use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\Post;
@@ -31,7 +32,7 @@ final readonly class Feed implements FeedContract
     }
 
     #[Override]
-    public function post(string $text, ?Carbon $createdAt = null): CreateResponse
+    public function post(string $text, ?Carbon $createdAt = null): CreatePostResponse
     {
         $payload = Payload::create('com.atproto.repo.createRecord', [
             'repo' => $this->username,
@@ -47,11 +48,11 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return CreateResponse::from($response->data());
+        return CreatePostResponse::from($response->data());
     }
 
     #[Override]
-    public function getActorLikes(string $username, int $limit = 25): ListResponse
+    public function getActorLikes(string $username, int $limit = 25): GetActorLikesResponse
     {
         $payload = Payload::list('app.bsky.feed.getActorLikes', [
             'actor' => $username,
@@ -63,11 +64,11 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return ListResponse::from($response->data());
+        return GetActorLikesResponse::from($response->data());
     }
 
     #[Override]
-    public function getFeedGenerator(string $feed): FindResponse
+    public function getFeedGenerator(string $feed): GetFeedGeneratorResponse
     {
         $payload = Payload::list('app.bsky.feed.getFeedGenerator', [
             'feed' => $feed,
@@ -78,11 +79,11 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return FindResponse::from($response->data());
+        return GetFeedGeneratorResponse::from($response->data());
     }
 
     #[Override]
-    public function getFeedGenerators(array $feeds): FeedsResponse
+    public function getFeedGenerators(array $feeds): GetFeedGeneratorsResponse
     {
         $payload = Payload::list('app.bsky.feed.getFeedGenerators', [
             'feeds' => $feeds,
@@ -93,11 +94,11 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return FeedsResponse::from($response->data());
+        return GetFeedGeneratorsResponse::from($response->data());
     }
 
     #[Override]
-    public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): ListResponse
+    public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): GetAuthorFeedResponse
     {
         $params = [
             'actor' => $username,
@@ -117,10 +118,10 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return ListResponse::from($response->data());
+        return GetAuthorFeedResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse
     {
         $params = [

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Session;
 
-use Bluesky\Responses\Actor\Profile\FindResponse;
+use Bluesky\Responses\Actor\GetProfileResponse;
 
 use function Tests\Fixtures\profile;
 
-describe(FindResponse::class, function (): void {
+describe(GetProfileResponse::class, function (): void {
     it('returns a valid typed actor profile object', function (): void {
         // Arrange & Act
-        $response = FindResponse::from(profile());
+        $response = GetProfileResponse::from(profile());
 
         // Assert
-        expect($response)->toBeInstanceOf(FindResponse::class)
+        expect($response)->toBeInstanceOf(GetProfileResponse::class)
             ->did->not->toBeNull()
             ->handle->not->toBeNull()
             ->description->not->toBeNull();
@@ -22,7 +22,7 @@ describe(FindResponse::class, function (): void {
 
     it('is accessible from an array', function (): void {
         // Arrange & Act
-        $response = FindResponse::from(profile());
+        $response = GetProfileResponse::from(profile());
 
         // Assert
         expect($response['did'])->not->toBeNull()
@@ -35,7 +35,7 @@ describe(FindResponse::class, function (): void {
         $profile = profile();
 
         // Act
-        $response = FindResponse::from($profile);
+        $response = GetProfileResponse::from($profile);
 
         // Assert
         expect($response->toArray())

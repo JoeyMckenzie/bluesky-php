@@ -2,35 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Responses\Actor\Suggestions;
+namespace Bluesky\Responses\Actor;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Suggestion;
+use Bluesky\Types\ActorProfile;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, Suggestion>>
+ * @implements ResponseContract<array<int, ActorProfile>>
  */
-final readonly class ListResponse implements ResponseContract
+final readonly class SearchActorsResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, Suggestion>>
+     * @use ArrayAccessible<array<int, ActorProfile>>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, Suggestion>  $data
+     * @param  array<int, ActorProfile>  $data
      */
     private function __construct(
         public array $data,
-        public string $cursor
+        public ?string $cursor
     ) {
         //
     }
 
     /**
-     * @param  array{actors: array<int, Suggestion>, cursor: string}  $attributes
+     * @param  array{actors: array<int, ActorProfile>, cursor: ?string}  $attributes
      */
     public static function from(array $attributes): self
     {

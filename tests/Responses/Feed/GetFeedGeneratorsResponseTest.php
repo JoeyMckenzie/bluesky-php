@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Feed\Likes;
 
-use Bluesky\Responses\Feed\Generator\ListResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 
 use function Tests\Fixtures\feedGenerators;
 
-describe(ListResponse::class, function (): void {
+describe(GetFeedGeneratorsResponse::class, function (): void {
     it('returns a valid feed generators list', function (): void {
         // Arrange & Act
-        $response = ListResponse::from(feedGenerators());
+        $response = GetFeedGeneratorsResponse::from(feedGenerators());
 
         // Assert
-        expect($response)->toBeInstanceOf(ListResponse::class)
+        expect($response)->toBeInstanceOf(GetFeedGeneratorsResponse::class)
             ->data->toBeArray();
     });
 
@@ -23,7 +23,7 @@ describe(ListResponse::class, function (): void {
         $feeds = feedGenerators();
 
         // Act
-        $response = ListResponse::from($feeds);
+        $response = GetFeedGeneratorsResponse::from($feeds);
 
         // Assert
         expect($response->toArray())

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Responses\Feed\Generator;
+namespace Bluesky\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
@@ -12,7 +12,7 @@ use Override;
 /**
  * @implements ResponseContract<array<int, FeedPost>>
  */
-final readonly class ListResponse implements ResponseContract
+final readonly class GetFeedGeneratorsResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array<int, FeedPost>>

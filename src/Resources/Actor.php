@@ -7,11 +7,11 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Enums\MediaType;
-use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
-use Bluesky\Responses\Actor\Profile\FindResponse;
-use Bluesky\Responses\Actor\Profile\ListResponse as ProfileListResponse;
-use Bluesky\Responses\Actor\Search\ListResponse as SearchListResponse;
-use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
+use Bluesky\Responses\Actor\GetPreferencesResponse;
+use Bluesky\Responses\Actor\GetProfileResponse;
+use Bluesky\Responses\Actor\GetProfilesResponse;
+use Bluesky\Responses\Actor\GetSuggestionsResponse;
+use Bluesky\Responses\Actor\SearchActorsResponse;
 use Bluesky\Types\ActorProfile;
 use Bluesky\Types\Suggestion;
 use Bluesky\ValueObjects\Connector\Response;
@@ -28,7 +28,7 @@ final readonly class Actor implements ActorContract
     }
 
     #[Override]
-    public function getProfile(string $actor): FindResponse
+    public function getProfile(string $actor): GetProfileResponse
     {
         $payload = Payload::list('app.bsky.actor.getProfile', [
             'actor' => $actor,
@@ -39,14 +39,14 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return FindResponse::from($response->data());
+        return GetProfileResponse::from($response->data());
     }
 
     /**
      * @param  string[]  $actors
      */
     #[Override]
-    public function getProfiles(array $actors): ProfileListResponse
+    public function getProfiles(array $actors): GetProfilesResponse
     {
         $payload = Payload::list('app.bsky.actor.getProfiles', [
             'actors' => $actors,
@@ -57,11 +57,11 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return ProfileListResponse::from($response->data());
+        return GetProfilesResponse::from($response->data());
     }
 
     #[Override]
-    public function getPreferences(?string $accessJwt = null): PreferencesListResponse
+    public function getPreferences(?string $accessJwt = null): GetPreferencesResponse
     {
         $payload = Payload::list('app.bsky.actor.getPreferences');
 
@@ -70,11 +70,11 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return PreferencesListResponse::from($response->data());
+        return GetPreferencesResponse::from($response->data());
     }
 
     #[Override]
-    public function getSuggestions(int $limit = 50, int $cursor = 0, ?string $accessJwt = null): SuggestionsListResponse
+    public function getSuggestions(int $limit = 50, int $cursor = 0, ?string $accessJwt = null): GetSuggestionsResponse
     {
         $payload = Payload::list('app.bsky.actor.getSuggestions', [
             'limit' => $limit,
@@ -86,7 +86,7 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return SuggestionsListResponse::from($response->data());
+        return GetSuggestionsResponse::from($response->data());
     }
 
     #[Override]
@@ -102,7 +102,7 @@ final readonly class Actor implements ActorContract
     }
 
     #[Override]
-    public function searchActors(string $query, int $limit = 25, int $cursor = 0): SearchListResponse
+    public function searchActors(string $query, int $limit = 25, int $cursor = 0): SearchActorsResponse
     {
         $payload = Payload::list('app.bsky.actor.searchActors', [
             'q' => $query,
@@ -115,11 +115,11 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return SearchListResponse::from($response->data());
+        return SearchActorsResponse::from($response->data());
     }
 
     #[Override]
-    public function searchActorsTypeahead(string $query, int $limit = 25): SearchListResponse
+    public function searchActorsTypeahead(string $query, int $limit = 25): SearchActorsResponse
     {
         $payload = Payload::list('app.bsky.actor.searchActorsTypeahead', [
             'q' => $query,
@@ -131,6 +131,6 @@ final readonly class Actor implements ActorContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return SearchListResponse::from($response->data());
+        return SearchActorsResponse::from($response->data());
     }
 }

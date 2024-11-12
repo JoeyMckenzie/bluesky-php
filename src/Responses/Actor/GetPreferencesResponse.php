@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Responses\Actor\Preferences;
+namespace Bluesky\Responses\Actor;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
@@ -11,7 +11,7 @@ use Override;
 /**
  * @implements ResponseContract<list<array{"$type": string}&array<string, mixed>>>
  */
-final readonly class ListResponse implements ResponseContract
+final readonly class GetPreferencesResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<list<array{"$type": string}&array<string, mixed>>>

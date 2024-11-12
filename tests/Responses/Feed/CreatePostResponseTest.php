@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Session;
 
-use Bluesky\Responses\Feed\Post\CreateResponse;
+use Bluesky\Responses\Feed\CreatePostResponse;
 
 use function Tests\Fixtures\post;
 
-describe(CreateResponse::class, function (): void {
+describe(CreatePostResponse::class, function (): void {
     it('returns a valid typed post object', function (): void {
         // Arrange & Act
-        $response = CreateResponse::from(post());
+        $response = CreatePostResponse::from(post());
 
         // Assert
-        expect($response)->toBeInstanceOf(CreateResponse::class)
+        expect($response)->toBeInstanceOf(CreatePostResponse::class)
             ->uri->not->toBeNull()
             ->cid->not->toBeNull();
     });
 
     it('is accessible from an array', function (): void {
         // Arrange & Act
-        $response = CreateResponse::from(post());
+        $response = CreatePostResponse::from(post());
 
         // Assert
         expect($response['uri'])->not->toBeNull()
@@ -33,7 +33,7 @@ describe(CreateResponse::class, function (): void {
         $post = post();
 
         // Act
-        $response = CreateResponse::from($post);
+        $response = CreatePostResponse::from($post);
 
         // Assert
         expect($response->toArray())

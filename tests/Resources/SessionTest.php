@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
-use Bluesky\Responses\Session\CreateResponse;
+use Bluesky\Responses\Session\CreateSessionResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
@@ -32,7 +32,7 @@ describe('Session resource', function (): void {
 
         // Assert, spot check a few properties
         expect($result)->not->toBeNull()
-            ->and($result)->toBeInstanceOf(CreateResponse::class)
+            ->and($result)->toBeInstanceOf(CreateSessionResponse::class)
             ->accessJwt->not->toBeNull()
             ->refreshJwt->not->toBeNull()
             ->email->not->toBeNull()
@@ -60,7 +60,7 @@ describe('Session resource', function (): void {
 
         // Assert, spot check a few properties
         expect($result)->not->toBeNull()
-            ->and($result)->toBeInstanceOf(CreateResponse::class)
+            ->and($result)->toBeInstanceOf(CreateSessionResponse::class)
             ->accessJwt->not->toBeNull()
             ->refreshJwt->not->toBeNull()
             ->email->toBeNull()

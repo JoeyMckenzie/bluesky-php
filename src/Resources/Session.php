@@ -7,7 +7,7 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\SessionContract;
 use Bluesky\Enums\MediaType;
-use Bluesky\Responses\Session\CreateResponse;
+use Bluesky\Responses\Session\CreateSessionResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -25,7 +25,7 @@ final readonly class Session implements SessionContract
      * {@inheritDoc}
      */
     #[Override]
-    public function createSession(string $password): CreateResponse
+    public function createSession(string $password): CreateSessionResponse
     {
         $payload = Payload::create('com.atproto.server.createSession', [
             'identifier' => $this->username,
@@ -37,14 +37,14 @@ final readonly class Session implements SessionContract
          */
         $response = $this->connector->requestData($payload);
 
-        return CreateResponse::from($response->data());
+        return CreateSessionResponse::from($response->data());
     }
 
     /**
      * {@inheritDoc}
      */
     #[Override]
-    public function refreshSession(string $refreshJwt): CreateResponse
+    public function refreshSession(string $refreshJwt): CreateSessionResponse
     {
         $payload = Payload::create('com.atproto.server.refreshSession', [], MediaType::JSON, [
             'Authorization' => 'Bearer '.$refreshJwt,
@@ -55,6 +55,6 @@ final readonly class Session implements SessionContract
          */
         $response = $this->connector->requestData($payload);
 
-        return CreateResponse::from($response->data());
+        return CreateSessionResponse::from($response->data());
     }
 }

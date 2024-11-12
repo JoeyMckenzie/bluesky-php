@@ -4,27 +4,28 @@ declare(strict_types=1);
 
 namespace Bluesky\Contracts\Resources;
 
-use Bluesky\Responses\Feed\Generator\FindResponse;
-use Bluesky\Responses\Feed\Generator\ListResponse;
+use Bluesky\Responses\Feed\CreatePostResponse;
+use Bluesky\Responses\Feed\GetActorLikesResponse;
+use Bluesky\Responses\Feed\GetAuthorFeedResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
-use Bluesky\Responses\Feed\Post\CreateResponse;
-use Bluesky\Responses\Feed\Post\ListResponse as PostsResponse;
 use Carbon\Carbon;
 
 interface FeedContract
 {
-    public function post(string $text, ?Carbon $createdAt = null): CreateResponse;
+    public function post(string $text, ?Carbon $createdAt = null): CreatePostResponse;
 
-    public function getActorLikes(string $username, int $limit = 25): PostsResponse;
+    public function getActorLikes(string $username, int $limit = 25): GetActorLikesResponse;
 
-    public function getFeedGenerator(string $feed): FindResponse;
+    public function getFeedGenerator(string $feed): GetFeedGeneratorResponse;
 
     /**
      * @param  string[]  $feeds
      */
-    public function getFeedGenerators(array $feeds): ListResponse;
+    public function getFeedGenerators(array $feeds): GetFeedGeneratorsResponse;
 
-    public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): PostsResponse;
+    public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): GetAuthorFeedResponse;
 
     public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse;
 }

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Actor\Suggestions;
 
-use Bluesky\Responses\Actor\Suggestions\ListResponse;
+use Bluesky\Responses\Actor\GetSuggestionsResponse;
 
 use function Tests\Fixtures\suggestions;
 
-describe(ListResponse::class, function (): void {
+describe(GetSuggestionsResponse::class, function (): void {
     it('returns a valid typed suggestions list', function (): void {
         // Arrange & Act
-        $response = ListResponse::from(suggestions());
+        $response = GetSuggestionsResponse::from(suggestions());
 
         // Assert
-        expect($response)->toBeInstanceOf(ListResponse::class)
+        expect($response)->toBeInstanceOf(GetSuggestionsResponse::class)
             ->data->toBeArray()
             ->cursor->toEqual(50);
     });
@@ -25,10 +25,10 @@ describe(ListResponse::class, function (): void {
         $cursor = 69;
 
         // Act
-        $response = ListResponse::from(suggestions($limit, $cursor));
+        $response = GetSuggestionsResponse::from(suggestions($limit, $cursor));
 
         // Assert
-        expect($response)->toBeInstanceOf(ListResponse::class)
+        expect($response)->toBeInstanceOf(GetSuggestionsResponse::class)
             ->data->toBeArray()
             ->and($response->data)->toHaveCount($limit)
             ->and(intval($response->cursor))->toEqual($cursor + $limit);
@@ -39,7 +39,7 @@ describe(ListResponse::class, function (): void {
         $suggestions = suggestions();
 
         // Act
-        $response = ListResponse::from($suggestions);
+        $response = GetSuggestionsResponse::from($suggestions);
 
         // Assert
         expect($response->toArray())

@@ -11,7 +11,7 @@ use Override;
 /**
  * @implements ResponseContract<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}>
  */
-final readonly class CreateResponse implements ResponseContract
+final readonly class CreateSessionResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}>

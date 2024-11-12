@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
-use Bluesky\Responses\Actor\Preferences\ListResponse as PreferencesListResponse;
-use Bluesky\Responses\Actor\Profile\FindResponse;
-use Bluesky\Responses\Actor\Profile\ListResponse as ProfilesListResponse;
-use Bluesky\Responses\Actor\Search\ListResponse as SearchListResponse;
-use Bluesky\Responses\Actor\Suggestions\ListResponse as SuggestionsListResponse;
+use Bluesky\Responses\Actor\GetPreferencesResponse as PreferencesListResponse;
+use Bluesky\Responses\Actor\GetProfileResponse;
+use Bluesky\Responses\Actor\GetProfilesResponse as ProfilesListResponse;
+use Bluesky\Responses\Actor\GetSuggestionsResponse as SuggestionsListResponse;
+use Bluesky\Responses\Actor\SearchActorsResponse as SearchListResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
@@ -32,7 +32,7 @@ describe('Actor resource', function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(FindResponse::class)
+            ->toBeInstanceOf(GetProfileResponse::class)
             ->did->not->toBeNull()
             ->description->not->toBeNull()
             ->avatar->not->toBeNull();
@@ -63,7 +63,7 @@ describe('Actor resource', function (): void {
         expect($result)
             ->toBeInstanceOf(ProfilesListResponse::class)
             ->data->toBeArray()->toHaveCount(2)
-            ->each->toBeInstanceOf(FindResponse::class);
+            ->each->toBeInstanceOf(GetProfileResponse::class);
     });
 
     it('can retrieve preferences', function (): void {

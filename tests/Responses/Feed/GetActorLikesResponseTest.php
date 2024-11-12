@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Feed\Likes;
 
-use Bluesky\Responses\Feed\Post\ListResponse;
+use Bluesky\Responses\Feed\GetActorLikesResponse;
 
 use function Tests\Fixtures\posts;
 
-describe(ListResponse::class, function (): void {
-    it('returns a valid typed posts list', function (): void {
+describe(GetActorLikesResponse::class, function (): void {
+    it('returns a valid typed get actors likes response', function (): void {
         // Arrange & Act
-        $response = ListResponse::from(posts());
+        $response = GetActorLikesResponse::from(posts());
 
         // Assert
-        expect($response)->toBeInstanceOf(ListResponse::class)
+        expect($response)->toBeInstanceOf(GetActorLikesResponse::class)
             ->data->toBeArray()
             ->and($response->cursor)->toBeString();
     });
@@ -24,7 +24,7 @@ describe(ListResponse::class, function (): void {
         $likes = posts();
 
         // Act
-        $response = ListResponse::from($likes);
+        $response = GetActorLikesResponse::from($likes);
 
         // Assert
         expect($response->toArray())
