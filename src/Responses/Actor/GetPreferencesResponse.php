@@ -9,19 +9,19 @@ use Bluesky\Responses\Concerns\ArrayAccessible;
 use Override;
 
 /**
- * @implements ResponseContract<list<array{"$type": string}&array<string, mixed>>>
+ * @implements ResponseContract<array{preferences: list<array{"$type": string}&array<string, mixed>>}>
  */
 final readonly class GetPreferencesResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<list<array{"$type": string}&array<string, mixed>>>
+     * @use ArrayAccessible<array{preferences: list<array{"$type": string}&array<string, mixed>>}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  list<array{"$type": string}&array<string, mixed>>  $data
+     * @param  list<array{"$type": string}&array<string, mixed>>  $preferences
      */
-    private function __construct(public array $data)
+    private function __construct(public array $preferences)
     {
         //
     }
@@ -40,6 +40,8 @@ final readonly class GetPreferencesResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return $this->data;
+        return [
+            'preferences' => $this->preferences,
+        ];
     }
 }

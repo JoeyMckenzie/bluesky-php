@@ -80,7 +80,7 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(PreferencesListResponse::class)
-            ->data->toBeArray()->toHaveCount(4);
+            ->preferences->toBeArray()->toHaveCount(4);
     });
 
     it('can update preferences', function (): void {

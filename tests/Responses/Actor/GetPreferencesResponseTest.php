@@ -8,6 +8,8 @@ use Bluesky\Responses\Actor\GetPreferencesResponse;
 
 use function Tests\Fixtures\preferences;
 
+covers(GetPreferencesResponse::class);
+
 describe(GetPreferencesResponse::class, function (): void {
     it('returns a valid typed preferences list', function (): void {
         // Arrange & Act
@@ -15,7 +17,19 @@ describe(GetPreferencesResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(GetPreferencesResponse::class)
-            ->data->toBeArray();
+            ->preferences->toBeArray();
+    });
+
+    it('is accessible from an array', function (): void {
+        // Arrange
+        $preferences = preferences();
+
+        // Act
+        $response = GetPreferencesResponse::from($preferences);
+
+        // Assert
+        expect($response['preferences'])->toBeArray()
+            ->not->toBeEmpty();
     });
 
     it('prints to an array', function (): void {
@@ -24,10 +38,12 @@ describe(GetPreferencesResponse::class, function (): void {
 
         // Act
         $response = GetPreferencesResponse::from($preferences);
+        $asArrays = $response->toArray();
 
         // Assert
-        expect($response->toArray())
+        expect($asArrays)
             ->toBeArray()
+            ->and($asArrays['preferences'])
             ->toBe($preferences['preferences']);
     });
 });
