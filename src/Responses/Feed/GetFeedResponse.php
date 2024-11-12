@@ -8,6 +8,7 @@ use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
+use Override;
 
 /**
  * @implements ResponseContract<array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}>
@@ -40,7 +41,7 @@ final readonly class GetFeedResponse implements ResponseContract
     /**
      * {@inheritDoc}
      */
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [
