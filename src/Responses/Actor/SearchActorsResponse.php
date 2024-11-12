@@ -10,20 +10,20 @@ use Bluesky\Types\ActorProfile;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, ActorProfile>>
+ * @implements ResponseContract<array{actors: array<int, ActorProfile>, cursor: ?string}>
  */
 final readonly class SearchActorsResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, ActorProfile>>
+     * @use ArrayAccessible<array{actors: array<int, ActorProfile>, cursor: ?string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, ActorProfile>  $data
+     * @param  array<int, ActorProfile>  $actors
      */
     private function __construct(
-        public array $data,
+        public array $actors,
         public ?string $cursor
     ) {
         //
@@ -43,6 +43,9 @@ final readonly class SearchActorsResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return $this->data;
+        return [
+            'actors' => $this->actors,
+            'cursor' => $this->cursor,
+        ];
     }
 }

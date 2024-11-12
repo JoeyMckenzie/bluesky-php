@@ -160,8 +160,8 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(SearchListResponse::class)
-            ->data->toBeArray()
-            ->and(count($result->data))->toBeBetween(1, 25)
+            ->actors->toBeArray()
+            ->and(count($result->actors))->toBeBetween(1, 25)
             ->and($result->cursor)->toEqual(25);
     })->with();
 
@@ -185,8 +185,8 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(SearchListResponse::class)
-            ->data->toBeArray()
-            ->and(count($result->data))->toBeBetween(1, $limit)
+            ->actors->toBeArray()
+            ->and(count($result->actors))->toBeBetween(1, $limit)
             ->and($result->cursor)->toEqual($cursor + $limit);
     });
 
@@ -207,8 +207,8 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(SearchListResponse::class)
-            ->data->toBeArray()
-            ->and(count($result->data))->toBeBetween(1, 25);
+            ->actors->toBeArray()
+            ->and(count($result->actors))->toBeBetween(1, 25);
     })->with();
 
     it('can search actors with custom parameters by typeahead', function (): void {
@@ -230,7 +230,7 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(SearchListResponse::class)
-            ->data->toBeArray()
-            ->and(count($result->data))->toBeBetween(1, $limit);
+            ->actors->toBeArray()
+            ->and(count($result->actors))->toBeBetween(1, $limit);
     });
 });

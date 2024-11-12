@@ -8,6 +8,8 @@ use Bluesky\Responses\Actor\SearchActorsResponse;
 
 use function Tests\Fixtures\search;
 
+covers(SearchActorsResponse::class);
+
 describe(SearchActorsResponse::class, function (): void {
     it('returns a valid typed search list', function (): void {
         // Arrange & Act
@@ -15,7 +17,7 @@ describe(SearchActorsResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(SearchActorsResponse::class)
-            ->data->toBeArray()
+            ->actors->toBeArray()
             ->and(intval($response->cursor))->toEqual(25);
     });
 
@@ -29,8 +31,20 @@ describe(SearchActorsResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(SearchActorsResponse::class)
-            ->data->toBeArray()
+            ->actors->toBeArray()
             ->and(intval($response->cursor))->toEqual($cursor + $limit);
+    });
+
+    it('is accessible from an array', function (): void {
+        // Arrange
+        $search = search();
+
+        // Act
+        $response = SearchActorsResponse::from($search);
+
+        // Assert
+        expect($response['actors'])->toBe($search['actors'])
+            ->and($search['cursor'])->toBe($response['cursor']);
     });
 
     it('prints to an array', function (): void {
@@ -39,10 +53,12 @@ describe(SearchActorsResponse::class, function (): void {
 
         // Act
         $response = SearchActorsResponse::from($search);
+        $asArray = $response->toArray();
 
         // Assert
-        expect($response->toArray())
+        expect($asArray)
             ->toBeArray()
-            ->toBe($search['actors']);
+            ->and($asArray['actors'])->toBe($search['actors'])
+            ->and($asArray['cursor'])->toBe($search['cursor']);
     });
 });
