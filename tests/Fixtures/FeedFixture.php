@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures;
 
-use Bluesky\Types\Feed;
+use Bluesky\Types\FeedPost;
+use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\Post;
 use PHPUnit\Framework\AssertionFailedError;
 
@@ -38,36 +39,46 @@ function posts(): array
     return $contents;
 }
 
-/**
- * @return array{view: Feed, isOnline: bool, isValid: bool}
- */
-function feedGenerator(): array
+function getFileContents(string $path): mixed
 {
-    $file = file_get_contents(__DIR__.'/Data/getFeedGeneratorResponse.json');
+    $file = file_get_contents($path);
 
     if ($file === false) {
         throw new AssertionFailedError('Data file was not readable.');
     }
 
-    /** @var array{view: Feed, isOnline: bool, isValid: bool} $contents */
-    $contents = json_decode($file, true, JSON_THROW_ON_ERROR);
+    return json_decode($file, true, JSON_THROW_ON_ERROR);
+}
+
+/**
+ * @return array{view: FeedPost, isOnline: bool, isValid: bool}
+ */
+function feedGenerator(): array
+{
+    /** @var array{view: FeedPost, isOnline: bool, isValid: bool} $contents */
+    $contents = getFileContents(__DIR__.'/Data/getFeedGeneratorResponse.json');
 
     return $contents;
 }
 
 /**
- * @return array{feeds: array<int, Feed>}
+ * @return array{feeds: array<int, FeedPost>}
  */
 function feedGenerators(): array
 {
-    $file = file_get_contents(__DIR__.'/Data/getFeedGeneratorsResponse.json');
+    /** @var array{feeds: array<int, FeedPost>} $contents */
+    $contents = getFileContents(__DIR__.'/Data/getFeedGeneratorsResponse.json');
 
-    if ($file === false) {
-        throw new AssertionFailedError('Data file was not readable.');
-    }
+    return $contents;
+}
 
-    /** @var array{feeds: array<int, Feed>} $contents */
-    $contents = json_decode($file, true, JSON_THROW_ON_ERROR);
+/**
+ * @return array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: null|string}
+ */
+function feed(): array
+{
+    /** @var array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: null|string} $contents */
+    $contents = getFileContents(__DIR__.'/Data/getFeed.json');
 
     return $contents;
 }

@@ -9,8 +9,11 @@ use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Feed\Generator\FindResponse;
 use Bluesky\Responses\Feed\Generator\ListResponse as FeedsResponse;
+use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
 use Bluesky\Responses\Feed\Post\ListResponse;
+use Bluesky\Types\FeedPost;
+use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\Post;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
@@ -71,7 +74,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{view: \Bluesky\Types\Feed, isOnline: bool, isValid: bool}> $response
+         * @var Response<array{view: FeedPost, isOnline: bool, isValid: bool}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -86,7 +89,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{feeds: array<int, \Bluesky\Types\Feed>}> $response
+         * @var Response<array{feeds: array<int, FeedPost>}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -115,5 +118,27 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return ListResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse
+    {
+        $params = [
+            'feed' => $feed,
+            'limit' => $limit,
+        ];
+
+        if ($cursor !== null) {
+            $params['cursor'] = $cursor;
+        }
+
+        $payload = Payload::list('app.bsky.feed.getFeed', $params);
+
+        /**
+         * @var Response<array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetFeedResponse::from($response->data());
     }
 }

@@ -30,11 +30,11 @@ assert($refreshed->refreshJwt !== null);
 assert($refreshed->accessJwt !== $originalAccessJwt);
 assert($refreshed->refreshJwt !== $originalRefreshJwt);
 
-$feed = $client->feed()->getFeedGenerator('at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot');
-var_dump($feed);
+$feedGenerator = $client->feed()->getFeedGenerator('at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot');
+var_dump($feedGenerator);
 
-$feeds = $client->feed()->getFeedGenerators([
+$feedGenerators = $client->feed()->getFeedGenerators([
     'at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot',
     'at://did:plc:jfhpnnst6flqway4eaeqzj2a/app.bsky.feed.generator/for-science',
 ]);
-var_dump($feeds);
+var_dump($feedGenerators);

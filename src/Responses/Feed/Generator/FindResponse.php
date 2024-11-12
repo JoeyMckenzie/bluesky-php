@@ -6,21 +6,21 @@ namespace Bluesky\Responses\Feed\Generator;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Feed;
+use Bluesky\Types\FeedPost;
 use Override;
 
 /**
- * @implements ResponseContract<array{view: Feed, isOnline: bool, isValid: bool}>
+ * @implements ResponseContract<array{view: FeedPost, isOnline: bool, isValid: bool}>
  */
 final readonly class FindResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{view: Feed, isOnline: bool, isValid: bool}>
+     * @use ArrayAccessible<array{view: FeedPost, isOnline: bool, isValid: bool}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  Feed  $view
+     * @param  FeedPost  $view
      */
     public function __construct(
         public mixed $view,
@@ -31,7 +31,7 @@ final readonly class FindResponse implements ResponseContract
     }
 
     /**
-     * @param  array{view: Feed, isOnline: bool, isValid: bool}  $attributes
+     * @param  array{view: FeedPost, isOnline: bool, isValid: bool}  $attributes
      */
     public static function from(array $attributes): self
     {

@@ -7,6 +7,7 @@ namespace Tests\Resources;
 use Bluesky\Enums\HttpMethod;
 use Bluesky\Responses\Feed\Generator\FindResponse;
 use Bluesky\Responses\Feed\Generator\ListResponse as FeedGeneratorsResponse;
+use Bluesky\Responses\Feed\GetFeedResponse as FeedsResponse;
 use Bluesky\Responses\Feed\Post\CreateResponse;
 use Bluesky\Responses\Feed\Post\ListResponse;
 use Bluesky\ValueObjects\Connector\Response;
@@ -14,6 +15,7 @@ use Carbon\Carbon;
 use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
+use function Tests\Fixtures\feed;
 use function Tests\Fixtures\feedGenerator;
 use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\post;
@@ -160,5 +162,25 @@ describe('Feed resource', function (): void {
         expect($result)
             ->toBeInstanceOf(FeedGeneratorsResponse::class)
             ->data->toBeArray();
+    });
+
+    it('can retrieve a single feed', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getFeed',
+            [
+                'feed' => 'test-feed',
+                'limit' => 50,
+            ],
+            Response::from(feed()),
+        );
+
+        // Act
+        $result = $client->feed()->getFeed('test-feed');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(FeedsResponse::class)
+            ->feed->toBeArray();
     });
 });

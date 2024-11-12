@@ -51,17 +51,21 @@
     },
     "scripts": {
         "prepare": "git config core.hookspath .githooks && lefthook install",
-        "test:unit": "vendor/bin/pest",
-        "test:coverage": "vendor/bin/pest --coverage",
-        "test:watch": "vendor/bin/pest --watch",
-        "test:types": "./vendor/bin/pest --type-coverage --min=100",
+        "test:unit": "vendor/bin/pest --parallel",
+        "test:coverage": "vendor/bin/pest --coverage --parallel",
+        "test:watch": "vendor/bin/pest --watch --parallel",
+        "test:types": "./vendor/bin/pest --type-coverage --min=100 --parallel",
+        "test:mutate": "./vendor/bin/pest --mutate --parallel",
         "test": [
             "@test:unit",
-            "@test:types"
+            "@test:coverage",
+            "@test:types",
+            "@test:mutate"
         ],
         "fmt": "vendor/bin/pint",
         "fmt:test": "./vendor/bin/pint --test",
         "lint": "vendor/bin/phpstan analyze",
+        "lint:watch": "find src phpstan.neon.dist | entr -s \"composer run lint\"",
         "refactor": "vendor/bin/rector process",
         "refactor:test": "vendor/bin/rector process --dry-run",
         "check": [
