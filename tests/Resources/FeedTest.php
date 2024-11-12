@@ -17,10 +17,10 @@ use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
 use function Tests\Fixtures\feed;
+use function Tests\Fixtures\feedData;
 use function Tests\Fixtures\feedGenerator;
 use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\post;
-use function Tests\Fixtures\posts;
 
 describe('Feed resource', function (): void {
     it('can create posts with a default timestamp', function (): void {
@@ -60,7 +60,7 @@ describe('Feed resource', function (): void {
                 'actor' => $username,
                 'limit' => 25,
             ],
-            Response::from(posts()),
+            Response::from(feedData()),
         );
 
         // Act
@@ -69,7 +69,7 @@ describe('Feed resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetActorLikesResponse::class)
-            ->data->toBeArray()
+            ->feed->toBeArray()
             ->cursor->not->toBeNull();
     });
 
@@ -84,7 +84,7 @@ describe('Feed resource', function (): void {
                 'filter' => 'posts_with_replies',
                 'includePins' => 'false',
             ],
-            Response::from(posts()),
+            Response::from(feed()),
         );
 
         // Act
@@ -109,7 +109,7 @@ describe('Feed resource', function (): void {
                 'includePins' => 'true',
                 'cursor' => '420',
             ],
-            Response::from(posts()),
+            Response::from(feed()),
         );
 
         // Act

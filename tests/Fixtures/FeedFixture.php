@@ -7,6 +7,7 @@ namespace Tests\Fixtures;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\Post;
+use Carbon\Carbon;
 use PHPUnit\Framework\AssertionFailedError;
 
 use function Pest\Faker\fake;
@@ -81,4 +82,78 @@ function feed(): array
     $contents = getFileContents(__DIR__.'/Data/getFeed.json');
 
     return $contents;
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function feedPost(): array
+{
+    return [
+        'post' => [
+            'uri' => sprintf('at://did:plc:%s/app.bsky.feed.post/%s', fake()->regexify('[a-z0-9]{24}'), '3l'.fake()->regexify('[a-z0-9]{12}')),
+            'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{47}'),
+            'author' => [
+                'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
+                'handle' => fake()->userName().'.bsky.social',
+                'displayName' => fake()->name(),
+                'avatar' => sprintf(
+                    'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+                    fake()->regexify('[a-z0-9]{24}'),
+                    'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+                ),
+                'viewer' => [
+                    'muted' => fake()->boolean(),
+                    'blockedBy' => fake()->boolean(),
+                    'following' => sprintf(
+                        'at://did:plc:%s/app.bsky.graph.follow/%s',
+                        fake()->regexify('[a-z0-9]{24}'),
+                        '3l'.fake()->regexify('[a-z0-9]{10}')
+                    ),
+                ],
+                'labels' => [],
+                'createdAt' => Carbon::now('UTC')->subDays(fake()->numberBetween(1, 30))->toString(),
+            ],
+            'record' => [
+                '$type' => 'app.bsky.feed.post',
+                'text' => fake()->text(),
+                'createdAt' => Carbon::now('UTC')->toString(),
+                'langs' => ['en'],
+            ],
+            'replyCount' => fake()->numberBetween(0, 100),
+            'repostCount' => fake()->numberBetween(0, 100),
+            'likeCount' => fake()->numberBetween(0, 1000),
+            'quoteCount' => fake()->numberBetween(0, 50),
+            'indexedAt' => Carbon::now('UTC')->toString(),
+            'viewer' => [
+                'like' => sprintf(
+                    'at://did:plc:%s/app.bsky.feed.like/%s',
+                    fake()->regexify('[a-z0-9]{24}'),
+                    '3l'.fake()->regexify('[a-z0-9]{10}')
+                ),
+                'threadMuted' => fake()->boolean(),
+                'embeddingDisabled' => fake()->boolean(),
+            ],
+            'labels' => [],
+        ],
+    ];
+}
+
+/**
+ * @return array{feed: array<int, array>, cursor: string}
+ */
+function feedData(int $limit = 15, bool $includeCursor = true): array
+{
+    $data = [
+        'feed' => array_map(
+            fn (): array => \Tests\Fixtures\feedPost(),
+            range(1, $limit)
+        ),
+    ];
+
+    if ($includeCursor) {
+        $data['cursor'] = '3l'.fake()->regexify('[a-z0-9]{10}');
+    }
+
+    return $data;
 }
