@@ -3,3 +3,7 @@ parameters:
     paths:
         - src
         - examples
+    ignoreErrors:
+        -
+            message: '#Call to function array_key_exists\(\) with .* will always evaluate to true\.#'
+            path: src/Responses/*/Get*Response.php

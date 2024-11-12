@@ -9,19 +9,19 @@ use Bluesky\Responses\Concerns\ArrayAccessible;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>>
+ * @implements ResponseContract<array{profiles: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>}>
  */
 final readonly class GetProfilesResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>>
+     * @use ArrayAccessible<array{profiles: array<int, array{did: string, handle: string, displayName: string, avatar: string, associated: array{lists: int, feedgens: int, starterPacks: int, labeler: bool}, viewer: ?array{muted: bool, blockedBy: bool}, labels: array<int, mixed>, createdAt: string, description: string, indexedAt: string, followersCount: int, followsCount: int, postsCount: int}>}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  GetProfileResponse[]  $data
+     * @param  GetProfileResponse[]  $profiles
      */
-    private function __construct(public array $data)
+    private function __construct(public array $profiles)
     {
         //
     }
@@ -31,11 +31,11 @@ final readonly class GetProfilesResponse implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $mappedData = array_map(fn (array $result): GetProfileResponse => GetProfileResponse::from(
+        $profiles = array_map(fn (array $result): GetProfileResponse => GetProfileResponse::from(
             $result,
         ), $attributes['profiles']);
 
-        return new self($mappedData);
+        return new self($profiles);
     }
 
     /**
@@ -44,9 +44,13 @@ final readonly class GetProfilesResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return array_map(
+        $profiles = array_map(
             static fn (GetProfileResponse $response): array => $response->toArray(),
-            $this->data,
+            $this->profiles,
         );
+
+        return [
+            'profiles' => $profiles,
+        ];
     }
 }

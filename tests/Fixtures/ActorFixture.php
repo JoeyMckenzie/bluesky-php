@@ -39,6 +39,18 @@ function profile(): array
 }
 
 /**
+ * @return array<string, mixed>
+ */
+function profiles(): array
+{
+    return [
+        'profiles' => array_map(fn (): array => profile(),
+            range(1, fake()->numberBetween(1, 3))
+        ),
+    ];
+}
+
+/**
  * @return array{preferences: list<array{"$type": string}&array<string, mixed>>}
  */
 function preferences(): array

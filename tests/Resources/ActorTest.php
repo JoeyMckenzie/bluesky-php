@@ -62,7 +62,7 @@ describe('Actor resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(ProfilesListResponse::class)
-            ->data->toBeArray()->toHaveCount(2)
+            ->profiles->toBeArray()->toHaveCount(2)
             ->each->toBeInstanceOf(GetProfileResponse::class);
     });
 
