@@ -7,6 +7,7 @@ namespace Tests\Resources;
 use Bluesky\Enums\HttpMethod;
 use Bluesky\Exceptions\AuthenticationException;
 use Bluesky\Resources\Session;
+use Bluesky\Responses\Session\CreateSessionResponse;
 use Bluesky\ValueObjects\Connector\BaseUri;
 use Bluesky\ValueObjects\Connector\Headers;
 use Bluesky\ValueObjects\Connector\QueryParams;
@@ -39,13 +40,13 @@ describe(Session::class, function (): void {
         );
 
         // Assert empty string throws
-        expect(fn (): \Bluesky\Responses\Session\CreateSessionResponse => $client->session()->createSession(''))
+        expect(fn (): CreateSessionResponse => $client->session()->createSession(''))
             ->toThrow(AuthenticationException::class, 'Password cannot be empty.');
 
         // Assert mutation string does not throw (opposite of empty)
-        $nonEmptyPassword = 'PEST Mutator was here!';
+        $nonEmptyPassword = 'password';
         expect($nonEmptyPassword)->not->toBe('')
-            ->and(fn (): \Bluesky\Responses\Session\CreateSessionResponse => $client->session()->createSession($nonEmptyPassword))
+            ->and(fn (): CreateSessionResponse => $client->session()->createSession($nonEmptyPassword))
             ->not->toThrow(AuthenticationException::class);
     });
 
@@ -88,8 +89,6 @@ describe(Session::class, function (): void {
             ->and($body['password'])->toBe($password)
             ->and($body)->not->toBe(['password' => $password])
             ->and($body)->not->toBe(['identifier' => $username]);
-
-        // Ensure both fields are required
     });
 
     it('requires non-empty refresh token', function (): void {
@@ -104,13 +103,13 @@ describe(Session::class, function (): void {
         );
 
         // Assert empty string throws
-        expect(fn (): \Bluesky\Responses\Session\CreateSessionResponse => $client->session()->refreshSession(''))
+        expect(fn (): CreateSessionResponse => $client->session()->refreshSession(''))
             ->toThrow(AuthenticationException::class, 'Refresh token cannot be empty.');
 
         // Assert mutation string does not throw (opposite of empty)
         $nonEmptyToken = 'token';
         expect($nonEmptyToken)->not->toBe('')
-            ->and(fn (): \Bluesky\Responses\Session\CreateSessionResponse => $client->session()->refreshSession($nonEmptyToken))
+            ->and(fn (): CreateSessionResponse => $client->session()->refreshSession($nonEmptyToken))
             ->not->toThrow(AuthenticationException::class);
     });
 

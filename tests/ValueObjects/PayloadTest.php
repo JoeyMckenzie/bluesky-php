@@ -12,8 +12,6 @@ use Bluesky\ValueObjects\Connector\QueryParams;
 use Bluesky\ValueObjects\Payload;
 use Bluesky\ValueObjects\ResourceUri;
 
-use function PHPUnit\Framework\assertJson;
-
 covers(Payload::class);
 
 describe(Payload::class, function (): void {
@@ -118,15 +116,15 @@ describe(Payload::class, function (): void {
             $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
             // Assert
-            expect($request->getMethod())->toBe('POST')
+            expect($request->getMethod())->toBe(HttpMethod::POST->value)
                 ->and($request->getUri()->getPath())->toBe('/test.resource')
                 ->and($request->hasHeader('Accept'))->toBeTrue()
                 ->and($request->getHeaderLine('Accept'))->toBe('application/json');
 
             // Verify body
             $body = $request->getBody()->getContents();
-            assertJson($body);
-            expect(json_decode($body, true))->toBe($params);
+            expect($body)->toBeJson()
+                ->and(json_decode($body, true))->toBe($params);
         });
 
         it('handles custom content type', function (): void {
@@ -140,7 +138,7 @@ describe(Payload::class, function (): void {
 
             // Assert
             expect($request->hasHeader('Content-Type'))->toBeTrue()
-                ->and($request->getHeaderLine('Content-Type'))->toBe('multipart/form-data');
+                ->and($request->getHeaderLine('Content-Type'))->toBe(MediaType::MULTIPART->value);
         });
 
         it('handles custom headers', function (): void {
@@ -234,7 +232,7 @@ describe(Payload::class, function (): void {
             $standardRequest = $standardPayload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
             // 2. Without explicitly specifying includeBody
-            $implicitPayload = Payload::post('test.resource', $params, null, []);
+            $implicitPayload = Payload::post('test.resource', $params);
             $implicitRequest = $implicitPayload->toRequest($this->baseUri, $this->headers, $this->queryParams);
 
             // 3. With explicit null headers
@@ -337,7 +335,7 @@ describe(Payload::class, function (): void {
 
         it('handles empty headers array correctly', function (): void {
             // Arrange
-            $payload = Payload::post('test.resource', ['data' => 'test'], MediaType::JSON, []);
+            $payload = Payload::post('test.resource', ['data' => 'test'], MediaType::JSON);
 
             // Act
             $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);

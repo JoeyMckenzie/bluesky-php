@@ -14,7 +14,7 @@ function stubJwt(): string
 /**
  * @return array<string, string|bool>
  */
-function session(): array
+function session(?string $accessJwt = null, ?string $refreshJwt = null): array
 {
     return [
         'did' => fake()->uuid(),
@@ -22,8 +22,8 @@ function session(): array
         'email' => fake()->email(),
         'emailConfirmed' => fake()->boolean(),
         'emailAuthFactor' => fake()->boolean(),
-        'accessJwt' => stubJwt(),
-        'refreshJwt' => stubJwt(),
+        'accessJwt' => $accessJwt ?? stubJwt(),
+        'refreshJwt' => $refreshJwt ?? stubJwt(),
         'active' => fake()->boolean(),
     ];
 }

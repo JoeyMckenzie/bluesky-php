@@ -17,18 +17,18 @@ $password = $_ENV['BLUESKY_PASSWORD'];
 $client = Bluesky::clientWithSession($username, $password);
 $publicClient = Bluesky::publicClient();
 
-$originalAccessJwt = $client->accessJwt;
-$originalRefreshJwt = $client->refreshJwt;
+$originalAccessJwt = $client->getAccessJwt();
+$originalRefreshJwt = $client->getRefreshJwt();
 
-assert($client->accessJwt !== null);
-assert($client->refreshJwt !== null);
+assert($client->getAccessJwt() !== null);
+assert($client->getRefreshJwt() !== null);
 
 $refreshed = $client->refreshSession();
 
-assert($refreshed->accessJwt !== null);
-assert($refreshed->refreshJwt !== null);
-assert($refreshed->accessJwt !== $originalAccessJwt);
-assert($refreshed->refreshJwt !== $originalRefreshJwt);
+assert($refreshed->getAccessJwt() !== null);
+assert($refreshed->getRefreshJwt() !== null);
+assert($refreshed->getAccessJwt() !== $originalAccessJwt);
+assert($refreshed->getRefreshJwt() !== $originalRefreshJwt);
 
 $feedGenerator = $client->feed()->getFeedGenerator('at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot');
 var_dump($feedGenerator);

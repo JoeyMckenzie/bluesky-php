@@ -11,9 +11,11 @@ final class Bluesky
     /**
      * Creates a new client instance with a default session.
      */
-    public static function clientWithSession(string $username, string $password): Client
+    public static function clientWithSession(string $username, string $password, ?Client $client = null): Client
     {
-        return self::client($username)->newSession($password);
+        return $client instanceof \Bluesky\Client // @pest-mutate-ignore
+            ? $client->newSession($password)
+            : self::client($username)->newSession($password);
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bluesky\Resources;
 
+use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Enums\MediaType;
@@ -19,6 +20,8 @@ use Override;
 
 final readonly class Actor implements ActorContract
 {
+    use HasAccessToken;
+
     public function __construct(
         private ConnectorContract $connector,
         private ?string $accessJwt

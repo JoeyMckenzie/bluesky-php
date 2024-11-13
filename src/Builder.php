@@ -13,7 +13,7 @@ use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
 /**
- * Client builder/factory for configuring the API connector to Open Brewery DB.
+ * Client builder/factory for configuring the API connector to the Bluesky API.
  */
 final class Builder
 {
@@ -101,7 +101,7 @@ final class Builder
     }
 
     /**
-     * Creates a new Open Brewery DB client based on the provided builder options.
+     * Creates a new Bluesky client based on the provided builder options.
      */
     public function build(): Client
     {
@@ -124,5 +124,36 @@ final class Builder
         $connector = new Connector($client, $baseUri, $headers, $queryParams);
 
         return new Client($connector, $this->username ?? '');
+    }
+
+    public function getHttpClient(): ?ClientInterface
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @return array<string, string|int>
+     */
+    public function getQueryParams(): array
+    {
+        return $this->queryParams;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function getBaseUri(): string
+    {
+        return $this->baseUri;
     }
 }

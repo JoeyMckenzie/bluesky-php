@@ -7,6 +7,8 @@ namespace Bluesky\Contracts;
 use Bluesky\Exceptions\ConnectorException;
 use Bluesky\Exceptions\ErrorException;
 use Bluesky\Exceptions\UnserializableResponseException;
+use Bluesky\ValueObjects\Connector\BaseUri;
+use Bluesky\ValueObjects\Connector\Headers;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 
@@ -43,4 +45,8 @@ interface ConnectorContract
      * @throws ErrorException|UnserializableResponseException|ConnectorException
      */
     public function requestDataWithAccessToken(Payload $payload, string $accessToken): ?Response;
+
+    public function getHeaders(): Headers;
+
+    public function getBaseUri(): BaseUri;
 }

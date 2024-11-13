@@ -23,7 +23,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * An HTTP client connector orchestrating requests and responses to and from Open Brewery DB.
+ * An HTTP client connector orchestrating requests and responses to and from Bluesky.
  *
  * @internal
  */
@@ -36,7 +36,7 @@ final class Connector implements ConnectorContract
         private readonly ClientInterface $client,
         private readonly BaseUri $baseUri,
         private Headers $headers,
-        private readonly QueryParams $queryParams,
+        public readonly QueryParams $queryParams,
     ) {
         //
     }
@@ -90,6 +90,23 @@ final class Connector implements ConnectorContract
         return self::requestData($payload);
     }
 
+    public function getQueryParams(): QueryParams
+    {
+        return $this->queryParams;
+    }
+
+    #[\Override]
+    public function getHeaders(): Headers
+    {
+        return $this->headers;
+    }
+
+    #[\Override]
+    public function getBaseUri(): BaseUri
+    {
+        return $this->baseUri;
+    }
+
     /**
      * Sends the composed request to the server.
      *
@@ -131,14 +148,7 @@ final class Connector implements ConnectorContract
         }
 
         try {
-            /** @var array{message: ?string} $response */
-            $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
-
-            // Open Brewery DB will send back a "message" property in the JSON, so we'll
-            // throw whatever is returned in those cases that it's detected on the response
-            if (isset($response['message'])) {
-                throw new ErrorException($response['message']);
-            }
+            json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponseException($jsonException);
         }

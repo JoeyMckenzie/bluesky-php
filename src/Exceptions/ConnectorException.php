@@ -8,7 +8,7 @@ use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 
 /**
- * Represents an exception that occurs while sending request to Open Brewery DB.
+ * Represents an exception that occurs while sending request to the API.
  */
 final class ConnectorException extends Exception
 {
