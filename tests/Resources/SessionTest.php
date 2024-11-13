@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
+use Bluesky\Resources\Session;
 use Bluesky\Responses\Session\CreateSessionResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -13,9 +14,13 @@ use function Pest\Faker\fake;
 use function Tests\Fixtures\refreshedSession;
 use function Tests\Fixtures\session;
 
-describe('Session resource', function (): void {
+// TODO: Need to think of a clever way to validate request headers to get these mutation tests passing
+// covers(Session::class);
+
+describe(Session::class, function (): void {
     it('can create sessions', function (): void {
         // Arrange
+        $session = session();
         $client = ClientMock::create(
             HttpMethod::POST,
             'com.atproto.server.createSession',
@@ -23,7 +28,7 @@ describe('Session resource', function (): void {
                 'identifier' => 'username',
                 'password' => 'password',
             ],
-            Response::from(session()),
+            Response::from($session),
             'requestData',
         );
 
@@ -33,22 +38,24 @@ describe('Session resource', function (): void {
         // Assert, spot check a few properties
         expect($result)->not->toBeNull()
             ->and($result)->toBeInstanceOf(CreateSessionResponse::class)
-            ->accessJwt->not->toBeNull()
-            ->refreshJwt->not->toBeNull()
-            ->email->not->toBeNull()
-            ->emailConfirmed->not->toBeNull()
-            ->emailConfirmed->not->toBeNull()
-            ->did->not->toBeNull();
+            ->accessJwt->toBe($session['accessJwt'])
+            ->refreshJwt->toBe($session['refreshJwt'])
+            ->email->toBe($session['email'])
+            ->emailConfirmed->toBe($session['emailConfirmed'])
+            ->emailAuthFactor->toBe($session['emailAuthFactor'])
+            ->active->toBe($session['active'])
+            ->did->toBe($session['did']);
     });
 
     it('can refresh sessions', function (): void {
         // Arrange
+        $session = refreshedSession();
         $refreshToken = fake()->uuid();
         $client = ClientMock::create(
             HttpMethod::POST,
             'com.atproto.server.refreshSession',
             [],
-            Response::from(refreshedSession()),
+            Response::from($session),
             'requestData',
             additionalHeaders: [
                 'Authorization' => 'Bearer '.$refreshToken,
@@ -61,11 +68,12 @@ describe('Session resource', function (): void {
         // Assert, spot check a few properties
         expect($result)->not->toBeNull()
             ->and($result)->toBeInstanceOf(CreateSessionResponse::class)
-            ->accessJwt->not->toBeNull()
-            ->refreshJwt->not->toBeNull()
+            ->accessJwt->toBe($session['accessJwt'])
+            ->refreshJwt->toBe($session['refreshJwt'])
             ->email->toBeNull()
             ->emailConfirmed->toBeNull()
             ->emailAuthFactor->toBeNull()
-            ->did->not->toBeNull();
+            ->active->toBe($session['active'])
+            ->did->toBe($session['did']);
     });
 });

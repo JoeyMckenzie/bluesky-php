@@ -1,0 +1,6 @@
+{
+    "name": "joeymckenzie/bluesky-php",
+    "description": "A PHP client for the Bluesky API.",
+    "type": "library",
+    "version": "not-semver"
+}

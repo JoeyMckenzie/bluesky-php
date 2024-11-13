@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
+use Bluesky\Resources\Actor;
 use Bluesky\Responses\Actor\GetPreferencesResponse as PreferencesListResponse;
 use Bluesky\Responses\Actor\GetProfileResponse;
 use Bluesky\Responses\Actor\GetProfilesResponse as ProfilesListResponse;
@@ -17,7 +18,9 @@ use function Tests\Fixtures\profile;
 use function Tests\Fixtures\search;
 use function Tests\Fixtures\suggestions;
 
-describe('Actor resource', function (): void {
+covers(Actor::class);
+
+describe(Actor::class, function (): void {
 
     it('can retrieve a profile given a did or handle', function (): void {
         // Arrange

@@ -9,12 +9,12 @@ use Bluesky\Responses\Concerns\ArrayAccessible;
 use Override;
 
 /**
- * @implements ResponseContract<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}>
+ * @implements ResponseContract<array{did: string, handle: string, email: ?string, emailConfirmed: ?bool, emailAuthFactor: ?bool, accessJwt: string, refreshJwt: string, active: bool}>
  */
 final readonly class CreateSessionResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}>
+     * @use ArrayAccessible<array{did: string, handle: string, email: ?string, emailConfirmed: ?bool, emailAuthFactor: ?bool, accessJwt: string, refreshJwt: string, active: bool}>
      */
     use ArrayAccessible;
 
@@ -32,7 +32,7 @@ final readonly class CreateSessionResponse implements ResponseContract
     }
 
     /**
-     * @param  array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}  $attributes
+     * @param  array{did: string, handle: string, email: ?string, emailConfirmed: ?bool, emailAuthFactor: ?bool, accessJwt: string, refreshJwt: string, active: bool}  $attributes
      */
     public static function from(array $attributes): self
     {
