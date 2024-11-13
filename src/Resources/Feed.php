@@ -35,7 +35,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function post(string $text, ?Carbon $createdAt = null): CreatePostResponse
     {
-        $payload = Payload::create('com.atproto.repo.createRecord', [
+        $payload = Payload::post('com.atproto.repo.createRecord', [
             'repo' => $this->username,
             'collection' => 'app.bsky.feed.post',
             'record' => [
@@ -55,7 +55,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getActorLikes(string $username, int $limit = 25): GetActorLikesResponse
     {
-        $payload = Payload::list('app.bsky.feed.getActorLikes', [
+        $payload = Payload::get('app.bsky.feed.getActorLikes', [
             'actor' => $username,
             'limit' => $limit,
         ]);
@@ -71,7 +71,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getFeedGenerator(string $feed): GetFeedGeneratorResponse
     {
-        $payload = Payload::list('app.bsky.feed.getFeedGenerator', [
+        $payload = Payload::get('app.bsky.feed.getFeedGenerator', [
             'feed' => $feed,
         ]);
 
@@ -86,7 +86,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getFeedGenerators(array $feeds): GetFeedGeneratorsResponse
     {
-        $payload = Payload::list('app.bsky.feed.getFeedGenerators', [
+        $payload = Payload::get('app.bsky.feed.getFeedGenerators', [
             'feeds' => $feeds,
         ]);
 
@@ -112,7 +112,7 @@ final readonly class Feed implements FeedContract
             $params['cursor'] = $cursor;
         }
 
-        $payload = Payload::list('app.bsky.feed.getAuthorFeed', $params);
+        $payload = Payload::get('app.bsky.feed.getAuthorFeed', $params);
 
         /**
          * @var Response<array{feed: array<int, Post>, cursor: string}> $response
@@ -134,7 +134,7 @@ final readonly class Feed implements FeedContract
             $params['cursor'] = $cursor;
         }
 
-        $payload = Payload::list('app.bsky.feed.getFeed', $params);
+        $payload = Payload::get('app.bsky.feed.getFeed', $params);
 
         /**
          * @var Response<array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}> $response

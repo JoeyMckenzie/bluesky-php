@@ -44,11 +44,11 @@ final readonly class Payload
      *
      * @param  array<string, mixed>  $parameters
      */
-    public static function list(string $resource, array $parameters = [], ?string $suffix = null): self
+    public static function get(string $resource, array $parameters = [], ?string $suffix = null): self
     {
         $accept = MediaType::JSON;
         $method = HttpMethod::GET;
-        $uri = ResourceUri::list($resource, $suffix);
+        $uri = ResourceUri::get($resource, $suffix);
 
         return new self($accept, $method, $uri, $parameters);
     }
@@ -73,7 +73,7 @@ final readonly class Payload
      * @param  array<string, mixed>  $parameters
      * @param  array<string, string>  $headers
      */
-    public static function createWithoutResponse(
+    public static function postWithoutResponse(
         string $resource,
         array $parameters,
         ?MediaType $contentType = null,
@@ -93,7 +93,7 @@ final readonly class Payload
      * @param  array<string, mixed>  $parameters
      * @param  array<string, string>  $headers
      */
-    public static function create(
+    public static function post(
         string $resource,
         array $parameters,
         ?MediaType $contentType = null,

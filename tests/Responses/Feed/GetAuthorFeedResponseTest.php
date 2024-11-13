@@ -6,29 +6,48 @@ namespace Tests\Responses\Feed\Likes;
 
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 
-use function Tests\Fixtures\feed;
+use function Tests\Fixtures\feedData;
+
+covers(GetAuthorFeedResponse::class);
 
 describe(GetAuthorFeedResponse::class, function (): void {
     it('returns a valid typed get author feed response', function (): void {
-        // Arrange & Act
-        $response = GetAuthorFeedResponse::from(feed());
+        // Arrange
+        $data = feedData();
+
+        // Act
+        $response = GetAuthorFeedResponse::from($data);
 
         // Assert
         expect($response)->toBeInstanceOf(GetAuthorFeedResponse::class)
-            ->data->toBeArray()
-            ->and($response->cursor)->toBeString();
+            ->feed->toBe($data['feed'])
+            ->cursor->toBe($data['cursor']);
+    });
+
+    it('is accessible from an array', function (): void {
+        // Arrange
+        $feed = feedData();
+
+        // Act
+        $response = GetAuthorFeedResponse::from($feed);
+
+        // Assert
+        expect($response['feed'])->toBeArray()
+            ->and($response['feed'])->toBe($feed['feed'])
+            ->and($response['cursor'])->toBe($feed['cursor']);
     });
 
     it('prints to an array', function (): void {
         // Arrange
-        $likes = feed();
+        $feed = feedData();
 
         // Act
-        $response = GetAuthorFeedResponse::from($likes);
+        $response = GetAuthorFeedResponse::from($feed);
+        $data = $response->toArray();
 
         // Assert
-        expect($response->toArray())
-            ->toBeArray()
-            ->toBe($likes['feed']);
+        expect($data)->toBeArray()
+            ->and($data['feed'])->toBe($feed['feed'])
+            ->and($data['cursor'])->toBe($feed['cursor']);
     });
 });

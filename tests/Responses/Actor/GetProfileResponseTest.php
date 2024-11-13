@@ -8,6 +8,8 @@ use Bluesky\Responses\Actor\GetProfileResponse;
 
 use function Tests\Fixtures\profile;
 
+covers(GetProfileResponse::class);
+
 describe(GetProfileResponse::class, function (): void {
     it('returns a valid typed actor profile object', function (): void {
         // Arrange & Act

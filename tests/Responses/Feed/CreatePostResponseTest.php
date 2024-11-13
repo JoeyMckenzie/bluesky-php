@@ -8,6 +8,8 @@ use Bluesky\Responses\Feed\CreatePostResponse;
 
 use function Tests\Fixtures\post;
 
+covers(CreatePostResponse::class);
+
 describe(CreatePostResponse::class, function (): void {
     it('returns a valid typed post object', function (): void {
         // Arrange & Act

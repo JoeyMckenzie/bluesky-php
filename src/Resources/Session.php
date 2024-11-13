@@ -27,7 +27,7 @@ final readonly class Session implements SessionContract
     #[Override]
     public function createSession(string $password): CreateSessionResponse
     {
-        $payload = Payload::create('com.atproto.server.createSession', [
+        $payload = Payload::post('com.atproto.server.createSession', [
             'identifier' => $this->username,
             'password' => $password,
         ], MediaType::JSON);
@@ -46,7 +46,7 @@ final readonly class Session implements SessionContract
     #[Override]
     public function refreshSession(string $refreshJwt): CreateSessionResponse
     {
-        $payload = Payload::create('com.atproto.server.refreshSession', [], MediaType::JSON, [
+        $payload = Payload::post('com.atproto.server.refreshSession', [], MediaType::JSON, [
             'Authorization' => 'Bearer '.$refreshJwt,
         ], false);
 

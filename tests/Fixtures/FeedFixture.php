@@ -67,7 +67,7 @@ function feed(): array
  */
 function feedPost(): array
 {
-    return [
+    $post = [
         'post' => [
             'uri' => sprintf('at://did:plc:%s/app.bsky.feed.post/%s', fake()->regexify('[a-z0-9]{24}'), '3l'.fake()->regexify('[a-z0-9]{12}')),
             'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{47}'),
@@ -115,6 +115,12 @@ function feedPost(): array
             'labels' => [],
         ],
     ];
+
+    if (fake()->boolean()) {
+        $post['reply'] = reply();
+    }
+
+    return $post;
 }
 
 /**
@@ -200,5 +206,88 @@ function feedGenerators(int $limit = 5): array
             fn (): array => feed(),
             range(1, $limit)
         ),
+    ];
+}
+
+/**
+ * @return array{root: array, parent: array, grandparentAuthor?: array}
+ */
+function reply(): array
+{
+    $postView = [
+        '$type' => 'app.bsky.feed.defs#postView',
+        'uri' => sprintf('at://did:plc:%s/app.bsky.feed.post/%s',
+            fake()->regexify('[a-z0-9]{24}'),
+            '3l'.fake()->regexify('[a-z0-9]{10}')
+        ),
+        'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{47}'),
+        'author' => [
+            'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
+            'handle' => fake()->userName().'.bsky.social',
+            'displayName' => fake()->name(),
+            'avatar' => sprintf(
+                'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+                fake()->regexify('[a-z0-9]{24}'),
+                'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+            ),
+            'associated' => [
+                'chat' => [
+                    'allowIncoming' => fake()->randomElement(['all', 'following', 'none']),
+                ],
+            ],
+            'viewer' => [
+                'muted' => fake()->boolean(),
+                'blockedBy' => fake()->boolean(),
+                'following' => sprintf(
+                    'at://did:plc:%s/app.bsky.graph.follow/%s',
+                    fake()->regexify('[a-z0-9]{24}'),
+                    '3l'.fake()->regexify('[a-z0-9]{10}')
+                ),
+            ],
+            'labels' => [],
+            'createdAt' => Carbon::now('UTC')->subDays(fake()->numberBetween(1, 365))->toString(),
+        ],
+        'record' => [
+            '$type' => 'app.bsky.feed.post',
+            'text' => fake()->text(),
+            'createdAt' => Carbon::now('UTC')->toString(),
+            'langs' => ['en'],
+        ],
+        'replyCount' => fake()->numberBetween(0, 100),
+        'repostCount' => fake()->numberBetween(0, 100),
+        'likeCount' => fake()->numberBetween(0, 1000),
+        'quoteCount' => fake()->numberBetween(0, 50),
+        'indexedAt' => Carbon::now('UTC')->toString(),
+        'viewer' => [
+            'like' => sprintf(
+                'at://did:plc:%s/app.bsky.feed.like/%s',
+                fake()->regexify('[a-z0-9]{24}'),
+                '3l'.fake()->regexify('[a-z0-9]{10}')
+            ),
+            'threadMuted' => fake()->boolean(),
+            'embeddingDisabled' => fake()->boolean(),
+        ],
+        'labels' => [],
+    ];
+
+    return [
+        'root' => $postView,
+        'parent' => $postView,
+        'grandparentAuthor' => fake()->boolean(30) ? [ // 30% chance to have grandparent
+            'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
+            'handle' => fake()->userName().'.bsky.social',
+            'displayName' => fake()->name(),
+            'avatar' => sprintf(
+                'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+                fake()->regexify('[a-z0-9]{24}'),
+                'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+            ),
+            'viewer' => [
+                'muted' => fake()->boolean(),
+                'blockedBy' => fake()->boolean(),
+            ],
+            'labels' => [],
+            'createdAt' => Carbon::now('UTC')->subDays(fake()->numberBetween(1, 365))->toString(),
+        ] : null,
     ];
 }

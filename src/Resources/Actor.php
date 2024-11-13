@@ -29,7 +29,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getProfile(string $actor): GetProfileResponse
     {
-        $payload = Payload::list('app.bsky.actor.getProfile', [
+        $payload = Payload::get('app.bsky.actor.getProfile', [
             'actor' => $actor,
         ]);
 
@@ -47,7 +47,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getProfiles(array $actors): GetProfilesResponse
     {
-        $payload = Payload::list('app.bsky.actor.getProfiles', [
+        $payload = Payload::get('app.bsky.actor.getProfiles', [
             'actors' => $actors,
         ]);
 
@@ -62,7 +62,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getPreferences(?string $accessJwt = null): GetPreferencesResponse
     {
-        $payload = Payload::list('app.bsky.actor.getPreferences');
+        $payload = Payload::get('app.bsky.actor.getPreferences');
 
         /**
          * @var Response<array{preferences: list<array{"$type": string}&array<string, mixed>>}> $response
@@ -75,7 +75,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getSuggestions(int $limit = 50, int $cursor = 0, ?string $accessJwt = null): GetSuggestionsResponse
     {
-        $payload = Payload::list('app.bsky.actor.getSuggestions', [
+        $payload = Payload::get('app.bsky.actor.getSuggestions', [
             'limit' => $limit,
             'cursor' => $cursor,
         ]);
@@ -91,7 +91,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function putPreferences(array $preferences): void
     {
-        $payload = Payload::createWithoutResponse('app.bsky.actor.putPreferences',
+        $payload = Payload::postWithoutResponse('app.bsky.actor.putPreferences',
             [
                 'preferences' => $preferences,
             ],
@@ -103,7 +103,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function searchActors(string $query, int $limit = 25, int $cursor = 0): SearchActorsResponse
     {
-        $payload = Payload::list('app.bsky.actor.searchActors', [
+        $payload = Payload::get('app.bsky.actor.searchActors', [
             'q' => $query,
             'limit' => $limit,
             'cursor' => $cursor,
@@ -120,7 +120,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function searchActorsTypeahead(string $query, int $limit = 25): SearchActorsResponse
     {
-        $payload = Payload::list('app.bsky.actor.searchActorsTypeahead', [
+        $payload = Payload::get('app.bsky.actor.searchActorsTypeahead', [
             'q' => $query,
             'limit' => $limit,
         ]);

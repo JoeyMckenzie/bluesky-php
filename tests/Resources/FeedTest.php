@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
+use Bluesky\Resources\Feed;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
@@ -22,7 +23,7 @@ use function Tests\Fixtures\feedGenerator;
 use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\post;
 
-describe('Feed resource', function (): void {
+describe(Feed::class, function (): void {
     it('can create posts with a default timestamp', function (): void {
         // Arrange
         $text = fake()->text();
@@ -93,7 +94,7 @@ describe('Feed resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetAuthorFeedResponse::class)
-            ->data->toBeArray()
+            ->feed->toBeArray()
             ->cursor->not->toBeNull();
     });
 
@@ -118,7 +119,7 @@ describe('Feed resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetAuthorFeedResponse::class)
-            ->data->toBeArray()
+            ->feed->toBeArray()
             ->cursor->not->toBeNull();
     });
 

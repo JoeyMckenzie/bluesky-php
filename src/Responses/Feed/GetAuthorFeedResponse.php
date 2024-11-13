@@ -10,27 +10,27 @@ use Bluesky\Types\Post;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, Post>>
+ * @implements ResponseContract<array{feed: array<int, Post>, cursor: ?string}>
  */
 final readonly class GetAuthorFeedResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, Post>>
+     * @use ArrayAccessible<array{feed: array<int, Post>, cursor: string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, Post>  $data
+     * @param  array<int, Post>  $feed
      */
     public function __construct(
-        public array $data,
+        public array $feed,
         public ?string $cursor)
     {
         //
     }
 
     /**
-     * @param  array{feed: array<int, Post>, cursor: null|string}  $attributes
+     * @param  array{feed: array<int, Post>, cursor: ?string}  $attributes
      */
     public static function from(mixed $attributes): self
     {
@@ -43,6 +43,9 @@ final readonly class GetAuthorFeedResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return $this->data;
+        return [
+            'feed' => $this->feed,
+            'cursor' => $this->cursor,
+        ];
     }
 }
