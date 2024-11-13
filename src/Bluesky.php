@@ -13,7 +13,7 @@ final class Bluesky
      */
     public static function clientWithSession(string $username, string $password, ?Client $client = null): Client
     {
-        return $client instanceof \Bluesky\Client // @pest-mutate-ignore
+        return $client instanceof Client // @pest-mutate-ignore
             ? $client->newSession($password)
             : self::client($username)->newSession($password);
     }

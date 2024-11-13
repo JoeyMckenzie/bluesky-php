@@ -95,13 +95,13 @@ final class Connector implements ConnectorContract
         return $this->queryParams;
     }
 
-    #[\Override]
+    #[Override]
     public function getHeaders(): Headers
     {
         return $this->headers;
     }
 
-    #[\Override]
+    #[Override]
     public function getBaseUri(): BaseUri
     {
         return $this->baseUri;
