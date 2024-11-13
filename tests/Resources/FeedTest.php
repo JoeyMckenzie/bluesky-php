@@ -162,7 +162,7 @@ describe('Feed resource', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(FeedGeneratorsResponse::class)
-            ->data->toBeArray();
+            ->feeds->toBeArray();
     });
 
     it('can retrieve a single feed', function (): void {

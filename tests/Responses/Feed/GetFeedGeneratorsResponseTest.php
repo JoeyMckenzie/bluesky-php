@@ -8,6 +8,8 @@ use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 
 use function Tests\Fixtures\feedGenerators;
 
+covers(GetFeedGeneratorsResponse::class);
+
 describe(GetFeedGeneratorsResponse::class, function (): void {
     it('returns a valid feed generators list', function (): void {
         // Arrange & Act
@@ -15,7 +17,7 @@ describe(GetFeedGeneratorsResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(GetFeedGeneratorsResponse::class)
-            ->data->toBeArray();
+            ->feeds->toBeArray();
     });
 
     it('prints to an array', function (): void {
@@ -28,6 +30,6 @@ describe(GetFeedGeneratorsResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toEqual($feeds['feeds']);
+            ->toEqual($feeds);
     });
 });

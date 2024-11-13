@@ -52,28 +52,6 @@ function getFileContents(string $path): mixed
 }
 
 /**
- * @return array{view: FeedPost, isOnline: bool, isValid: bool}
- */
-function feedGenerator(): array
-{
-    /** @var array{view: FeedPost, isOnline: bool, isValid: bool} $contents */
-    $contents = getFileContents(__DIR__.'/Data/getFeedGeneratorResponse.json');
-
-    return $contents;
-}
-
-/**
- * @return array{feeds: array<int, FeedPost>}
- */
-function feedGenerators(): array
-{
-    /** @var array{feeds: array<int, FeedPost>} $contents */
-    $contents = getFileContents(__DIR__.'/Data/getFeedGeneratorsResponse.json');
-
-    return $contents;
-}
-
-/**
  * @return array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: null|string}
  */
 function feed(): array
@@ -156,4 +134,71 @@ function feedData(int $limit = 15, bool $includeCursor = true): array
     }
 
     return $data;
+}
+
+/**
+ * @return array<string, mixed>
+ */
+function feedGenerator(): array
+{
+    return [
+        'uri' => sprintf('at://did:plc:%s/app.bsky.feed.generator/%s',
+            fake()->regexify('[a-z0-9]{24}'),
+            fake()->slug()
+        ),
+        'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{47}'),
+        'did' => 'did:web:'.fake()->domainName(),
+        'creator' => [
+            'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
+            'handle' => fake()->userName().'.bsky.social',
+            'displayName' => fake()->name(),
+            'avatar' => sprintf(
+                'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+                fake()->regexify('[a-z0-9]{24}'),
+                'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+            ),
+            'associated' => [
+                'chat' => [
+                    'allowIncoming' => fake()->randomElement(['all', 'following', 'none']),
+                ],
+            ],
+            'viewer' => [
+                'muted' => fake()->boolean(),
+                'blockedBy' => fake()->boolean(),
+                'following' => sprintf(
+                    'at://did:plc:%s/app.bsky.graph.follow/%s',
+                    fake()->regexify('[a-z0-9]{24}'),
+                    '3l'.fake()->regexify('[a-z0-9]{10}')
+                ),
+            ],
+            'labels' => [],
+            'createdAt' => Carbon::now('UTC')->subDays(fake()->numberBetween(1, 365))->toString(),
+            'description' => fake()->text(),
+            'indexedAt' => Carbon::now('UTC')->toString(),
+        ],
+        'displayName' => fake()->words(2, true),
+        'description' => fake()->text(),
+        'avatar' => sprintf(
+            'https://cdn.bsky.app/img/avatar/plain/did:plc:%s/%s@jpeg',
+            fake()->regexify('[a-z0-9]{24}'),
+            'bafkrei'.fake()->regexify('[a-z0-9]{47}')
+        ),
+        'likeCount' => fake()->numberBetween(0, 10000),
+        'labels' => [],
+        'viewer' => [],
+        'indexedAt' => Carbon::now('UTC')->toString(),
+    ];
+}
+
+/**
+ * @return array{feeds: array<int, array>}
+ */
+function feedGenerators(int $limit = 5): array
+{
+    return [
+        'feeds' => array_map(
+            fn (): array => feed(),
+            range(1, $limit)
+        ),
+    ];
 }

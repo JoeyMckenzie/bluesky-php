@@ -6,29 +6,29 @@ namespace Bluesky\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\FeedPost;
+use Bluesky\Types\FeedGenerator;
 use Override;
 
 /**
- * @implements ResponseContract<array<int, FeedPost>>
+ * @implements ResponseContract<array{feeds: array<int, FeedGenerator>}>
  */
 final readonly class GetFeedGeneratorsResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array<int, FeedPost>>
+     * @use ArrayAccessible<array{feeds: array<int, FeedGenerator>}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, FeedPost>  $data
+     * @param  array<int, FeedGenerator>  $feeds
      */
-    public function __construct(public array $data)
+    public function __construct(public array $feeds)
     {
         //
     }
 
     /**
-     * @param  array{feeds: array<int, FeedPost>}  $attributes
+     * @param  array{feeds: array<int, FeedGenerator>}  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -41,6 +41,8 @@ final readonly class GetFeedGeneratorsResponse implements ResponseContract
     #[Override]
     public function toArray(): array
     {
-        return $this->data;
+        return [
+            'feeds' => $this->feeds,
+        ];
     }
 }

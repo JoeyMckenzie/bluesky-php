@@ -13,6 +13,7 @@ use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
+use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\Post;
@@ -75,7 +76,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{view: FeedPost, isOnline: bool, isValid: bool}> $response
+         * @var Response<array{view: FeedGenerator, isOnline: bool, isValid: bool}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -90,7 +91,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{feeds: array<int, FeedPost>}> $response
+         * @var Response<array{feeds: array<int, FeedGenerator>}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
