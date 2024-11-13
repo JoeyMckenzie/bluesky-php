@@ -7,6 +7,7 @@ namespace Bluesky\Resources;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\SessionContract;
 use Bluesky\Enums\MediaType;
+use Bluesky\Exceptions\AuthenticationException;
 use Bluesky\Responses\Session\CreateSessionResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
@@ -14,6 +15,8 @@ use Override;
 
 final readonly class Session implements SessionContract
 {
+    private const string BEARER_PREFIX = 'Bearer ';
+
     public function __construct(
         private ConnectorContract $connector,
         private string $username
@@ -23,10 +26,16 @@ final readonly class Session implements SessionContract
 
     /**
      * {@inheritDoc}
+     *
+     * @throws AuthenticationException
      */
     #[Override]
     public function createSession(string $password): CreateSessionResponse
     {
+        if ($password === '') {
+            throw new AuthenticationException('Password cannot be empty.');
+        }
+
         $payload = Payload::post('com.atproto.server.createSession', [
             'identifier' => $this->username,
             'password' => $password,
@@ -42,13 +51,24 @@ final readonly class Session implements SessionContract
 
     /**
      * {@inheritDoc}
+     *
+     * @throws AuthenticationException
      */
     #[Override]
     public function refreshSession(string $refreshJwt): CreateSessionResponse
     {
-        $payload = Payload::post('com.atproto.server.refreshSession', [], MediaType::JSON, [
-            'Authorization' => 'Bearer '.$refreshJwt,
-        ], false);
+        if ($refreshJwt === '') {
+            throw new AuthenticationException('Refresh token cannot be empty.');
+        }
+
+        $authHeader = self::BEARER_PREFIX.$refreshJwt;
+        $payload = Payload::post(
+            'com.atproto.server.refreshSession',
+            [],
+            MediaType::JSON,
+            ['Authorization' => $authHeader],
+            false
+        );
 
         /**
          * @var Response<array{did: string, handle: string, email: null|string, emailConfirmed: null|bool, emailAuthFactor: null|bool, accessJwt: string, refreshJwt: string, active: bool}> $response

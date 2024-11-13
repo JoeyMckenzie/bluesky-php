@@ -26,12 +26,12 @@ final readonly class Payload
      * @param  array<string, mixed>  $parameters
      * @param  null|array<string, string>  $headers
      */
-    private function __construct(
+    public function __construct(
         private MediaType $accept,
         private HttpMethod $method,
         private ResourceUri $uri,
         private array $parameters = [],
-        private ?MediaType $contentType = null,
+        public ?MediaType $contentType = null,
         private ?array $headers = [],
         public bool $includeBody = true,
         public bool $skipResponse = false,

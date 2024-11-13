@@ -6,7 +6,7 @@ namespace Bluesky\Exceptions;
 
 use Exception;
 
-final class AuthenticationTokenException extends Exception
+final class AuthenticationException extends Exception
 {
     public function __construct(readonly string $errorMessage)
     {

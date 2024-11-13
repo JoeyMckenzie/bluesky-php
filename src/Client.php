@@ -8,7 +8,7 @@ use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Contracts\Resources\SessionContract;
-use Bluesky\Exceptions\AuthenticationTokenException;
+use Bluesky\Exceptions\AuthenticationException;
 use Bluesky\Resources\Actor;
 use Bluesky\Resources\Feed;
 use Bluesky\Resources\Session;
@@ -55,12 +55,12 @@ final class Client
     }
 
     /**
-     * @throws AuthenticationTokenException
+     * @throws AuthenticationException
      */
     public function refreshSession(): self
     {
         if ($this->refreshJwt === null) {
-            throw new AuthenticationTokenException('Refresh JWT is required to refresh a session.');
+            throw new AuthenticationException('Refresh JWT is required to refresh a session.');
         }
 
         $refreshedSession = $this->session()->refreshSession($this->refreshJwt);

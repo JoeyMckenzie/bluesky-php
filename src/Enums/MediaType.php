@@ -12,4 +12,6 @@ namespace Bluesky\Enums;
 enum MediaType: string
 {
     case JSON = 'application/json';
+
+    case MULTIPART = 'multipart/form-data';
 }

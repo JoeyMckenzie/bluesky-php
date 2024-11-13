@@ -35,21 +35,21 @@ describe(Version::class, function (): void {
 
     it('throws an exception if no semver is found.', function (): void {
         // Arrange & Act & Assert
-        Version::getComposerVersion(__DIR__.'/Fixtures/composer-no-version.json');
+        Version::getComposerVersion(__DIR__.'/Fixtures/Data/composer-no-version.json');
     })->throws(ErrorException::class);
 
     it('throws an exception if semver is invalid.', function (): void {
         // Arrange & Act & Assert
-        Version::getComposerVersion(__DIR__.'/Fixtures/composer-bad-version.json');
+        Version::getComposerVersion(__DIR__.'/Fixtures/Data/composer-bad-version.json');
     })->throws(ErrorException::class);
+
+    it('throws an exception if version is empty string', function (): void {
+        // Arrange & Act & Assert
+        Version::getComposerVersion(__DIR__.'/Fixtures/Data/composer-empty-version.json');
+    })->throws(ErrorException::class, 'Composer version is missing within composer file.');
 
     it('throws an exception if composer file is not found', function (): void {
         // Arrange & Act & Assert
         Version::getComposerVersion('not-found.json');
     })->throws(FileNotFound::class);
-
-    it('throws an exception if version is empty string', function (): void {
-        // Arrange & Act & Assert
-        Version::getComposerVersion(__DIR__.'/Fixtures/composer-empty-version.json');
-    })->throws(ErrorException::class, 'Composer version is missing within composer file.');
 });

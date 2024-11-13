@@ -23,6 +23,13 @@ final class ClientMock
 
     private const string DEFAULT_METHOD = 'makeRequest';
 
+    private static ?Payload $lastPayload = null;
+
+    public static function getLastPayload(): ?Payload
+    {
+        return self::$lastPayload;
+    }
+
     public static function createForPost(
         string $resource,
         array $params,
@@ -42,20 +49,21 @@ final class ClientMock
         string $methodName = self::DEFAULT_METHOD,
         bool $validateParams = true,
         array $additionalHeaders = [],
+        bool $shouldCall = true
     ): Client {
         $connector = Mockery::mock(ConnectorContract::class);
-        $connector
-            ->shouldReceive($methodName)
-            ->once()
-            ->withArgs(fn (Payload $payload): bool => self::validatePayload(
-                $payload,
-                $method,
-                $resource,
-                $params,
-                $validateParams,
-                $additionalHeaders
-            ))
-            ->andReturn($response);
+
+        if ($shouldCall) {
+            $connector
+                ->shouldReceive($methodName)
+                ->once()
+                ->withArgs(function (Payload $payload) use ($method, $resource, $params, $validateParams, $additionalHeaders): bool {
+                    self::setLastPayload($payload);
+
+                    return self::validatePayload($payload, $method, $resource, $params, $validateParams, $additionalHeaders);
+                })
+                ->andReturn($response);
+        }
 
         return new Client($connector, 'username', stubJwt());
     }
@@ -80,6 +88,16 @@ final class ClientMock
         array $additionalHeaders = []
     ): Client {
         return self::create(HttpMethod::GET, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
+    }
+
+    public static function reset(): void
+    {
+        self::$lastPayload = null;
+    }
+
+    private static function setLastPayload(Payload $payload): void
+    {
+        self::$lastPayload = $payload;
     }
 
     private static function validatePayload(
