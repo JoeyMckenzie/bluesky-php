@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bluesky\Resources;
 
 use Bluesky\Concerns\HasAccessToken;
+use Bluesky\Concerns\HasUserContext;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
@@ -25,7 +26,7 @@ use Override;
 
 final readonly class Feed implements FeedContract
 {
-    use HasAccessToken;
+    use HasAccessToken, HasUserContext;
 
     public function __construct(
         private ConnectorContract $connector,

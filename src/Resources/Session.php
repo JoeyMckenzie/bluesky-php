@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Bluesky\Resources;
 
+use Bluesky\Concerns\HasUserContext;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\SessionContract;
 use Bluesky\Enums\MediaType;
@@ -15,6 +16,8 @@ use Override;
 
 final readonly class Session implements SessionContract
 {
+    use HasUserContext;
+
     private const string BEARER_PREFIX = 'Bearer ';
 
     public function __construct(

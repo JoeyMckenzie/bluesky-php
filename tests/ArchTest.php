@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Bluesky\Contracts\ResponseContract;
+
 arch('All source files are strictly typed')
     ->expect('Bluesky\\')
     ->toUseStrictTypes();
@@ -27,7 +29,7 @@ arch('Responses should be immutable and implement response contracts')
     ->toBeReadonly()
     ->and('Bluesky\\Responses\\')
     ->classes()
-    ->toImplement(\Bluesky\Contracts\ResponseContract::class);
+    ->toImplement(ResponseContract::class);
 
 arch('Resources should be immutable')
     ->expect('Bluesky\\Resources\\')

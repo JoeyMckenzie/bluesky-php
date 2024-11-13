@@ -13,8 +13,8 @@ use Psr\Http\Client\ClientInterface;
 
 covers(Builder::class);
 
-describe('Builder', function (): void {
-    beforeEach(fn (): \Bluesky\Builder => $this->builder = new Builder);
+describe(Builder::class, function (): void {
+    beforeEach(fn (): Builder => $this->builder = new Builder);
 
     it('builds a client with default configuration', function (): void {
         // Act

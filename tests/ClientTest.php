@@ -12,14 +12,13 @@ use Bluesky\Resources\Feed;
 use Bluesky\Resources\Session;
 use Bluesky\ValueObjects\Connector\Response;
 use Mockery;
-use ReflectionObject;
 
 use function Tests\Fixtures\refreshedSession;
 use function Tests\Fixtures\session;
 
 covers(Client::class);
 
-describe('Client', function (): void {
+describe(Client::class, function (): void {
     beforeEach(function (): void {
         $this->username = 'testuser';
         $this->connector = Mockery::mock(ConnectorContract::class);
@@ -87,16 +86,8 @@ describe('Client', function (): void {
         $actor = $this->client->actor();
         $feed = $this->client->feed();
 
-        // Assert - Use reflection to check private properties
-        $getToken = function ($resource) {
-            $reflection = new ReflectionObject($resource);
-            $prop = $reflection->getProperty('accessJwt');
-
-            return $prop->getValue($resource);
-        };
-
-        expect($getToken($actor))->toBe($accessToken)
-            ->and($getToken($feed))->toBe($accessToken);
+        expect($actor->getAccessJwt())->toBe($accessToken)
+            ->and($feed->getAccessJwt())->toBe($accessToken);
     });
 
     it('passes username to resources', function (): void {
@@ -108,16 +99,8 @@ describe('Client', function (): void {
         $session = $client->session();
         $feed = $client->feed();
 
-        // Assert - Use reflection to check private properties
-        $getUsername = function ($resource) {
-            $reflection = new ReflectionObject($resource);
-            $prop = $reflection->getProperty('username');
-
-            return $prop->getValue($resource);
-        };
-
-        expect($getUsername($session))->toBe($username)
-            ->and($getUsername($feed))->toBe($username);
+        expect($session->getUsername())->toBe($username)
+            ->and($feed->getUsername())->toBe($username);
     });
 
     it('provides access to tokens through getters', function (): void {

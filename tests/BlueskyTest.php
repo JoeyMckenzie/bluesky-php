@@ -15,7 +15,7 @@ use function Tests\Fixtures\session;
 
 covers(Bluesky::class);
 
-describe('Bluesky', function (): void {
+describe(Bluesky::class, function (): void {
     beforeEach(function (): void {
         ClientMock::reset();
     });
