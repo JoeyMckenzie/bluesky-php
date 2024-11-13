@@ -124,12 +124,18 @@ describe('Feed resource', function (): void {
 
     it('can retrieve feed generator', function (): void {
         // Arrange
+        $response = [
+            'view' => feedGenerator(),
+            'isOnline' => fake()->boolean(),
+            'isValid' => fake()->boolean(),
+        ];
+
         $client = ClientMock::createForGet(
             'app.bsky.feed.getFeedGenerator',
             [
                 'feed' => 'feed_uri',
             ],
-            Response::from(feedGenerator()),
+            Response::from($response),
         );
 
         // Act
@@ -139,8 +145,8 @@ describe('Feed resource', function (): void {
         expect($result)
             ->toBeInstanceOf(GetFeedGeneratorResponse::class)
             ->view->toBeArray()
-            ->isValid->toBeTrue()
-            ->isOnline->toBeTrue();
+            ->isValid->toBe($response['isValid'])
+            ->isOnline->toBe($response['isOnline']);
     });
 
     it('can retrieve feed generators', function (): void {
