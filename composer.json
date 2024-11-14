@@ -2,6 +2,11 @@
     "name": "joeymckenzie/bluesky-php",
     "description": "A PHP client for the Bluesky API.",
     "type": "library",
+    "keywords": [
+        "bluesky",
+        "api",
+        "client"
+    ],
     "authors": [
         {
             "name": "Joey McKenzie",
