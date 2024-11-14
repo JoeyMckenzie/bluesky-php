@@ -41,3 +41,6 @@ var_dump($feedGenerators);
 
 $likes = $client->feed()->getLikes('at://did:plc:dg5diaehkfj3c66spqqvf7dp/app.bsky.feed.post/3lavri2jxhc24');
 var_dump($likes);
+
+$listFeed = $client->feed()->getListFeed('at://did:plc:3ond7kebhvszgzsqo5llyipd/app.bsky.graph.list/3lawjh5t6pa2f');
+var_dump($listFeed);
