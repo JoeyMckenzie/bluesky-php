@@ -149,7 +149,7 @@ final readonly class Feed implements FeedContract
         $payload = Payload::get('app.bsky.feed.getFeed', $params);
 
         /**
-         * @var Response<array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}> $response
+         * @var Response<array{feed: array<int, array{post: FeedPost, reply: ?FeedPostReply}>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 

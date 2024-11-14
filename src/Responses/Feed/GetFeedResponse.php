@@ -11,17 +11,17 @@ use Bluesky\Types\FeedPostReply;
 use Override;
 
 /**
- * @implements ResponseContract<array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}>
+ * @implements ResponseContract<array{feed: array<int, array{post: FeedPost, reply: ?FeedPostReply}>, cursor: string}>
  */
 final readonly class GetFeedResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}>
+     * @use ArrayAccessible<array{feed: array<int, array{post: FeedPost, reply: ?FeedPostReply}>, cursor: string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, array{post: FeedPost, reply: null|FeedPostReply}>  $feed
+     * @param  array<int, array{post: FeedPost, reply: ?FeedPostReply}>  $feed
      */
     public function __construct(
         public array $feed,
@@ -31,7 +31,7 @@ final readonly class GetFeedResponse implements ResponseContract
     }
 
     /**
-     * @param  array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: string}  $attributes
+     * @param  array{feed: array<int, array{post: FeedPost, reply: ?FeedPostReply}>, cursor: string}  $attributes
      */
     public static function from(array $attributes): self
     {
