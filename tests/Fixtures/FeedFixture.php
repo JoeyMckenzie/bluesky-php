@@ -332,7 +332,7 @@ function postFromListFeed(): array
 {
     $now = Carbon::now('UTC');
 
-    $createAuthor = fn(): array => [
+    $createAuthor = fn (): array => [
         'did' => 'did:plc:'.fake()->regexify('[a-z0-9]{24}'),
         'handle' => fake()->userName().'.bsky.social',
         'displayName' => fake()->name(),
@@ -346,7 +346,7 @@ function postFromListFeed(): array
         'createdAt' => $now->subDays(fake()->numberBetween(1, 365))->toString(),
     ];
 
-    $createFacet = fn(): array => [
+    $createFacet = fn (): array => [
         'features' => [
             [
                 '$type' => 'app.bsky.richtext.facet#link',
@@ -359,7 +359,7 @@ function postFromListFeed(): array
         ],
     ];
 
-    $createThumb = fn(): array => [
+    $createThumb = fn (): array => [
         '$type' => 'blob',
         'ref' => [
             '$link' => fake()->sha256(),
@@ -368,14 +368,14 @@ function postFromListFeed(): array
         'size' => fake()->numberBetween(1000, 500000),
     ];
 
-    $createExternal = fn(): array => [
+    $createExternal = fn (): array => [
         'description' => fake()->sentence(),
         'thumb' => $createThumb(),
         'title' => fake()->words(3, true),
         'uri' => fake()->url(),
     ];
 
-    $createEmbed = fn(): array => [
+    $createEmbed = fn (): array => [
         '$type' => 'app.bsky.embed.external',
         'external' => [
             'uri' => fake()->url(),
