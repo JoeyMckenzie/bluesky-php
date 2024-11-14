@@ -14,4 +14,6 @@ enum MediaType: string
     case JSON = 'application/json';
 
     case MULTIPART = 'multipart/form-data';
+
+    case FORM = 'application/x-www-form-urlencoded';
 }

@@ -22,13 +22,15 @@ final readonly class BaseUri implements Stringable
     #[Override]
     public function __toString(): string
     {
-        foreach (['http://', 'https://'] as $protocol) {
-            if (str_starts_with($this->baseUri, $protocol)) {
-                return "$this->baseUri/";
-            }
+        $uri = $this->baseUri;
+
+        // Add protocol if missing
+        if (! str_starts_with($uri, 'http://') && ! str_starts_with($uri, 'https://')) {
+            $uri = "https://$uri";
         }
 
-        return "https://$this->baseUri/";
+        // Ensure single trailing slash
+        return rtrim($uri, '/').'/';
     }
 
     /**
