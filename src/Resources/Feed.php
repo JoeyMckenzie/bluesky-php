@@ -9,6 +9,7 @@ use Bluesky\Concerns\HasUserContext;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
+use Bluesky\Resources\Utilities\PostUtilities;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
@@ -22,7 +23,9 @@ use Bluesky\Types\Post;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
+use DateTime;
 use Override;
+use Tests\Responses\Feed\GetLikesResponse;
 
 final readonly class Feed implements FeedContract
 {
@@ -37,15 +40,17 @@ final readonly class Feed implements FeedContract
     }
 
     #[Override]
-    public function post(string $text, ?Carbon $createdAt = null): CreatePostResponse
+    public function post(string $text, null|Carbon|DateTime $createdAt = null): CreatePostResponse
     {
+        $record = [
+            'text' => $text,
+            'createdAt' => PostUtilities::getTimestamp($createdAt),
+        ];
+
         $payload = Payload::post('com.atproto.repo.createRecord', [
             'repo' => $this->username,
             'collection' => 'app.bsky.feed.post',
-            'record' => [
-                'text' => $text,
-                'createdAt' => $createdAt instanceof Carbon ? $createdAt->toIso8601String() : Carbon::now()->toIso8601String(),
-            ],
+            'record' => $record,
         ], MediaType::JSON);
 
         /**
@@ -146,5 +151,27 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetFeedResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse
+    {
+        $params = [
+            'uri' => $uri,
+            'limit' => $limit,
+        ];
+
+        if ($cursor !== null) {
+            $params['cursor'] = $cursor;
+        }
+
+        $payload = Payload::get('app.bsky.feed.getLikes', $params);
+
+        /**
+         * @var Response<array{likes: array<array{actor: array{did: string, handle: string, displayName: ?string, avatar: ?string, associated?: array{chat?: array{allowIncoming: 'all'|'following'|'none'}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<array{src?: string, uri?: string, cid?: string, val?: string, cts?: string}>, createdAt: string, description?: string, indexedAt: string}, createdAt: string, indexedAt: string}>, cursor: string, uri: string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetLikesResponse::from($response->data());
     }
 }

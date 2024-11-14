@@ -38,3 +38,6 @@ $feedGenerators = $client->feed()->getFeedGenerators([
     'at://did:plc:jfhpnnst6flqway4eaeqzj2a/app.bsky.feed.generator/for-science',
 ]);
 var_dump($feedGenerators);
+
+$likes = $client->feed()->getLikes('at://did:plc:dg5diaehkfj3c66spqqvf7dp/app.bsky.feed.post/3lavri2jxhc24');
+var_dump($likes);

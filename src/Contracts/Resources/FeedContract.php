@@ -11,10 +11,12 @@ use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
 use Carbon\Carbon;
+use DateTime;
+use Tests\Responses\Feed\GetLikesResponse;
 
 interface FeedContract
 {
-    public function post(string $text, ?Carbon $createdAt = null): CreatePostResponse;
+    public function post(string $text, null|Carbon|DateTime $createdAt = null): CreatePostResponse;
 
     public function getActorLikes(string $username, int $limit = 25): GetActorLikesResponse;
 
@@ -28,4 +30,6 @@ interface FeedContract
     public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): GetAuthorFeedResponse;
 
     public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse;
+
+    public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse;
 }

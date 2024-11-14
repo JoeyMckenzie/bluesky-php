@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures;
 
-use Bluesky\Types\FeedPost;
-use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\Post;
 use Carbon\Carbon;
 use PHPUnit\Framework\AssertionFailedError;
@@ -49,17 +47,6 @@ function getFileContents(string $path): mixed
     }
 
     return json_decode($file, true, JSON_THROW_ON_ERROR);
-}
-
-/**
- * @return array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: null|string}
- */
-function feed(): array
-{
-    /** @var array{feed: array<int, array{post: FeedPost, reply: null|FeedPostReply}>, cursor: null|string} $contents */
-    $contents = getFileContents(__DIR__.'/Data/getFeed.json');
-
-    return $contents;
 }
 
 /**
@@ -126,11 +113,11 @@ function feedPost(): array
 /**
  * @return array{feed: array<int, array>, cursor: string}
  */
-function feedData(int $limit = 15, bool $includeCursor = true): array
+function feed(int $limit = 15, bool $includeCursor = true): array
 {
     $data = [
         'feed' => array_map(
-            fn (): array => \Tests\Fixtures\feedPost(),
+            fn (): array => feedPost(),
             range(1, $limit)
         ),
     ];

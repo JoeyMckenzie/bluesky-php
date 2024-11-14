@@ -10,18 +10,22 @@ use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
-use Bluesky\Responses\Feed\GetFeedGeneratorsResponse as FeedGeneratorsResponse;
-use Bluesky\Responses\Feed\GetFeedResponse as FeedsResponse;
+use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
+use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
+use DateTime;
 use Tests\Mocks\ClientMock;
+use Tests\Responses\Feed\GetLikesResponse;
 
 use function Pest\Faker\fake;
 use function Tests\Fixtures\feed;
-use function Tests\Fixtures\feedData;
 use function Tests\Fixtures\feedGenerator;
 use function Tests\Fixtures\feedGenerators;
+use function Tests\Fixtures\likes;
 use function Tests\Fixtures\post;
+
+covers(Feed::class);
 
 describe(Feed::class, function (): void {
     it('can create posts with a default timestamp', function (): void {
@@ -52,6 +56,81 @@ describe(Feed::class, function (): void {
             ->uri->not->toBeNull();
     });
 
+    it('creates post with explicit Carbon instance', function (): void {
+        $text = fake()->text();
+        $createdAt = Carbon::now();
+
+        $client = ClientMock::create(
+            HttpMethod::POST,
+            'com.atproto.repo.createRecord',
+            [
+                'repo' => 'username',
+                'collection' => 'app.bsky.feed.post',
+                'record' => [
+                    'text' => $text,
+                    'createdAt' => $createdAt->toIso8601String(),
+                ],
+            ],
+            Response::from(post()),
+        );
+
+        $result = $client->feed()->post($text, $createdAt);
+
+        expect($result)->toBeInstanceOf(CreatePostResponse::class);
+        expect($createdAt)->toBeInstanceOf(Carbon::class);
+    });
+
+    it('creates post with explicit DateTime instance', function (): void {
+        $text = fake()->text();
+        $dateTime = new DateTime;
+
+        $client = ClientMock::create(
+            HttpMethod::POST,
+            'com.atproto.repo.createRecord',
+            [
+                'repo' => 'username',
+                'collection' => 'app.bsky.feed.post',
+                'record' => [
+                    'text' => $text,
+                    'createdAt' => Carbon::instance($dateTime)->toIso8601String(),
+                ],
+            ],
+            Response::from(post()),
+        );
+
+        $result = $client->feed()->post($text, $dateTime);
+
+        expect($result)->toBeInstanceOf(CreatePostResponse::class);
+        expect($dateTime)->toBeInstanceOf(DateTime::class);
+        expect($dateTime)->not->toBeInstanceOf(Carbon::class);
+    });
+
+    it('creates post with null timestamp', function (): void {
+        $text = fake()->text();
+        $now = Carbon::now();
+        Carbon::setTestNow($now);
+
+        $client = ClientMock::create(
+            HttpMethod::POST,
+            'com.atproto.repo.createRecord',
+            [
+                'repo' => 'username',
+                'collection' => 'app.bsky.feed.post',
+                'record' => [
+                    'text' => $text,
+                    'createdAt' => $now->toIso8601String(),
+                ],
+            ],
+            Response::from(post()),
+        );
+
+        $result = $client->feed()->post($text);
+
+        expect($result)->toBeInstanceOf(CreatePostResponse::class);
+
+        Carbon::setTestNow();
+    });
+
     it('can retrieve lists of actor likes', function (): void {
         // Arrange
         $username = 'username';
@@ -61,7 +140,7 @@ describe(Feed::class, function (): void {
                 'actor' => $username,
                 'limit' => 25,
             ],
-            Response::from(feedData()),
+            Response::from(feed()),
         );
 
         // Act
@@ -168,7 +247,7 @@ describe(Feed::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(FeedGeneratorsResponse::class)
+            ->toBeInstanceOf(GetFeedGeneratorsResponse::class)
             ->feeds->toBeArray();
     });
 
@@ -188,7 +267,99 @@ describe(Feed::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(FeedsResponse::class)
+            ->toBeInstanceOf(GetFeedResponse::class)
             ->feed->toBeArray();
+    });
+
+    it('can retrieve likes on a feed', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getLikes',
+            [
+                'uri' => 'test-feed',
+                'limit' => 50,
+            ],
+            Response::from(likes()),
+        );
+
+        // Act
+        $result = $client->feed()->getLikes('test-feed');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetLikesResponse::class)
+            ->likes->toBeArray()
+            ->uri->toBeString()->not->toBeNull()
+            ->cursor->toBeString()->not->toBeNull();
+    });
+
+    it('can create posts with no timestamp (using default now)', function (): void {
+        // Arrange
+        $text = fake()->text();
+        $client = ClientMock::create(
+            HttpMethod::POST,
+            'com.atproto.repo.createRecord',
+            [
+                'repo' => 'username',
+                'collection' => 'app.bsky.feed.post',
+                'record' => [
+                    'text' => $text,
+                    'createdAt' => Carbon::now()->toIso8601String(),
+                ],
+            ],
+            Response::from(post()),
+        );
+
+        // Act
+        $result = $client->feed()->post($text);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(CreatePostResponse::class);
+    });
+
+    it('can retrieve a feed with cursor', function (): void {
+        // Arrange
+        $cursor = fake()->uuid();
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getFeed',
+            [
+                'feed' => 'test-feed',
+                'limit' => 50,
+                'cursor' => $cursor,
+            ],
+            Response::from(feed()),
+        );
+
+        // Act
+        $result = $client->feed()->getFeed('test-feed', 50, $cursor);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetFeedResponse::class)
+            ->feed->toBeArray();
+    });
+
+    it('can retrieve likes with cursor', function (): void {
+        // Arrange
+        $cursor = fake()->uuid();
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getLikes',
+            [
+                'uri' => 'test-feed',
+                'limit' => 50,
+                'cursor' => $cursor,
+            ],
+            Response::from(likes()),
+        );
+
+        // Act
+        $result = $client->feed()->getLikes('test-feed', 50, $cursor);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetLikesResponse::class)
+            ->likes->toBeArray()
+            ->cursor->toBeString();
     });
 });

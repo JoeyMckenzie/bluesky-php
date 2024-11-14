@@ -6,14 +6,14 @@ namespace Tests\Responses\Feed\Likes;
 
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 
-use function Tests\Fixtures\feedData;
+use function Tests\Fixtures\feed;
 
 covers(GetActorLikesResponse::class);
 
 describe(GetActorLikesResponse::class, function (): void {
     it('returns a valid typed get actors likes response', function (): void {
         // Act
-        $data = feedData();
+        $data = feed();
 
         // Act
         $response = GetActorLikesResponse::from($data);
@@ -26,7 +26,7 @@ describe(GetActorLikesResponse::class, function (): void {
 
     it('is accessible from an array', function (): void {
         // Arrange
-        $feed = feedData();
+        $feed = feed();
 
         // Act
         $response = GetActorLikesResponse::from($feed);
@@ -37,7 +37,7 @@ describe(GetActorLikesResponse::class, function (): void {
 
     it('prints to an array', function (): void {
         // Arrange
-        $feed = feedData();
+        $feed = feed();
 
         // Act
         $response = GetActorLikesResponse::from($feed);

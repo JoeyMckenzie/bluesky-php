@@ -6,14 +6,14 @@ namespace Tests\Responses\Feed\Likes;
 
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 
-use function Tests\Fixtures\feedData;
+use function Tests\Fixtures\feed;
 
 covers(GetAuthorFeedResponse::class);
 
 describe(GetAuthorFeedResponse::class, function (): void {
     it('returns a valid typed get author feed response', function (): void {
         // Arrange
-        $data = feedData();
+        $data = feed();
 
         // Act
         $response = GetAuthorFeedResponse::from($data);
@@ -26,7 +26,7 @@ describe(GetAuthorFeedResponse::class, function (): void {
 
     it('is accessible from an array', function (): void {
         // Arrange
-        $feed = feedData();
+        $feed = feed();
 
         // Act
         $response = GetAuthorFeedResponse::from($feed);
@@ -39,7 +39,7 @@ describe(GetAuthorFeedResponse::class, function (): void {
 
     it('prints to an array', function (): void {
         // Arrange
-        $feed = feedData();
+        $feed = feed();
 
         // Act
         $response = GetAuthorFeedResponse::from($feed);
