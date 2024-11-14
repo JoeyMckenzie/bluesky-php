@@ -41,7 +41,7 @@ describe(Connector::class, function (): void {
             $responseData = ['success' => true, 'data' => ['id' => 1]];
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(
                     200,
@@ -63,7 +63,7 @@ describe(Connector::class, function (): void {
             $responseData = ['success' => true, 'id' => 1];
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(
                     201,
@@ -84,7 +84,7 @@ describe(Connector::class, function (): void {
             $payload = Payload::postWithoutResponse('test.resource', ['data' => 'test']);
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(204));
 
@@ -100,7 +100,7 @@ describe(Connector::class, function (): void {
             $payload = Payload::get('test.resource');
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(
                     200,
@@ -131,9 +131,9 @@ describe(Connector::class, function (): void {
             $accessToken = 'test-token';
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
-                ->andReturnUsing(fn($request): \GuzzleHttp\Psr7\Response => new PsrResponse(
+                ->andReturnUsing(fn ($request): \GuzzleHttp\Psr7\Response => new PsrResponse(
                     200,
                     ['Content-Type' => 'application/json'],
                     json_encode($responseData)
@@ -156,9 +156,9 @@ describe(Connector::class, function (): void {
             $payload = Payload::get('test.resource');
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
-                ->andReturnUsing(fn($request): \GuzzleHttp\Psr7\Response => new PsrResponse(
+                ->andReturnUsing(fn ($request): \GuzzleHttp\Psr7\Response => new PsrResponse(
                     400,
                     ['Content-Type' => 'application/json'],
                     'this is not json at all' // Plain text that will definitely fail JSON parsing
@@ -244,9 +244,9 @@ describe(Connector::class, function (): void {
             $payload = Payload::get('test.resource', ['local' => 'param']);
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
-                ->andReturnUsing(function ($request): \GuzzleHttp\Psr7\Response {
+                ->andReturnUsing(function ($request): PsrResponse {
                     $query = $request->getUri()->getQuery();
                     expect($query)->toContain('global=param')
                         ->and($query)->toContain('local=param');
@@ -272,9 +272,9 @@ describe(Connector::class, function (): void {
             );
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
-                ->andReturnUsing(function ($request): \GuzzleHttp\Psr7\Response {
+                ->andReturnUsing(function ($request): PsrResponse {
                     expect($request->hasHeader('Content-Type'))->toBeTrue()
                         ->and($request->hasHeader('Accept'))->toBeTrue()
                         ->and($request->hasHeader('X-Custom'))->toBeTrue();
@@ -298,7 +298,7 @@ describe(Connector::class, function (): void {
             $responseData = ['data' => 'test'];
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(
                     200,
@@ -321,7 +321,7 @@ describe(Connector::class, function (): void {
             $accessToken = 'test-token';
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(
                     200,
@@ -346,7 +346,7 @@ describe(Connector::class, function (): void {
             $payload = Payload::get('test.resource');
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn(new PsrResponse(
                     200,
@@ -370,7 +370,7 @@ describe(Connector::class, function (): void {
             );
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andThrow(new ClientException(
                     'Error response',
@@ -393,11 +393,11 @@ describe(Connector::class, function (): void {
             );
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andThrow(new ClientException(
                     'Bad Request',
-                    Mockery::mock(\Psr\Http\Message\RequestInterface::class),
+                    Mockery::mock(Psr\Http\Message\RequestInterface::class),
                     $errorResponse
                 ));
 
@@ -411,7 +411,7 @@ describe(Connector::class, function (): void {
             $payload = Payload::get('test.resource');
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andThrow(new class extends Exception implements Psr\Http\Client\ClientExceptionInterface {});
 
@@ -430,7 +430,7 @@ describe(Connector::class, function (): void {
             );
 
             $this->client->shouldReceive('sendRequest')
-                ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
                 ->andReturn($invalidJsonResponse);
 
@@ -448,7 +448,7 @@ describe(Connector::class, function (): void {
 
             foreach ([200, 201, 299, 301, 302, 399] as $statusCode) {
                 $this->client->shouldReceive('sendRequest')
-                    ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                    ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                     ->once()
                     ->andReturn(new PsrResponse(
                         $statusCode,
@@ -478,7 +478,7 @@ describe(Connector::class, function (): void {
                 );
 
                 $this->client->shouldReceive('sendRequest')
-                    ->with(Mockery::type(\Psr\Http\Message\RequestInterface::class))
+                    ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                     ->once()
                     ->andThrow(new ClientException(
                         'Error response',
