@@ -7,12 +7,12 @@ namespace Bluesky\Resources\Utilities;
 use Carbon\Carbon;
 use DateTime;
 
-final class PostUtilities
+final readonly class PostUtilities
 {
     public static function getTimestamp(null|Carbon|DateTime $dateTime): string
     {
         // Use current time if null
-        if (!$dateTime instanceof \DateTime) {
+        if (! $dateTime instanceof DateTime) {
             return Carbon::now()->toIso8601String();
         }
 
