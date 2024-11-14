@@ -6,6 +6,7 @@ namespace Tests\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
+use Override;
 
 /**
  * @implements ResponseContract<array{likes: array<array{actor: array{did: string, handle: string, displayName: ?string, avatar: ?string, associated?: array{chat?: array{allowIncoming: 'all'|'following'|'none'}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<array{src?: string, uri?: string, cid?: string, val?: string, cts?: string}>, createdAt: string, description?: string, indexedAt: string}, createdAt: string, indexedAt: string}>, cursor: string, uri: string}>
@@ -37,7 +38,7 @@ final class GetLikesResponse implements ResponseContract
         );
     }
 
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [

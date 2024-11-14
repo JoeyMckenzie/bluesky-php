@@ -153,7 +153,7 @@ final readonly class Feed implements FeedContract
         return GetFeedResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse
     {
         $params = [
