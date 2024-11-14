@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Bluesky\Contracts\Resources;
 
+use Bluesky\Responses\Actor\GetListFeedResponse;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
+use Bluesky\Responses\Feed\GetLikesResponse;
 use Carbon\Carbon;
 use DateTime;
-use Tests\Responses\Feed\GetLikesResponse;
 
 interface FeedContract
 {
@@ -32,4 +33,6 @@ interface FeedContract
     public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse;
 
     public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse;
+
+    public function getListFeed(string $list, int $limit = 50, ?string $cursor = null): GetListFeedResponse;
 }

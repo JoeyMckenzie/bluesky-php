@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Resources\Actor;
-use Bluesky\Responses\Actor\GetPreferencesResponse as PreferencesListResponse;
+use Bluesky\Responses\Actor\GetPreferencesResponse;
 use Bluesky\Responses\Actor\GetProfileResponse;
-use Bluesky\Responses\Actor\GetProfilesResponse as ProfilesListResponse;
-use Bluesky\Responses\Actor\GetSuggestionsResponse as SuggestionsListResponse;
-use Bluesky\Responses\Actor\SearchActorsResponse as SearchListResponse;
+use Bluesky\Responses\Actor\GetProfilesResponse;
+use Bluesky\Responses\Actor\GetSuggestionsResponse;
+use Bluesky\Responses\Actor\SearchActorsResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
@@ -64,7 +64,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(ProfilesListResponse::class)
+            ->toBeInstanceOf(GetProfilesResponse::class)
             ->profiles->toBeArray()->toHaveCount(2)
             ->each->toBeInstanceOf(GetProfileResponse::class);
     });
@@ -82,7 +82,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(PreferencesListResponse::class)
+            ->toBeInstanceOf(GetPreferencesResponse::class)
             ->preferences->toBeArray()->toHaveCount(4);
     });
 
@@ -115,7 +115,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(SuggestionsListResponse::class)
+            ->toBeInstanceOf(GetSuggestionsResponse::class)
             ->actors->toBeArray()
             ->and(count($result->actors))->toBeBetween(1, 50)
             ->and($result->cursor)->toEqual(50);
@@ -139,7 +139,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(SuggestionsListResponse::class)
+            ->toBeInstanceOf(GetSuggestionsResponse::class)
             ->actors->toBeArray()
             ->and(count($result->actors))->toEqual($limit)
             ->and(intval($result->cursor))->toBe($limit + $cursor);
@@ -162,7 +162,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(SearchListResponse::class)
+            ->toBeInstanceOf(SearchActorsResponse::class)
             ->actors->toBeArray()
             ->and(count($result->actors))->toBeBetween(1, 25)
             ->and($result->cursor)->toEqual(25);
@@ -187,7 +187,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(SearchListResponse::class)
+            ->toBeInstanceOf(SearchActorsResponse::class)
             ->actors->toBeArray()
             ->and(count($result->actors))->toBeBetween(1, $limit)
             ->and($result->cursor)->toEqual($cursor + $limit);
@@ -209,7 +209,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(SearchListResponse::class)
+            ->toBeInstanceOf(SearchActorsResponse::class)
             ->actors->toBeArray()
             ->and(count($result->actors))->toBeBetween(1, 25);
     })->with();
@@ -232,7 +232,7 @@ describe(Actor::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(SearchListResponse::class)
+            ->toBeInstanceOf(SearchActorsResponse::class)
             ->actors->toBeArray()
             ->and(count($result->actors))->toBeBetween(1, $limit);
     });

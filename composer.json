@@ -62,10 +62,9 @@
         "test:types": "vendor/bin/pest --type-coverage --min=100 --parallel",
         "test:mutate": "vendor/bin/pest --mutate --min=100 --parallel",
         "test": [
-            "@test:unit",
+            "@test:mutate",
             "@test:coverage",
-            "@test:types",
-            "@test:mutate"
+            "@test:types"
         ],
         "fmt": "vendor/bin/pint",
         "fmt:test": "./vendor/bin/pint --test",

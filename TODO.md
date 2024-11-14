@@ -17,8 +17,8 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getFeedGenerators`
 - [ ] `app.bsky.feed.getFeedSkeleton` ⚠️(need an example call)
 - [x] `app.bsky.feed.getFeed`
-- [ ] `app.bsky.feed.getLikes`
-- [ ] `app.bsky.feed.getListFeed`
+- [x] `app.bsky.feed.getLikes`
+- [x] `app.bsky.feed.getListFeed`
 - [ ] `app.bsky.feed.getPostThread`
 - [ ] `app.bsky.feed.getPosts`
 - [ ] `app.bsky.feed.getQuotes`

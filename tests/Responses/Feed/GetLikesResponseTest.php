@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Session;
 
-use Tests\Responses\Feed\GetLikesResponse;
+use Bluesky\Responses\Feed\GetLikesResponse;
 
 use function Tests\Fixtures\likes;
 

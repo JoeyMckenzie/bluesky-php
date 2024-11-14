@@ -6,23 +6,25 @@ namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
 use Bluesky\Resources\Feed;
+use Bluesky\Responses\Actor\GetListFeedResponse;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
+use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use DateTime;
 use Tests\Mocks\ClientMock;
-use Tests\Responses\Feed\GetLikesResponse;
 
 use function Pest\Faker\fake;
 use function Tests\Fixtures\feed;
 use function Tests\Fixtures\feedGenerator;
 use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\likes;
+use function Tests\Fixtures\listFeed;
 use function Tests\Fixtures\post;
 
 covers(Feed::class);
@@ -360,6 +362,71 @@ describe(Feed::class, function (): void {
         expect($result)
             ->toBeInstanceOf(GetLikesResponse::class)
             ->likes->toBeArray()
+            ->cursor->toBeString();
+    });
+
+    it('can retrieve a list feed with a cursor', function (): void {
+        // Arrange
+        $cursor = fake()->uuid();
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getListFeed',
+            [
+                'list' => 'test-list-feed',
+                'limit' => 69,
+                'cursor' => $cursor,
+            ],
+            Response::from(listFeed()),
+        );
+
+        // Act
+        $result = $client->feed()->getListFeed('test-list-feed', 69, $cursor);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetListFeedResponse::class)
+            ->feed->toBeArray()
+            ->cursor->toBeString();
+    });
+
+    it('can retrieve a list feed with a limit', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getListFeed',
+            [
+                'list' => 'test-list-feed',
+                'limit' => 69,
+            ],
+            Response::from(listFeed()),
+        );
+
+        // Act
+        $result = $client->feed()->getListFeed('test-list-feed', 69);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetListFeedResponse::class)
+            ->feed->toBeArray()
+            ->cursor->toBeString();
+    });
+
+    it('can retrieve a list feed', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getListFeed',
+            [
+                'list' => 'test-list-feed',
+                'limit' => 50,
+            ],
+            Response::from(listFeed()),
+        );
+
+        // Act
+        $result = $client->feed()->getListFeed('test-list-feed');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetListFeedResponse::class)
+            ->feed->toBeArray()
             ->cursor->toBeString();
     });
 });

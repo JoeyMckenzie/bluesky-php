@@ -10,22 +10,25 @@ use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\FeedContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Resources\Utilities\PostUtilities;
+use Bluesky\Responses\Actor\GetListFeedResponse;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
 use Bluesky\Responses\Feed\GetAuthorFeedResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
+use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
+use Bluesky\Types\ListFeedPost;
 use Bluesky\Types\Post;
+use Bluesky\Types\PostLike;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
 use DateTime;
 use Override;
-use Tests\Responses\Feed\GetLikesResponse;
 
 final readonly class Feed implements FeedContract
 {
@@ -168,10 +171,32 @@ final readonly class Feed implements FeedContract
         $payload = Payload::get('app.bsky.feed.getLikes', $params);
 
         /**
-         * @var Response<array{likes: array<array{actor: array{did: string, handle: string, displayName: ?string, avatar: ?string, associated?: array{chat?: array{allowIncoming: 'all'|'following'|'none'}}, viewer: array{muted: bool, blockedBy: bool}, labels: array<array{src?: string, uri?: string, cid?: string, val?: string, cts?: string}>, createdAt: string, description?: string, indexedAt: string}, createdAt: string, indexedAt: string}>, cursor: string, uri: string}> $response
+         * @var Response<array{likes: array<int, PostLike>, cursor: string, uri: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetLikesResponse::from($response->data());
+    }
+
+    #[Override]
+    public function getListFeed(string $list, int $limit = 50, ?string $cursor = null): GetListFeedResponse
+    {
+        $params = [
+            'list' => $list,
+            'limit' => $limit,
+        ];
+
+        if ($cursor !== null) {
+            $params['cursor'] = $cursor;
+        }
+
+        $payload = Payload::get('app.bsky.feed.getListFeed', $params);
+
+        /**
+         * @var Response<array{feed: array<int, ListFeedPost>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetListFeedResponse::from($response->data());
     }
 }
