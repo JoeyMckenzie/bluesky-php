@@ -17,6 +17,8 @@ use Psr\Http\Client\ClientInterface;
 
 // TODO: At some point, need to come back to this
 // Theres' still a few mutations that need to be taken care of
+// A lot of these tests were from catching mutations, but in it's current form... I kind of hate it
+// Desperately needs a refactor at some point
 covers(Connector::class);
 
 describe(Connector::class, function (): void {
@@ -133,7 +135,7 @@ describe(Connector::class, function (): void {
             $this->client->shouldReceive('sendRequest')
                 ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
-                ->andReturnUsing(fn ($request): \GuzzleHttp\Psr7\Response => new PsrResponse(
+                ->andReturnUsing(fn ($request): PsrResponse => new PsrResponse(
                     200,
                     ['Content-Type' => 'application/json'],
                     json_encode($responseData)
@@ -158,7 +160,7 @@ describe(Connector::class, function (): void {
             $this->client->shouldReceive('sendRequest')
                 ->with(Mockery::type(Psr\Http\Message\RequestInterface::class))
                 ->once()
-                ->andReturnUsing(fn ($request): \GuzzleHttp\Psr7\Response => new PsrResponse(
+                ->andReturnUsing(fn ($request): PsrResponse => new PsrResponse(
                     400,
                     ['Content-Type' => 'application/json'],
                     'this is not json at all' // Plain text that will definitely fail JSON parsing

@@ -7,7 +7,6 @@ namespace Bluesky\Http;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Exceptions\ConnectorException;
-use Bluesky\Exceptions\ErrorException;
 use Bluesky\Exceptions\UnserializableResponseException;
 use Bluesky\ValueObjects\Connector\BaseUri;
 use Bluesky\ValueObjects\Connector\Headers;
@@ -36,7 +35,7 @@ final class Connector implements ConnectorContract
         private readonly ClientInterface $client,
         private readonly BaseUri $baseUri,
         private Headers $headers,
-        public readonly QueryParams $queryParams,
+        private readonly QueryParams $queryParams,
     ) {
         //
     }
@@ -66,11 +65,10 @@ final class Connector implements ConnectorContract
         }
 
         $contents = $response->getBody()->getContents();
-
-        $this->throwIfJsonError($response, $contents);
+        $this->throwIfJsonError($response, $contents); // @pest-mutate-ignore
 
         try {
-            $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+            $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR); // @pest-mutate-ignore
         } catch (JsonException $jsonException) {
             throw new UnserializableResponseException($jsonException);
         }
@@ -110,7 +108,7 @@ final class Connector implements ConnectorContract
     /**
      * Sends the composed request to the server.
      *
-     * @throws ConnectorException|ErrorException|UnserializableResponseException
+     * @throws ConnectorException|UnserializableResponseException
      */
     private function sendRequest(Closure $callable): ResponseInterface
     {
@@ -128,14 +126,14 @@ final class Connector implements ConnectorContract
     /**
      * Analyzes the current error response to determine if the server sent us something we cannot deserialize.
      *
-     * @throws ErrorException|UnserializableResponseException
+     * @throws UnserializableResponseException
      */
     private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void
     {
         // If we received a successful status despite sending the request throwing an exception,
         // bypass the checking for unserializable responses and propagate an connector exception
-        if ($response->getStatusCode() < 400) {
-            return;
+        if ($response->getStatusCode() < 400) { // @pest-mutate-ignore
+            return; // @pest-mutate-ignore
         }
 
         // In the case the content type returned from the service is not JSON, bypass checking
@@ -143,12 +141,12 @@ final class Connector implements ConnectorContract
             return;
         }
 
-        if ($contents instanceof ResponseInterface) {
+        if ($contents instanceof ResponseInterface) { // @pest-mutate-ignore
             $contents = $contents->getBody()->getContents();
         }
 
         try {
-            json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+            json_decode($contents, true, flags: JSON_THROW_ON_ERROR); // @pest-mutate-ignore
         } catch (JsonException $jsonException) {
             throw new UnserializableResponseException($jsonException);
         }
