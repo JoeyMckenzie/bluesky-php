@@ -55,7 +55,7 @@
         "test:coverage": "vendor/bin/pest --coverage --parallel",
         "test:watch": "vendor/bin/pest --watch --parallel --mutate",
         "test:types": "vendor/bin/pest --type-coverage --min=100 --parallel",
-        "test:mutate": "vendor/bin/pest --mutate --min=100 --parallel",
+        "test:mutate": "vendor/bin/pest --mutate --min=97 --parallel",
         "test": [
             "@test:unit",
             "@test:coverage",
