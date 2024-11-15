@@ -108,8 +108,7 @@ final readonly class Payload
     }
 
     /**
-     * Adds a query parameter to the payload.
-     * If the value is null, the parameter will be skipped.
+     * Adds an optional query parameter to the payload. If the value is null, the parameter will be skipped.
      */
     public function withOptionalQueryParameter(string $key, mixed $value): self
     {

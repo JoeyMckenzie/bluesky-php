@@ -117,18 +117,12 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): GetAuthorFeedResponse
     {
-        $params = [
+        $payload = Payload::get('app.bsky.feed.getAuthorFeed', [
             'actor' => $username,
             'limit' => $limit,
             'filter' => $filter,
             'includePins' => $includePins ? 'true' : 'false',
-        ];
-
-        if ($cursor !== null) {
-            $params['cursor'] = $cursor;
-        }
-
-        $payload = Payload::get('app.bsky.feed.getAuthorFeed', $params);
+        ])->withOptionalQueryParameter('cursor', $cursor);
 
         /**
          * @var Response<array{feed: array<int, Post>, cursor: string}> $response
@@ -141,16 +135,10 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse
     {
-        $params = [
+        $payload = Payload::get('app.bsky.feed.getFeed', [
             'feed' => $feed,
             'limit' => $limit,
-        ];
-
-        if ($cursor !== null) {
-            $params['cursor'] = $cursor;
-        }
-
-        $payload = Payload::get('app.bsky.feed.getFeed', $params);
+        ])->withOptionalQueryParameter('cursor', $cursor);
 
         /**
          * @var Response<array{feed: array<int, array{post: FeedPost, reply: ?FeedPostReply}>, cursor: string}> $response
@@ -163,16 +151,10 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse
     {
-        $params = [
+        $payload = Payload::get('app.bsky.feed.getLikes', [
             'uri' => $uri,
             'limit' => $limit,
-        ];
-
-        if ($cursor !== null) {
-            $params['cursor'] = $cursor;
-        }
-
-        $payload = Payload::get('app.bsky.feed.getLikes', $params);
+        ])->withOptionalQueryParameter('cursor', $cursor);
 
         /**
          * @var Response<array{likes: array<int, PostLike>, cursor: string, uri: string}> $response
@@ -185,16 +167,10 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getListFeed(string $list, int $limit = 50, ?string $cursor = null): GetListFeedResponse
     {
-        $params = [
+        $payload = Payload::get('app.bsky.feed.getListFeed', [
             'list' => $list,
             'limit' => $limit,
-        ];
-
-        if ($cursor !== null) {
-            $params['cursor'] = $cursor;
-        }
-
-        $payload = Payload::get('app.bsky.feed.getListFeed', $params);
+        ])->withOptionalQueryParameter('cursor', $cursor);
 
         /**
          * @var Response<array{feed: array<int, ListFeedPost>, cursor: ?string}> $response
