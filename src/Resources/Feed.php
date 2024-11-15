@@ -21,6 +21,7 @@ use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
+use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
@@ -28,6 +29,7 @@ use Bluesky\Types\ListFeedPost;
 use Bluesky\Types\Post;
 use Bluesky\Types\PostLike;
 use Bluesky\Types\PostThread;
+use Bluesky\Types\Profile;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
@@ -231,5 +233,22 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetQuotesResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getRepostedBy(string $uri, ?string $cid = null, ?string $cursor = null): GetRepostedByResponse
+    {
+        $payload = Payload::get('app.bsky.feed.getRepostedBy', [
+            'uri' => $uri,
+        ])
+            ->withOptionalQueryParameter('cid', $cid)
+            ->withOptionalQueryParameter('cursor', $cursor);
+
+        /**
+         * @var Response<array{uri: string, cid: ?string, cursor: ?string, repostedBy: array<int, Profile>}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetRepostedByResponse::from($response->data());
     }
 }

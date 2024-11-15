@@ -17,6 +17,7 @@ use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
+use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use DateTime;
@@ -32,6 +33,7 @@ use function Tests\Fixtures\post;
 use function Tests\Fixtures\posts;
 use function Tests\Fixtures\postThread;
 use function Tests\Fixtures\quotes;
+use function Tests\Fixtures\repostedBy;
 
 covers(Feed::class);
 
@@ -613,6 +615,74 @@ describe(Feed::class, function (): void {
         expect($result)
             ->toBeInstanceOf(GetQuotesResponse::class)
             ->posts->toBeArray()
+            ->uri->not->toBeNull()->toBeString()
+            ->cid->not->toBeNull()->toBeString()
+            ->cursor->not->toBeNull()->toBeString();
+    });
+
+    it('can retrieve posts reposted by other users', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getRepostedBy',
+            [
+                'uri' => 'test-uri',
+            ],
+            Response::from(repostedBy()),
+        );
+
+        // Act
+        $result = $client->feed()->getRepostedBy('test-uri');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetRepostedByResponse::class)
+            ->repostedBy->not->toBeNull()->toBeArray()
+            ->uri->not->toBeNull()->toBeString()
+            ->cid->not->toBeNull()->toBeString()
+            ->cursor->not->toBeNull()->toBeString();
+    });
+
+    it('can retrieve posts reposted by other users with a cid', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getRepostedBy',
+            [
+                'uri' => 'test-uri',
+                'cid' => 'test-cid',
+            ],
+            Response::from(repostedBy()),
+        );
+
+        // Act
+        $result = $client->feed()->getRepostedBy('test-uri', cid: 'test-cid');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetRepostedByResponse::class)
+            ->repostedBy->not->toBeNull()->toBeArray()
+            ->uri->not->toBeNull()->toBeString()
+            ->cid->not->toBeNull()->toBeString()
+            ->cursor->not->toBeNull()->toBeString();
+    });
+
+    it('can retrieve posts reposted by other users with a cursor', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getRepostedBy',
+            [
+                'uri' => 'test-uri',
+                'cursor' => 'test-cursor',
+            ],
+            Response::from(repostedBy()),
+        );
+
+        // Act
+        $result = $client->feed()->getRepostedBy('test-uri', cursor: 'test-cursor');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetRepostedByResponse::class)
+            ->repostedBy->not->toBeNull()->toBeArray()
             ->uri->not->toBeNull()->toBeString()
             ->cid->not->toBeNull()->toBeString()
             ->cursor->not->toBeNull()->toBeString();

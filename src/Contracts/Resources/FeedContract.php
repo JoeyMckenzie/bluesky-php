@@ -15,6 +15,7 @@ use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
+use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Carbon\Carbon;
 use DateTime;
 
@@ -47,4 +48,6 @@ interface FeedContract
     public function getPosts(array $uris): GetPostsResponse;
 
     public function getQuotes(string $uri, int $limit = 50, ?string $cid = null, ?string $cursor = null): GetQuotesResponse;
+
+    public function getRepostedBy(string $uri, ?string $cid = null, ?string $cursor = null): GetRepostedByResponse;
 }

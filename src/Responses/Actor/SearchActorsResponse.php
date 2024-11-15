@@ -6,21 +6,21 @@ namespace Bluesky\Responses\Actor;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\ActorProfile;
+use Bluesky\Types\Profile;
 use Override;
 
 /**
- * @implements ResponseContract<array{actors: array<int, ActorProfile>, cursor: ?string}>
+ * @implements ResponseContract<array{actors: array<int, Profile>, cursor: ?string}>
  */
 final readonly class SearchActorsResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{actors: array<int, ActorProfile>, cursor: ?string}>
+     * @use ArrayAccessible<array{actors: array<int, Profile>, cursor: ?string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, ActorProfile>  $actors
+     * @param  array<int, Profile>  $actors
      */
     private function __construct(
         public array $actors,
@@ -30,7 +30,7 @@ final readonly class SearchActorsResponse implements ResponseContract
     }
 
     /**
-     * @param  array{actors: array<int, ActorProfile>, cursor: ?string}  $attributes
+     * @param  array{actors: array<int, Profile>, cursor: ?string}  $attributes
      */
     public static function from(array $attributes): self
     {

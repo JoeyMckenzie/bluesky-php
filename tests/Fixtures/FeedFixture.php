@@ -7,6 +7,7 @@ namespace Tests\Fixtures;
 use Bluesky\Types\ListFeedPost;
 use Bluesky\Types\Post;
 use Bluesky\Types\PostThread;
+use Bluesky\Types\Profile;
 use Carbon\Carbon;
 
 use function Pest\Faker\fake;
@@ -592,5 +593,21 @@ function postThread(): array
                 ),
             ],
         ],
+    ];
+}
+
+/**
+ * @return array{uri: string, cid: ?string, cursor: ?string, repostedBy: array<int, Profile>}
+ */
+function repostedBy(): array
+{
+    return [
+        'uri' => 'at://did:plc:'.fake()->regexify('[a-z0-9]{24}').'/app.bsky.feed.threadgate/'.fake()->regexify('[a-z0-9]{13}'),
+        'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{46}'),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+        'repostedBy' => array_map(
+            fn (): array => profile(),
+            range(1, fake()->numberBetween(5, 20))
+        ),
     ];
 }
