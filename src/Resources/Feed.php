@@ -18,6 +18,7 @@ use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
+use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
@@ -217,5 +218,23 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetPostThreadResponse::from($response->data());
+    }
+
+    /**
+     * @param  string[]  $uris
+     */
+    #[\Override]
+    public function getPosts(array $uris): GetPostsResponse
+    {
+        $payload = Payload::get('app.bsky.feed.getPosts', [
+            'uris' => $uris,
+        ]);
+
+        /**
+         * @var Response<array{posts: array<int, Post>}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetPostsResponse::from($response->data());
     }
 }

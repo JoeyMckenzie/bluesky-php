@@ -127,6 +127,13 @@ namespace Bluesky\Types;
  *                description: string,
  *                thumb: string
  *            }
+ *        },
+ *        threadgate: ?array{
+ *            uri: string,
+ *            cid: string,
+ *            record: array{
+ *                lists: array<int, mixed>
+ *            }
  *        }
  *    },
  *    reply?: array{

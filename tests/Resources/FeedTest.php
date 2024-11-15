@@ -14,6 +14,7 @@ use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
+use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
@@ -27,6 +28,7 @@ use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\likes;
 use function Tests\Fixtures\listFeed;
 use function Tests\Fixtures\post;
+use function Tests\Fixtures\posts;
 use function Tests\Fixtures\postThread;
 
 covers(Feed::class);
@@ -496,5 +498,27 @@ describe(Feed::class, function (): void {
             ->toBeInstanceOf(GetPostThreadResponse::class)
             ->thread->toBeArray()
             ->threadgate->toBeArray();
+    });
+
+    it('can retrieve posts', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getPosts',
+            [
+                'uris' => [
+                    'test-uri-1',
+                    'test-uri-2',
+                ],
+            ],
+            Response::from(posts()),
+        );
+
+        // Act
+        $result = $client->feed()->getPosts(['test-uri-1', 'test-uri-2']);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetPostsResponse::class)
+            ->posts->toBeArray();
     });
 });

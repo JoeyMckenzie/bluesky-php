@@ -44,3 +44,12 @@ var_dump($likes);
 
 $listFeed = $client->feed()->getListFeed('at://did:plc:3ond7kebhvszgzsqo5llyipd/app.bsky.graph.list/3lawjh5t6pa2f');
 var_dump($listFeed);
+
+$postThread = $client->feed()->getPostThread('at://coulb.com/app.bsky.feed.post/3lawmrlrrjk23');
+var_dump($postThread);
+
+$posts = $client->feed()->getPosts([
+    'at://did:plc:avuq73eppt7qxyxsnou6afcl/app.bsky.feed.post/3lawmrlrrjk23',
+    'at://did:plc:ounoudlvca7fujj4hy4hec3c/app.bsky.feed.post/3lawuwuhnek2t',
+]);
+var_dump($posts);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fixtures;
 
 use Bluesky\Types\ListFeedPost;
+use Bluesky\Types\Post;
 use Bluesky\Types\PostThread;
 use Carbon\Carbon;
 
@@ -80,6 +81,19 @@ function feedPost(): array
     }
 
     return $post;
+}
+
+/**
+ * @return array{posts: array<int, Post>}
+ */
+function posts(int $limit = 50): array
+{
+    return [
+        'posts' => array_map(
+            fn (): array => feedPost(),
+            range(1, $limit)
+        ),
+    ];
 }
 
 /**
