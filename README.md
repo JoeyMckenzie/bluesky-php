@@ -16,7 +16,7 @@ A Bluesky PHP client compatible with your HTTP client of choice. The goal of thi
 easy-to-use PHP HTTP client to interact with [Bluesky's API](https://docs.bsky.app/), providing methods for calling
 both the authenticated and public endpoints.
 
-> ℹ️ Current progress: 17/165 endpoints covered
+> ℹ️ Current progress: 18/165 endpoints covered
 
 ## Bluesky PHP in action
 

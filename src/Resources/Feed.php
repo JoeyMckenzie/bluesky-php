@@ -20,6 +20,7 @@ use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
+use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
@@ -236,5 +237,31 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetPostsResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getQuotes(string $uri, int $limit = 50, ?string $cid = null, ?string $cursor = null): GetQuotesResponse
+    {
+        $params = [
+            'uri' => $uri,
+            'limit' => $limit,
+        ];
+
+        if ($cursor !== null) {
+            $params['cursor'] = $cursor;
+        }
+
+        if ($cid !== null) {
+            $params['cid'] = $cid;
+        }
+
+        $payload = Payload::get('app.bsky.feed.getQuotes', $params);
+
+        /**
+         * @var Response<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetQuotesResponse::from($response->data());
     }
 }

@@ -21,7 +21,7 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getListFeed`
 - [x] `app.bsky.feed.getPostThread`
 - [x] `app.bsky.feed.getPosts`
-- [ ] `app.bsky.feed.getQuotes`
+- [x] `app.bsky.feed.getQuotes`
 - [ ] `app.bsky.feed.getRepostedBy`
 - [ ] `app.bsky.feed.getSuggestedFeeds`
 - [ ] `app.bsky.feed.getTimeline`

@@ -14,6 +14,7 @@ use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
+use Bluesky\Responses\Feed\GetQuotesResponse;
 use Carbon\Carbon;
 use DateTime;
 
@@ -44,4 +45,6 @@ interface FeedContract
      * @param  string[]  $uris
      */
     public function getPosts(array $uris): GetPostsResponse;
+
+    public function getQuotes(string $uri, int $limit = 50, ?string $cid = null, ?string $cursor = null): GetQuotesResponse;
 }

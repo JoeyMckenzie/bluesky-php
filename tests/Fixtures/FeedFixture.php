@@ -97,6 +97,22 @@ function posts(int $limit = 50): array
 }
 
 /**
+ * @return array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}
+ */
+function quotes(): array
+{
+    return [
+        'uri' => sprintf('at://did:plc:%s/app.bsky.feed.post/%s', fake()->regexify('[a-z0-9]{24}'), '3l'.fake()->regexify('[a-z0-9]{12}')),
+        'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{47}'),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+        'posts' => array_map(
+            fn (): array => feedPost(),
+            range(5, 20)
+        ),
+    ];
+}
+
+/**
  * @return array{feed: array<int, array>, cursor: string}
  */
 function feed(int $limit = 15, bool $includeCursor = true): array

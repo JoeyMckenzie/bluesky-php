@@ -53,3 +53,6 @@ $posts = $client->feed()->getPosts([
     'at://did:plc:ounoudlvca7fujj4hy4hec3c/app.bsky.feed.post/3lawuwuhnek2t',
 ]);
 var_dump($posts);
+
+$quotes = $client->feed()->getQuotes('at://did:plc:epouc7jtubjdv64mum274hv2/app.bsky.feed.post/3layv3ui35c27');
+var_dump($quotes);
