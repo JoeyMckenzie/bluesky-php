@@ -7,6 +7,7 @@ namespace Bluesky\Responses\Feed;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\PostThread;
+use Override;
 
 /**
  * @implements ResponseContract<array{thread: PostThread, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}>
@@ -35,7 +36,7 @@ final readonly class GetPostThreadResponse implements ResponseContract
         );
     }
 
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [

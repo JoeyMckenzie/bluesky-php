@@ -202,7 +202,7 @@ final readonly class Feed implements FeedContract
         return GetListFeedResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getPostThread(string $uri, int $depth = 6, ?int $parentHeight = 80): GetPostThreadResponse
     {
         $payload = Payload::get('app.bsky.feed.getPostThread', [
