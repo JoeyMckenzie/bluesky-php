@@ -7,6 +7,7 @@ namespace Bluesky\Responses\Feed;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\Post;
+use Override;
 
 /**
  * @implements ResponseContract<array{posts: array<int, Post>}>
@@ -31,7 +32,7 @@ final readonly class GetPostsResponse implements ResponseContract
         return new self($attributes['posts']);
     }
 
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [

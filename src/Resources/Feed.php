@@ -223,7 +223,7 @@ final readonly class Feed implements FeedContract
     /**
      * @param  string[]  $uris
      */
-    #[\Override]
+    #[Override]
     public function getPosts(array $uris): GetPostsResponse
     {
         $payload = Payload::get('app.bsky.feed.getPosts', [
