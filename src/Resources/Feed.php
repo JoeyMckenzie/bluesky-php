@@ -235,7 +235,7 @@ final readonly class Feed implements FeedContract
         return GetQuotesResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getRepostedBy(string $uri, ?string $cid = null, ?string $cursor = null): GetRepostedByResponse
     {
         $payload = Payload::get('app.bsky.feed.getRepostedBy', [
