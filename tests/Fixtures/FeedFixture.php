@@ -453,7 +453,7 @@ function listFeed(): array
 }
 
 /**
- * @return array{thread: PostThread, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}
+ * @return array{thread: array<PostThread>, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}
  */
 function postThread(): array
 {

@@ -212,7 +212,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{thread: PostThread, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}> $response
+         * @var Response<array{thread: array<PostThread>, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 

@@ -74,7 +74,7 @@ namespace Bluesky\Types;
  *     },
  *     labels: array
  *   },
- *   replies: array<array{
+ *   replies: ?array<array{
  *     "$type": string,
  *     post: array<string, mixed>,
  *     replies: array
