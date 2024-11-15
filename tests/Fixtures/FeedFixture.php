@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Tests\Fixtures;
 
 use Bluesky\Types\ListFeedPost;
-use Bluesky\Types\Post;
+use Bluesky\Types\PostThread;
 use Carbon\Carbon;
-use PHPUnit\Framework\AssertionFailedError;
 
 use function Pest\Faker\fake;
 
@@ -20,34 +19,6 @@ function post(): array
         'uri' => fake()->url(),
         'cid' => fake()->uuid(),
     ];
-}
-
-/**
- * @return array{feed: array<int, Post>, cursor: string}
- */
-function posts(): array
-{
-    $file = file_get_contents(__DIR__.'/Data/posts.json');
-
-    if ($file === false) {
-        throw new AssertionFailedError('Data was not readable.');
-    }
-
-    /** @var array{feed: array<int, Post>, cursor: string} $contents */
-    $contents = json_decode($file, true, JSON_THROW_ON_ERROR);
-
-    return $contents;
-}
-
-function getFileContents(string $path): mixed
-{
-    $file = file_get_contents($path);
-
-    if ($file === false) {
-        throw new AssertionFailedError('Data file was not readable.');
-    }
-
-    return json_decode($file, true, JSON_THROW_ON_ERROR);
 }
 
 /**
@@ -478,5 +449,118 @@ function listFeed(): array
             range(1, fake()->numberBetween(5, 50))
         ),
         'cursor' => fake()->text,
+    ];
+}
+
+/**
+ * @return array{thread: PostThread, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}
+ */
+function postThread(): array
+{
+    $now = Carbon::now('UTC');
+    $rootDid = 'did:plc:'.fake()->regexify('[a-z0-9]{24}');
+    $rootCid = 'bafyrei'.fake()->regexify('[a-z0-9]{46}');
+    $rootUri = 'at://'.$rootDid.'/app.bsky.feed.post/'.fake()->regexify('[a-z0-9]{13}');
+
+    return [
+        'thread' => [
+            '$type' => 'app.bsky.feed.defs#threadViewPost',
+            'post' => [
+                'uri' => $rootUri,
+                'cid' => $rootCid,
+                'author' => [
+                    'did' => $rootDid,
+                    'handle' => fake()->boolean(80) ? fake()->userName().'.bsky.social' : fake()->domainName(),
+                    'displayName' => fake()->name(),
+                    'avatar' => 'https://cdn.bsky.app/img/avatar/plain/'.$rootDid.'/'.fake()->sha256().'@jpeg',
+                    'viewer' => [
+                        'muted' => fake()->boolean(10),
+                        'blockedBy' => fake()->boolean(5),
+                        'following' => fake()->boolean(50) ? 'at://did:plc:'.fake()->regexify('[a-z0-9]{24}').'/app.bsky.graph.follow/'.fake()->regexify('[a-z0-9]{13}') : null,
+                    ],
+                    'labels' => [],
+                    'createdAt' => $now->subDays(fake()->numberBetween(1, 365))->toString(),
+                ],
+                'record' => [
+                    '$type' => 'app.bsky.feed.post',
+                    'createdAt' => $now->toString(),
+                    'langs' => ['en'],
+                    'text' => fake()->text(200),
+                ],
+                'replyCount' => fake()->numberBetween(0, 100),
+                'repostCount' => fake()->numberBetween(0, 100),
+                'likeCount' => fake()->numberBetween(0, 100),
+                'quoteCount' => fake()->numberBetween(0, 100),
+                'indexedAt' => $now->toString(),
+                'viewer' => [
+                    'threadMuted' => false,
+                    'embeddingDisabled' => false,
+                ],
+                'labels' => [],
+            ],
+            'replies' => array_map(
+                function () use ($rootUri, $rootCid, $now): array {
+                    $replyDid = 'did:plc:'.fake()->regexify('[a-z0-9]{24}');
+
+                    return [
+                        '$type' => 'app.bsky.feed.defs#threadViewPost',
+                        'post' => [
+                            'uri' => 'at://'.$replyDid.'/app.bsky.feed.post/'.fake()->regexify('[a-z0-9]{13}'),
+                            'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{46}'),
+                            'author' => [
+                                'did' => $replyDid,
+                                'handle' => fake()->boolean(80) ? fake()->userName().'.bsky.social' : fake()->domainName(),
+                                'displayName' => fake()->name(),
+                                'avatar' => 'https://cdn.bsky.app/img/avatar/plain/'.$replyDid.'/'.fake()->sha256().'@jpeg',
+                                'viewer' => [
+                                    'muted' => fake()->boolean(10),
+                                    'blockedBy' => fake()->boolean(5),
+                                ],
+                                'labels' => [],
+                                'createdAt' => $now->subDays(fake()->numberBetween(1, 365))->toString(),
+                            ],
+                            'record' => [
+                                '$type' => 'app.bsky.feed.post',
+                                'createdAt' => $now->addMinutes(fake()->numberBetween(1, 60))->toString(),
+                                'langs' => ['en'],
+                                'reply' => [
+                                    'parent' => [
+                                        'cid' => $rootCid,
+                                        'uri' => $rootUri,
+                                    ],
+                                    'root' => [
+                                        'cid' => $rootCid,
+                                        'uri' => $rootUri,
+                                    ],
+                                ],
+                                'text' => fake()->text(200),
+                            ],
+                            'replyCount' => fake()->numberBetween(0, 100),
+                            'repostCount' => fake()->numberBetween(0, 100),
+                            'likeCount' => fake()->numberBetween(0, 100),
+                            'quoteCount' => fake()->numberBetween(0, 100),
+                            'indexedAt' => $now->addMinutes(fake()->numberBetween(1, 60))->toString(),
+                            'viewer' => [
+                                'threadMuted' => false,
+                                'embeddingDisabled' => false,
+                            ],
+                            'labels' => [],
+                        ],
+                        'replies' => [],
+                    ];
+                },
+                range(1, fake()->numberBetween(0, 5))
+            ),
+        ],
+        'threadgate' => [
+            'uri' => 'at://did:plc:'.fake()->regexify('[a-z0-9]{24}').'/app.bsky.feed.threadgate/'.fake()->regexify('[a-z0-9]{13}'),
+            'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{46}'),
+            'record' => [
+                'lists' => array_map(
+                    fn (): string => 'at://did:plc:'.fake()->regexify('[a-z0-9]{24}').'/app.bsky.graph.list/'.fake()->regexify('[a-z0-9]{13}'),
+                    range(1, fake()->numberBetween(0, 3))
+                ),
+            ],
+        ],
     ];
 }

@@ -14,6 +14,7 @@ use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
+use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use DateTime;
@@ -26,6 +27,7 @@ use function Tests\Fixtures\feedGenerators;
 use function Tests\Fixtures\likes;
 use function Tests\Fixtures\listFeed;
 use function Tests\Fixtures\post;
+use function Tests\Fixtures\postThread;
 
 covers(Feed::class);
 
@@ -428,5 +430,71 @@ describe(Feed::class, function (): void {
             ->toBeInstanceOf(GetListFeedResponse::class)
             ->feed->toBeArray()
             ->cursor->toBeString();
+    });
+
+    it('can retrieve a thread post with a depth', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getPostThread',
+            [
+                'uri' => 'test-uri',
+                'depth' => 69,
+                'parentHeight' => 80,
+            ],
+            Response::from(postThread()),
+        );
+
+        // Act
+        $result = $client->feed()->getPostThread('test-uri', 69);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetPostThreadResponse::class)
+            ->thread->toBeArray()
+            ->threadgate->toBeArray();
+    });
+
+    it('can retrieve a list feed with a parent height', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getPostThread',
+            [
+                'uri' => 'test-uri',
+                'depth' => 6,
+                'parentHeight' => 69,
+            ],
+            Response::from(postThread()),
+        );
+
+        // Act
+        $result = $client->feed()->getPostThread('test-uri', parentHeight: 69);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetPostThreadResponse::class)
+            ->thread->toBeArray()
+            ->threadgate->toBeArray();
+    });
+
+    it('can retrieve a post thread', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getPostThread',
+            [
+                'uri' => 'test-uri',
+                'depth' => 6,
+                'parentHeight' => 80,
+            ],
+            Response::from(postThread()),
+        );
+
+        // Act
+        $result = $client->feed()->getPostThread('test-uri');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetPostThreadResponse::class)
+            ->thread->toBeArray()
+            ->threadgate->toBeArray();
     });
 });

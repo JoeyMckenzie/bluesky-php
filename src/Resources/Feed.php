@@ -18,12 +18,14 @@ use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
+use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\ListFeedPost;
 use Bluesky\Types\Post;
 use Bluesky\Types\PostLike;
+use Bluesky\Types\PostThread;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Carbon\Carbon;
@@ -198,5 +200,22 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetListFeedResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getPostThread(string $uri, int $depth = 6, ?int $parentHeight = 80): GetPostThreadResponse
+    {
+        $payload = Payload::get('app.bsky.feed.getPostThread', [
+            'uri' => $uri,
+            'depth' => $depth,
+            'parentHeight' => $parentHeight,
+        ]);
+
+        /**
+         * @var Response<array{thread: PostThread, threadgate: ?array{uri: string, cid: string, record: array{lists: array<int, mixed>}}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetPostThreadResponse::from($response->data());
     }
 }

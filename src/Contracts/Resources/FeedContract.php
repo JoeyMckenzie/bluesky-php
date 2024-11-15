@@ -12,6 +12,7 @@ use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
 use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
 use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
+use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Carbon\Carbon;
 use DateTime;
 
@@ -35,4 +36,6 @@ interface FeedContract
     public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse;
 
     public function getListFeed(string $list, int $limit = 50, ?string $cursor = null): GetListFeedResponse;
+
+    public function getPostThread(string $uri, int $depth = 6, ?int $parentHeight = 80): GetPostThreadResponse;
 }

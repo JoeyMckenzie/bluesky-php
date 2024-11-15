@@ -19,7 +19,7 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getFeed`
 - [x] `app.bsky.feed.getLikes`
 - [x] `app.bsky.feed.getListFeed`
-- [ ] `app.bsky.feed.getPostThread`
+- [x] `app.bsky.feed.getPostThread`
 - [ ] `app.bsky.feed.getPosts`
 - [ ] `app.bsky.feed.getQuotes`
 - [ ] `app.bsky.feed.getRepostedBy`
