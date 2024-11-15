@@ -239,7 +239,7 @@ final readonly class Feed implements FeedContract
         return GetPostsResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getQuotes(string $uri, int $limit = 50, ?string $cid = null, ?string $cursor = null): GetQuotesResponse
     {
         $params = [

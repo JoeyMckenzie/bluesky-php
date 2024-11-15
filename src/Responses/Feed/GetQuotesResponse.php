@@ -7,6 +7,7 @@ namespace Bluesky\Responses\Feed;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\Post;
+use Override;
 
 /**
  * @implements ResponseContract<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}>
@@ -41,7 +42,7 @@ final class GetQuotesResponse implements ResponseContract
         );
     }
 
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [
