@@ -408,4 +408,110 @@ describe(Payload::class, function (): void {
                 ->not->toHaveKey('Content-Type');
         });
     });
+
+    it('adds query parameters fluently', function (): void {
+        // Arrange
+        $baseParams = ['key1' => 'value1'];
+        $payload = Payload::get('test.resource', $baseParams);
+
+        // Act
+        $newPayload = $payload
+            ->withOptionalQueryParameter('key2', 'value2')
+            ->withOptionalQueryParameter('key3', 'value3');
+
+        $request = $newPayload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+
+        // Assert
+        parse_str($request->getUri()->getQuery(), $result);
+        expect($result)
+            ->toHaveKey('key1', 'value1')
+            ->toHaveKey('key2', 'value2')
+            ->toHaveKey('key3', 'value3');
+    });
+
+    it('skips null query parameters', function (): void {
+        // Arrange
+        $baseParams = ['key1' => 'value1'];
+        $payload = Payload::get('test.resource', $baseParams);
+
+        // Act
+        $newPayload = $payload
+            ->withOptionalQueryParameter('key2', null)
+            ->withOptionalQueryParameter('key3', 'value3');
+
+        $request = $newPayload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+
+        // Assert
+        parse_str($request->getUri()->getQuery(), $result);
+        expect($result)
+            ->toHaveKey('key1', 'value1')
+            ->not->toHaveKey('key2')
+            ->toHaveKey('key3', 'value3');
+    });
+
+    it('maintains immutability when adding query parameters', function (): void {
+        // Arrange
+        $baseParams = ['key1' => 'value1'];
+        $payload = Payload::get('test.resource', $baseParams);
+
+        // Act
+        $newPayload = $payload->withOptionalQueryParameter('key2', 'value2');
+
+        // Assert - original payload should be unchanged
+        $originalRequest = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+        parse_str($originalRequest->getUri()->getQuery(), $originalResult);
+        expect($originalResult)
+            ->toHaveKey('key1', 'value1')
+            ->not->toHaveKey('key2');
+
+        // New payload should have both parameters
+        $newRequest = $newPayload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+        parse_str($newRequest->getUri()->getQuery(), $newResult);
+        expect($newResult)
+            ->toHaveKey('key1', 'value1')
+            ->toHaveKey('key2', 'value2');
+    });
+
+    it('chains multiple query parameters correctly', function (): void {
+        // Arrange
+        $payload = Payload::get('test.resource');
+
+        // Act
+        $finalPayload = $payload
+            ->withOptionalQueryParameter('key1', 'value1')
+            ->withOptionalQueryParameter('key2', null)  // Should be skipped
+            ->withOptionalQueryParameter('key3', 'value3')
+            ->withOptionalQueryParameter('key4', null)  // Should be skipped
+            ->withOptionalQueryParameter('key5', 'value5');
+
+        $request = $finalPayload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+
+        // Assert
+        parse_str($request->getUri()->getQuery(), $result);
+        expect($result)
+            ->toHaveKey('key1', 'value1')
+            ->not->toHaveKey('key2')
+            ->toHaveKey('key3', 'value3')
+            ->not->toHaveKey('key4')
+            ->toHaveKey('key5', 'value5');
+    });
+
+    it('returns same instance when adding null query parameter', function (): void {
+        // Arrange
+        $payload = Payload::get('test.resource', ['key1' => 'value1']);
+
+        // Act
+        $result = $payload->withOptionalQueryParameter('key2', null);
+
+        // Assert
+        expect($result)->toBe($payload)  // Verify exact same instance is returned
+            ->and($result)->toEqual($payload);  // Double check values are the same too
+
+        // Verify request remains unchanged
+        $request = $result->toRequest($this->baseUri, $this->headers, $this->queryParams);
+        parse_str($request->getUri()->getQuery(), $params);
+        expect($params)
+            ->toHaveKey('key1', 'value1')
+            ->not->toHaveKey('key2');
+    });
 });

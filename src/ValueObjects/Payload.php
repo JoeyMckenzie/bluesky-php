@@ -108,6 +108,28 @@ final readonly class Payload
     }
 
     /**
+     * Adds a query parameter to the payload.
+     * If the value is null, the parameter will be skipped.
+     */
+    public function withOptionalQueryParameter(string $key, mixed $value): self
+    {
+        if ($value === null) {
+            return $this;
+        }
+
+        return new self(
+            $this->accept,
+            $this->method,
+            $this->uri,
+            [...$this->parameters, $key => $value],
+            $this->contentType,
+            $this->headers,
+            $this->includeBody,
+            $this->skipResponse,
+        );
+    }
+
+    /**
      * Creates a new Psr 7 Request instance based on information passed on the request payload.
      * In the case of query parameters, if the client is constructed with any parameters,
      * we'll append them to each request that is sent to the server.

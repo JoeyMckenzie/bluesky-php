@@ -12,7 +12,7 @@ use Override;
 /**
  * @implements ResponseContract<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}>
  */
-final class GetQuotesResponse implements ResponseContract
+final readonly class GetQuotesResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}>

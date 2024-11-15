@@ -242,20 +242,12 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getQuotes(string $uri, int $limit = 50, ?string $cid = null, ?string $cursor = null): GetQuotesResponse
     {
-        $params = [
+        $payload = Payload::get('app.bsky.feed.getQuotes', [
             'uri' => $uri,
             'limit' => $limit,
-        ];
-
-        if ($cursor !== null) {
-            $params['cursor'] = $cursor;
-        }
-
-        if ($cid !== null) {
-            $params['cid'] = $cid;
-        }
-
-        $payload = Payload::get('app.bsky.feed.getQuotes', $params);
+        ])
+            ->withOptionalQueryParameter('cid', $cid)
+            ->withOptionalQueryParameter('cursor', $cursor);
 
         /**
          * @var Response<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}> $response
