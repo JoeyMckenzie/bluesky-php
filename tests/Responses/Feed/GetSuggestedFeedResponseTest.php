@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Tests\Responses\Session;
 
-use Bluesky\Responses\Feed\GetSuggestedFeedResponse;
+use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 
 use function Tests\Fixtures\suggestedFeeds;
 
-covers(GetSuggestedFeedResponse::class);
+covers(GetSuggestedFeedsResponse::class);
 
-describe(GetSuggestedFeedResponse::class, function (): void {
+describe(GetSuggestedFeedsResponse::class, function (): void {
     it('returns a valid typed object', function (): void {
         // Arrange & Act
-        $response = GetSuggestedFeedResponse::from(suggestedFeeds());
+        $response = GetSuggestedFeedsResponse::from(suggestedFeeds());
 
         // Assert
-        expect($response)->toBeInstanceOf(GetSuggestedFeedResponse::class)
+        expect($response)->toBeInstanceOf(GetSuggestedFeedsResponse::class)
             ->feeds->not->toBeNull()->toBeArray()
             ->cursor->not->toBeNull()->toBeString();
     });
 
     it('is accessible from an array', function (): void {
         // Arrange & Act
-        $response = GetSuggestedFeedResponse::from(suggestedFeeds());
+        $response = GetSuggestedFeedsResponse::from(suggestedFeeds());
 
         // Assert
         expect($response['feeds'])->not->toBeNull()->toBeArray()
@@ -35,7 +35,7 @@ describe(GetSuggestedFeedResponse::class, function (): void {
         $data = suggestedFeeds();
 
         // Act
-        $response = GetSuggestedFeedResponse::from($data);
+        $response = GetSuggestedFeedsResponse::from($data);
 
         // Assert
         expect($response->toArray())

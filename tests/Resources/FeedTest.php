@@ -18,7 +18,7 @@ use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
-use Bluesky\Responses\Feed\GetSuggestedFeedResponse;
+use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use DateTime;
@@ -705,7 +705,7 @@ describe(Feed::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(GetSuggestedFeedResponse::class)
+            ->toBeInstanceOf(GetSuggestedFeedsResponse::class)
             ->feeds->not->toBeNull()->toBeArray()
             ->cursor->not->toBeNull()->toBeString();
     });
@@ -725,7 +725,7 @@ describe(Feed::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(GetSuggestedFeedResponse::class)
+            ->toBeInstanceOf(GetSuggestedFeedsResponse::class)
             ->feeds->not->toBeNull()->toBeArray()
             ->cursor->not->toBeNull()->toBeString();
     });
@@ -746,7 +746,7 @@ describe(Feed::class, function (): void {
 
         // Assert
         expect($result)
-            ->toBeInstanceOf(GetSuggestedFeedResponse::class)
+            ->toBeInstanceOf(GetSuggestedFeedsResponse::class)
             ->feeds->not->toBeNull()->toBeArray()
             ->cursor->not->toBeNull()->toBeString();
     });

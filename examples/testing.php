@@ -56,3 +56,6 @@ var_dump($posts);
 
 $quotes = $client->feed()->getQuotes('at://did:plc:epouc7jtubjdv64mum274hv2/app.bsky.feed.post/3layv3ui35c27');
 var_dump($quotes);
+
+$suggestedFeeds = $client->feed()->getSuggestedFeeds();
+var_dump($suggestedFeeds);

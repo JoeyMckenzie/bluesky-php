@@ -22,7 +22,7 @@ use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
-use Bluesky\Responses\Feed\GetSuggestedFeedResponse;
+use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
@@ -254,8 +254,8 @@ final readonly class Feed implements FeedContract
         return GetRepostedByResponse::from($response->data());
     }
 
-    #[\Override]
-    public function getSuggestedFeeds(int $limit = 50, ?string $cursor = null): GetSuggestedFeedResponse
+    #[Override]
+    public function getSuggestedFeeds(int $limit = 50, ?string $cursor = null): GetSuggestedFeedsResponse
     {
         $payload = Payload::get('app.bsky.feed.getSuggestedFeeds', [
             'limit' => $limit,
@@ -266,6 +266,6 @@ final readonly class Feed implements FeedContract
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
-        return GetSuggestedFeedResponse::from($response->data());
+        return GetSuggestedFeedsResponse::from($response->data());
     }
 }
