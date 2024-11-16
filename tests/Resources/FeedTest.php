@@ -18,6 +18,7 @@ use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
+use Bluesky\Responses\Feed\GetSuggestedFeedResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use DateTime;
@@ -34,6 +35,7 @@ use function Tests\Fixtures\posts;
 use function Tests\Fixtures\postThread;
 use function Tests\Fixtures\quotes;
 use function Tests\Fixtures\repostedBy;
+use function Tests\Fixtures\suggestedFeeds;
 
 covers(Feed::class);
 
@@ -685,6 +687,67 @@ describe(Feed::class, function (): void {
             ->repostedBy->not->toBeNull()->toBeArray()
             ->uri->not->toBeNull()->toBeString()
             ->cid->not->toBeNull()->toBeString()
+            ->cursor->not->toBeNull()->toBeString();
+    });
+
+    it('can retrieve suggested feeds', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getSuggestedFeeds',
+            [
+                'limit' => 50,
+            ],
+            Response::from(suggestedFeeds()),
+        );
+
+        // Act
+        $result = $client->feed()->getSuggestedFeeds();
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetSuggestedFeedResponse::class)
+            ->feeds->not->toBeNull()->toBeArray()
+            ->cursor->not->toBeNull()->toBeString();
+    });
+
+    it('can retrieve suggested feeds with a limit', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getSuggestedFeeds',
+            [
+                'limit' => 69,
+            ],
+            Response::from(suggestedFeeds()),
+        );
+
+        // Act
+        $result = $client->feed()->getSuggestedFeeds(69);
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetSuggestedFeedResponse::class)
+            ->feeds->not->toBeNull()->toBeArray()
+            ->cursor->not->toBeNull()->toBeString();
+    });
+
+    it('can retrieve suggested feeds with a cursor', function (): void {
+        // Arrange
+        $client = ClientMock::createForGet(
+            'app.bsky.feed.getSuggestedFeeds',
+            [
+                'limit' => 50,
+                'cursor' => 'test-cursor',
+            ],
+            Response::from(suggestedFeeds()),
+        );
+
+        // Act
+        $result = $client->feed()->getSuggestedFeeds(cursor: 'test-cursor');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetSuggestedFeedResponse::class)
+            ->feeds->not->toBeNull()->toBeArray()
             ->cursor->not->toBeNull()->toBeString();
     });
 });

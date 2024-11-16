@@ -8,6 +8,7 @@ use Bluesky\Types\ListFeedPost;
 use Bluesky\Types\Post;
 use Bluesky\Types\PostThread;
 use Bluesky\Types\Profile;
+use Bluesky\Types\SuggestedFeed;
 use Carbon\Carbon;
 
 use function Pest\Faker\fake;
@@ -609,5 +610,57 @@ function repostedBy(): array
             fn (): array => profile(),
             range(1, fake()->numberBetween(5, 20))
         ),
+    ];
+}
+
+/**
+ * @return array{feeds: array<int, SuggestedFeed>, cursor: ?string}
+ */
+function suggestedFeeds(): array
+{
+    $now = Carbon::now('UTC');
+
+    return [
+        'feeds' => array_map(
+            function () use ($now): array {
+                $did = 'did:plc:'.fake()->regexify('[a-z0-9]{24}');
+                $cid = 'bafyrei'.fake()->regexify('[a-z0-9]{46}');
+
+                return [
+                    'uri' => 'at://'.$did.'/app.bsky.feed.generator/'.fake()->regexify('[a-z0-9]{13}'),
+                    'cid' => $cid,
+                    'did' => 'did:web:'.fake()->domainName(),
+                    'creator' => [
+                        'did' => $did,
+                        'handle' => fake()->boolean(80) ? fake()->userName().'.bsky.social' : fake()->domainName(),
+                        'displayName' => fake()->name(),
+                        'avatar' => 'https://cdn.bsky.app/img/avatar/plain/'.$did.'/'.fake()->sha256().'@jpeg',
+                        'associated' => fake()->boolean(70) ? [
+                            'chat' => [
+                                'allowIncoming' => fake()->randomElement(['none', 'following', 'all']),
+                            ],
+                        ] : null,
+                        'viewer' => [
+                            'muted' => fake()->boolean(10),
+                            'blockedBy' => fake()->boolean(5),
+                            'following' => fake()->boolean(50) ? 'at://did:plc:'.fake()->regexify('[a-z0-9]{24}').'/app.bsky.graph.follow/'.fake()->regexify('[a-z0-9]{13}') : null,
+                        ],
+                        'labels' => [],
+                        'createdAt' => $now->subDays(fake()->numberBetween(1, 365))->toString(),
+                        'description' => fake()->text(150),
+                        'indexedAt' => $now->subHours(fake()->numberBetween(1, 24))->toString(),
+                    ],
+                    'displayName' => fake()->words(fake()->numberBetween(1, 3), true),
+                    'description' => fake()->text(200),
+                    'avatar' => fake()->boolean(90) ? 'https://cdn.bsky.app/img/avatar/plain/'.$did.'/'.fake()->sha256().'@jpeg' : null,
+                    'likeCount' => fake()->numberBetween(0, 30000),
+                    'labels' => [],
+                    'viewer' => [],
+                    'indexedAt' => $now->subHours(fake()->numberBetween(1, 72))->toString(),
+                ];
+            },
+            range(1, fake()->numberBetween(10, 20))
+        ),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
     ];
 }
