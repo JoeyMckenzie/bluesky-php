@@ -7,6 +7,7 @@ namespace Bluesky\Responses\Feed;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\PostMetadata;
+use Override;
 
 /**
  * @implements ResponseContract<array{feed: array<int, PostMetadata>, cursor: ?string}>
@@ -37,7 +38,7 @@ final readonly class GetTimelineResponse implements ResponseContract
         );
     }
 
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return [

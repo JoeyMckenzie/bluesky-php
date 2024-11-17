@@ -23,8 +23,8 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getPosts`
 - [x] `app.bsky.feed.getQuotes`
 - [x] `app.bsky.feed.getRepostedBy`
-- [ ] `app.bsky.feed.getSuggestedFeeds`
-- [ ] `app.bsky.feed.getTimeline`
+- [x] `app.bsky.feed.getSuggestedFeeds`
+- [x] `app.bsky.feed.getTimeline`
 - [ ] `app.bsky.feed.searchPosts`
 - [ ] `app.bsky.feed.sendInteractions`
 - [ ] `app.bsky.graph.getActorStarterPacks`

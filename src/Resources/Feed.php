@@ -270,7 +270,7 @@ final readonly class Feed implements FeedContract
         return GetSuggestedFeedsResponse::from($response->data());
     }
 
-    #[\Override]
+    #[Override]
     public function getTimeline(?string $algorithm = null, int $limit = 50, ?string $cursor = null): GetTimelineResponse
     {
         $payload = Payload::get('app.bsky.feed.getTimeline', [
