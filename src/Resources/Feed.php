@@ -24,6 +24,7 @@ use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 use Bluesky\Responses\Feed\GetTimelineResponse;
+use Bluesky\Responses\Feed\SearchPostsResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
@@ -285,5 +286,46 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetTimelineResponse::from($response->data());
+    }
+
+    /**
+     * @param  string[]  $tag
+     */
+    #[Override]
+    public function searchPosts(
+        string $query,
+        int $limit = 25,
+        ?string $cursor = null,
+        ?string $sort = null,
+        ?Carbon $since = null,
+        ?Carbon $until = null,
+        ?string $mentions = null,
+        ?string $author = null,
+        ?string $lang = null,
+        ?string $domain = null,
+        ?string $url = null,
+        array $tag = []): SearchPostsResponse
+    {
+        $payload = Payload::get('app.bsky.feed.searchPosts', [
+            'q' => $query,
+            'limit' => $limit,
+        ])
+            ->withOptionalQueryParameter('cursor', $cursor)
+            ->withOptionalQueryParameter('sort', $sort)
+            ->withOptionalQueryParameter('since', $since?->toDateString())
+            ->withOptionalQueryParameter('until', $until?->toDateString())
+            ->withOptionalQueryParameter('mentions', $mentions)
+            ->withOptionalQueryParameter('author', $author)
+            ->withOptionalQueryParameter('lang', $lang)
+            ->withOptionalQueryParameter('domain', $domain)
+            ->withOptionalQueryParameter('url', $url)
+            ->withOptionalQueryParameter('tag', $tag);
+
+        /**
+         * @var Response<array{posts: PostMetadata[], hitsTotal: int, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return SearchPostsResponse::from($response->data());
     }
 }

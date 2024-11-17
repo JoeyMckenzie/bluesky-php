@@ -25,7 +25,7 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getRepostedBy`
 - [x] `app.bsky.feed.getSuggestedFeeds`
 - [x] `app.bsky.feed.getTimeline`
-- [ ] `app.bsky.feed.searchPosts`
+- [x] `app.bsky.feed.searchPosts`
 - [ ] `app.bsky.feed.sendInteractions`
 - [ ] `app.bsky.graph.getActorStarterPacks`
 - [ ] `app.bsky.graph.getBlocks`

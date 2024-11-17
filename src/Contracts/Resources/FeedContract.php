@@ -18,6 +18,7 @@ use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 use Bluesky\Responses\Feed\GetTimelineResponse;
+use Bluesky\Responses\Feed\SearchPostsResponse;
 use Carbon\Carbon;
 use DateTime;
 
@@ -56,4 +57,22 @@ interface FeedContract
     public function getSuggestedFeeds(int $limit = 50, ?string $cursor = null): GetSuggestedFeedsResponse;
 
     public function getTimeline(?string $algorithm = null, int $limit = 50, ?string $cursor = null): GetTimelineResponse;
+
+    /**
+     * @param  string[]  $tag
+     */
+    public function searchPosts(
+        string $query,
+        int $limit = 25,
+        ?string $cursor = null,
+        ?string $sort = null,
+        ?Carbon $since = null,
+        ?Carbon $until = null,
+        ?string $mentions = null,
+        ?string $author = null,
+        ?string $lang = null,
+        ?string $domain = null,
+        ?string $url = null,
+        array $tag = []
+    ): SearchPostsResponse;
 }

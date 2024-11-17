@@ -680,6 +680,20 @@ function timeline(): array
     ];
 }
 
+function searchPosts(): array
+{
+    $hits = range(1, fake()->numberBetween(10, 20));
+
+    return [
+        'posts' => array_map(
+            fn (): array => feedPost(),
+            $hits
+        ),
+        'hitsTotal' => count($hits),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+    ];
+}
+
 function reason(): array
 {
     $did = 'did:plc:'.fake()->regexify('[a-z0-9]{24}');

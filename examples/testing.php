@@ -59,3 +59,6 @@ var_dump($quotes);
 
 $suggestedFeeds = $client->feed()->getSuggestedFeeds();
 var_dump($suggestedFeeds);
+
+$timeline = $client->feed()->getTimeline();
+var_dump($timeline);
