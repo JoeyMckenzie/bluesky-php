@@ -153,7 +153,25 @@ namespace Bluesky\Types;
  *        },
  *        parent: array{...},
  *        grandparentAuthor?: array{...}
- *    }
+ *    },
+ *    reason?: array{
+ *        "$type": string,
+ *        by: array{
+ *            did: string,
+ *            handle: string,
+ *            displayName: string,
+ *            avatar: string,
+ *            viewer: array{
+ *                muted: bool,
+ *                blockedBy: bool,
+ *                following?: string
+ *            },
+ *            labels: array,
+ *            createdAt: string
+ *        },
+ *        indexedAt: string
+ *    },
+ *    feedContext?: string
  * }
  */
-final class Post {}
+final class PostMetadata {}

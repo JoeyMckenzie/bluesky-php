@@ -6,21 +6,21 @@ namespace Bluesky\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Post;
+use Bluesky\Types\PostMetadata;
 use Override;
 
 /**
- * @implements ResponseContract<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}>
+ * @implements ResponseContract<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, PostMetadata>}>
  */
 final readonly class GetQuotesResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}>
+     * @use ArrayAccessible<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, PostMetadata>}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, Post>  $posts
+     * @param  array<int, PostMetadata>  $posts
      */
     public function __construct(
         public string $uri,
@@ -30,7 +30,7 @@ final readonly class GetQuotesResponse implements ResponseContract
     ) {}
 
     /**
-     * @param  array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}  $attributes
+     * @param  array{uri: string, cid: ?string, cursor: ?string, posts: array<int, PostMetadata>}  $attributes
      */
     public static function from(array $attributes): self
     {

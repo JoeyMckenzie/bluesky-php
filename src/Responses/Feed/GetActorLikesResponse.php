@@ -6,21 +6,21 @@ namespace Bluesky\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Post;
+use Bluesky\Types\PostMetadata;
 use Override;
 
 /**
- * @implements ResponseContract<array{feed: array<int, Post>, cursor: string}>
+ * @implements ResponseContract<array{feed: array<int, PostMetadata>, cursor: string}>
  */
 final readonly class GetActorLikesResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{feed: array<int, Post>, cursor: string}>
+     * @use ArrayAccessible<array{feed: array<int, PostMetadata>, cursor: string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, Post>  $feed
+     * @param  array<int, PostMetadata>  $feed
      */
     public function __construct(
         public array $feed,
@@ -30,7 +30,7 @@ final readonly class GetActorLikesResponse implements ResponseContract
     }
 
     /**
-     * @param  array{feed: array<int, Post>, cursor: string}  $attributes
+     * @param  array{feed: array<int, PostMetadata>, cursor: string}  $attributes
      */
     public static function from(mixed $attributes): self
     {

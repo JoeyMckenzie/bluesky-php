@@ -7,40 +7,37 @@ namespace Bluesky\Responses\Feed;
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
 use Bluesky\Types\PostMetadata;
-use Override;
 
 /**
  * @implements ResponseContract<array{feed: array<int, PostMetadata>, cursor: ?string}>
  */
-final readonly class GetAuthorFeedResponse implements ResponseContract
+final readonly class GetTimelineResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{feed: array<int, PostMetadata>, cursor: string}>
+     * @use ArrayAccessible<array{feed: array<int, PostMetadata>, cursor: ?string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, PostMetadata>  $feed
+     * @param  PostMetadata[]  $feed
      */
     public function __construct(
         public array $feed,
-        public ?string $cursor)
-    {
-        //
-    }
+        public ?string $cursor
+    ) {}
 
     /**
      * @param  array{feed: array<int, PostMetadata>, cursor: ?string}  $attributes
      */
-    public static function from(mixed $attributes): self
+    public static function from(array $attributes): self
     {
-        return new self($attributes['feed'], $attributes['cursor']);
+        return new self(
+            $attributes['feed'],
+            $attributes['cursor']
+        );
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    #[Override]
+    #[\Override]
     public function toArray(): array
     {
         return [

@@ -6,26 +6,26 @@ namespace Bluesky\Responses\Feed;
 
 use Bluesky\Contracts\ResponseContract;
 use Bluesky\Responses\Concerns\ArrayAccessible;
-use Bluesky\Types\Post;
+use Bluesky\Types\PostMetadata;
 use Override;
 
 /**
- * @implements ResponseContract<array{posts: array<int, Post>}>
+ * @implements ResponseContract<array{posts: array<int, PostMetadata>}>
  */
 final readonly class GetPostsResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{posts: array<int, Post>}>
+     * @use ArrayAccessible<array{posts: array<int, PostMetadata>}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<int, Post>  $posts
+     * @param  array<int, PostMetadata>  $posts
      */
     public function __construct(public array $posts) {}
 
     /**
-     * @param  array{posts: array<int, Post>}  $attributes
+     * @param  array{posts: array<int, PostMetadata>}  $attributes
      */
     public static function from(array $attributes): self
     {

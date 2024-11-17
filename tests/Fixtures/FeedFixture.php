@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fixtures;
 
 use Bluesky\Types\ListFeedPost;
-use Bluesky\Types\Post;
+use Bluesky\Types\PostMetadata;
 use Bluesky\Types\PostThread;
 use Bluesky\Types\Profile;
 use Bluesky\Types\SuggestedFeed;
@@ -82,11 +82,15 @@ function feedPost(): array
         $post['reply'] = reply();
     }
 
+    if (fake()->boolean()) {
+        $post['reason'] = reason();
+    }
+
     return $post;
 }
 
 /**
- * @return array{posts: array<int, Post>}
+ * @return array{posts: array<int, PostMetadata>}
  */
 function posts(int $limit = 50): array
 {
@@ -99,7 +103,7 @@ function posts(int $limit = 50): array
 }
 
 /**
- * @return array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}
+ * @return array{uri: string, cid: ?string, cursor: ?string, posts: array<int, PostMetadata>}
  */
 function quotes(): array
 {
@@ -662,5 +666,44 @@ function suggestedFeeds(): array
             range(1, fake()->numberBetween(10, 20))
         ),
         'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+    ];
+}
+
+function timeline(): array
+{
+    return [
+        'feed' => array_map(
+            fn (): array => feedPost(),
+            range(1, fake()->numberBetween(10, 20))
+        ),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+    ];
+}
+
+function reason(): array
+{
+    $did = 'did:plc:'.fake()->regexify('[a-z0-9]{24}');
+
+    return [
+        '$type' => 'app.bsky.feed.defs#reasonRepost',
+        'by' => [
+            'did' => $did,
+            'handle' => fake()->boolean(80) ? fake()->userName().'.bsky.social' : fake()->domainName(),
+            'displayName' => fake()->name(),
+            'avatar' => 'https://cdn.bsky.app/img/avatar/plain/'.$did.'/'.fake()->sha256().'@jpeg',
+            'associated' => fake()->boolean(70) ? [
+                'chat' => [
+                    'allowIncoming' => fake()->randomElement(['none', 'following', 'all']),
+                ],
+            ] : null,
+            'viewer' => [
+                'muted' => fake()->boolean(10),
+                'blockedBy' => fake()->boolean(5),
+                'following' => fake()->boolean(50) ? 'at://did:plc:'.fake()->regexify('[a-z0-9]{24}').'/app.bsky.graph.follow/'.fake()->regexify('[a-z0-9]{13}') : null,
+            ],
+            'labels' => [],
+            'createdAt' => Carbon::now()->subDays(fake()->numberBetween(1, 365))->toString(),
+        ],
+        'indexedAt' => Carbon::now()->subMinutes(fake()->numberBetween(1, 60))->toString(),
     ];
 }

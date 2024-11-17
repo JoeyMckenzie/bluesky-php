@@ -17,6 +17,7 @@ use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
+use Bluesky\Responses\Feed\GetTimelineResponse;
 use Carbon\Carbon;
 use DateTime;
 
@@ -53,4 +54,6 @@ interface FeedContract
     public function getRepostedBy(string $uri, ?string $cid = null, ?string $cursor = null): GetRepostedByResponse;
 
     public function getSuggestedFeeds(int $limit = 50, ?string $cursor = null): GetSuggestedFeedsResponse;
+
+    public function getTimeline(?string $algorithm = null, int $limit = 50, ?string $cursor = null): GetTimelineResponse;
 }

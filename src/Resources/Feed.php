@@ -23,12 +23,13 @@ use Bluesky\Responses\Feed\GetPostThreadResponse;
 use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
+use Bluesky\Responses\Feed\GetTimelineResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
 use Bluesky\Types\ListFeedPost;
-use Bluesky\Types\Post;
 use Bluesky\Types\PostLike;
+use Bluesky\Types\PostMetadata;
 use Bluesky\Types\PostThread;
 use Bluesky\Types\Profile;
 use Bluesky\Types\SuggestedFeed;
@@ -81,7 +82,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{feed: array<int, Post>, cursor: string}> $response
+         * @var Response<array{feed: array<int, PostMetadata>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -129,7 +130,7 @@ final readonly class Feed implements FeedContract
         ])->withOptionalQueryParameter('cursor', $cursor);
 
         /**
-         * @var Response<array{feed: array<int, Post>, cursor: string}> $response
+         * @var Response<array{feed: array<int, PostMetadata>, cursor: string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -212,7 +213,7 @@ final readonly class Feed implements FeedContract
         ]);
 
         /**
-         * @var Response<array{posts: array<int, Post>}> $response
+         * @var Response<array{posts: array<int, PostMetadata>}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -230,7 +231,7 @@ final readonly class Feed implements FeedContract
             ->withOptionalQueryParameter('cursor', $cursor);
 
         /**
-         * @var Response<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, Post>}> $response
+         * @var Response<array{uri: string, cid: ?string, cursor: ?string, posts: array<int, PostMetadata>}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
@@ -267,5 +268,22 @@ final readonly class Feed implements FeedContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetSuggestedFeedsResponse::from($response->data());
+    }
+
+    #[\Override]
+    public function getTimeline(?string $algorithm = null, int $limit = 50, ?string $cursor = null): GetTimelineResponse
+    {
+        $payload = Payload::get('app.bsky.feed.getTimeline', [
+            'limit' => $limit,
+        ])
+            ->withOptionalQueryParameter('algorithm', $algorithm)
+            ->withOptionalQueryParameter('cursor', $cursor);
+
+        /**
+         * @var Response<array{feed: array<int, PostMetadata>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetTimelineResponse::from($response->data());
     }
 }
