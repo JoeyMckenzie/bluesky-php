@@ -15,8 +15,8 @@ use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
 use function Pest\Faker\fake;
-use function Tests\Fixtures\refreshedSession;
-use function Tests\Fixtures\session;
+use function Tests\Fixtures\ATProto\refreshedSession;
+use function Tests\Fixtures\ATProto\session;
 
 covers(Server::class);
 
@@ -40,13 +40,13 @@ describe(Server::class, function (): void {
         );
 
         // Assert empty string throws
-        expect(fn (): CreateSessionResponse => $client->server()->createSession(''))
+        expect(fn (): CreateSessionResponse => $client->atproto()->server()->createSession(''))
             ->toThrow(AuthenticationException::class, 'Password cannot be empty.');
 
         // Assert mutation string does not throw (opposite of empty)
         $nonEmptyPassword = 'password';
         expect($nonEmptyPassword)->not->toBe('')
-            ->and(fn (): CreateSessionResponse => $client->server()->createSession($nonEmptyPassword))
+            ->and(fn (): CreateSessionResponse => $client->atproto()->server()->createSession($nonEmptyPassword))
             ->not->toThrow(AuthenticationException::class);
     });
 
@@ -67,7 +67,7 @@ describe(Server::class, function (): void {
         );
 
         // Act
-        $result = $client->server()->createSession($password);
+        $result = $client->atproto()->server()->createSession($password);
 
         // Get request payload
         $lastPayload = ClientMock::getLastPayload();
@@ -103,13 +103,13 @@ describe(Server::class, function (): void {
         );
 
         // Assert empty string throws
-        expect(fn (): CreateSessionResponse => $client->server()->refreshSession(''))
+        expect(fn (): CreateSessionResponse => $client->atproto()->server()->refreshSession(''))
             ->toThrow(AuthenticationException::class, 'Refresh token cannot be empty.');
 
         // Assert mutation string does not throw (opposite of empty)
         $nonEmptyToken = 'token';
         expect($nonEmptyToken)->not->toBe('')
-            ->and(fn (): CreateSessionResponse => $client->server()->refreshSession($nonEmptyToken))
+            ->and(fn (): CreateSessionResponse => $client->atproto()->server()->refreshSession($nonEmptyToken))
             ->not->toThrow(AuthenticationException::class);
     });
 
@@ -130,7 +130,7 @@ describe(Server::class, function (): void {
         );
 
         // Act
-        $client->server()->refreshSession($refreshToken);
+        $client->atproto()->server()->refreshSession($refreshToken);
 
         // Get request payload
         $lastPayload = ClientMock::getLastPayload();
@@ -171,7 +171,7 @@ describe(Server::class, function (): void {
         );
 
         // Act
-        $client->server()->refreshSession($refreshToken);
+        $client->atproto()->server()->refreshSession($refreshToken);
 
         // Get request for validation
         $lastPayload = ClientMock::getLastPayload();
@@ -219,7 +219,7 @@ describe(Server::class, function (): void {
         );
 
         // Act
-        $client->server()->refreshSession($refreshToken);
+        $client->atproto()->server()->refreshSession($refreshToken);
 
         // Get request for validation
         $lastPayload = ClientMock::getLastPayload();

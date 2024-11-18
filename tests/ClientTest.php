@@ -7,15 +7,15 @@ namespace Tests;
 use Bluesky\Client;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Exceptions\AuthenticationException;
-use Bluesky\Resources\App\Actor;
-use Bluesky\Resources\App\Feed;
-use Bluesky\Resources\App\Graph;
 use Bluesky\Resources\ATProto\Server;
+use Bluesky\Resources\Bsky\Actor;
+use Bluesky\Resources\Bsky\Feed;
+use Bluesky\Resources\Bsky\Graph;
 use Bluesky\ValueObjects\Connector\Response;
 use Mockery;
 
-use function Tests\Fixtures\refreshedSession;
-use function Tests\Fixtures\session;
+use function Tests\Fixtures\ATProto\refreshedSession;
+use function Tests\Fixtures\ATProto\session;
 
 covers(Client::class);
 
@@ -27,10 +27,10 @@ describe(Client::class, function (): void {
     });
 
     it('creates namespaced resource instances', function (): void {
-        expect($this->client->server())->toBeInstanceOf(Server::class)
-            ->and($this->client->app()->actor())->toBeInstanceOf(Actor::class)
-            ->and($this->client->app()->graph())->toBeInstanceOf(Graph::class)
-            ->and($this->client->app()->feed())->toBeInstanceOf(Feed::class);
+        expect($this->client->atproto()->server())->toBeInstanceOf(Server::class)
+            ->and($this->client->bsky()->actor())->toBeInstanceOf(Actor::class)
+            ->and($this->client->bsky()->graph())->toBeInstanceOf(Graph::class)
+            ->and($this->client->bsky()->feed())->toBeInstanceOf(Feed::class);
     });
 
     it('creates new session', function (): void {
@@ -85,9 +85,9 @@ describe(Client::class, function (): void {
         $this->client = new Client($this->connector, $this->username, $accessToken);
 
         // Act
-        $actor = $this->client->app()->actor();
-        $feed = $this->client->app()->feed();
-        $graph = $this->client->app()->graph();
+        $actor = $this->client->bsky()->actor();
+        $feed = $this->client->bsky()->feed();
+        $graph = $this->client->bsky()->graph();
 
         expect($actor->getAccessJwt())->toBe($accessToken)
             ->and($feed->getAccessJwt())->toBe($accessToken)
@@ -100,8 +100,8 @@ describe(Client::class, function (): void {
         $client = new Client($this->connector, $username);
 
         // Act
-        $session = $client->server();
-        $feed = $client->app()->feed();
+        $session = $client->atproto()->server();
+        $feed = $client->bsky()->feed();
 
         expect($session->getUsername())->toBe($username)
             ->and($feed->getUsername())->toBe($username);

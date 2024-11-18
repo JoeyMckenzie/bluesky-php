@@ -12,7 +12,7 @@
 $client->feed()->getTimeline();
 
 // Now becomes
-$client->app()->feed()->getTimeline();
+$client->bsky()->feed()->getTimeline();
 
 ```
 

@@ -6,7 +6,7 @@ namespace Tests\Responses\Session;
 
 use Bluesky\Responses\ATProto\Session\CreateSessionResponse;
 
-use function Tests\Fixtures\session;
+use function Tests\Fixtures\ATProto\session;
 
 describe(CreateSessionResponse::class, function (): void {
     it('returns a valid typed session object', function (): void {

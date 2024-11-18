@@ -11,7 +11,7 @@ use Bluesky\Enums\TargetApi;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
-use function Tests\Fixtures\session;
+use function Tests\Fixtures\ATProto\session;
 
 covers(Bluesky::class);
 

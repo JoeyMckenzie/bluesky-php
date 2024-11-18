@@ -15,7 +15,7 @@ use Bluesky\ValueObjects\Payload;
 use Mockery;
 use Psr\Http\Message\ResponseInterface;
 
-use function Tests\Fixtures\stubJwt;
+use function Tests\Fixtures\ATProto\stubJwt;
 
 final class ClientMock
 {

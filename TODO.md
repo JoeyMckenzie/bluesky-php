@@ -62,14 +62,20 @@ Endpoints still to implement for client
 
 ## Notification
 
-- [ ] `app.bsky.notification.getUnreadCount`
+- [x] `app.bsky.notification.getUnreadCount`
 - [ ] `app.bsky.notification.listNotifications`
 - [ ] `app.bsky.notification.putPreferences`
 - [ ] `app.bsky.notification.registerPush`
 - [ ] `app.bsky.notification.updateSeen`
+
+## Video
+
 - [ ] `app.bsky.video.getJobStatus`
 - [ ] `app.bsky.video.getUploadLimits`
 - [ ] `app.bsky.video.uploadVideo`
+
+## Chat
+
 - [ ] `chat.bsky.actor.deleteAccount`
 - [ ] `chat.bsky.actor.exportAccountData`
 - [ ] `chat.bsky.convo.deleteMessageForSelf`

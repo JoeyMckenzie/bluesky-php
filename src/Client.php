@@ -6,13 +6,11 @@ namespace Bluesky;
 
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
-use Bluesky\Contracts\Resources\AppNamespaceContract;
-use Bluesky\Contracts\Resources\ATProto\ServerContract;
 use Bluesky\Contracts\Resources\ATProtoNamespaceContract;
+use Bluesky\Contracts\Resources\BskyNamespaceContract;
 use Bluesky\Exceptions\AuthenticationException;
-use Bluesky\Resources\AppNamespace;
-use Bluesky\Resources\ATProto\Server;
 use Bluesky\Resources\ATProtoNamespace;
+use Bluesky\Resources\BskyNamespace;
 
 /**
  * The primary client gateway for connecting to Bluesky's API containing all connections to the available resources.
@@ -45,21 +43,21 @@ final class Client
 
     public function newSession(string $password): self
     {
-        $newSession = $this->server()->createSession($password);
+        $newSession = $this->atproto()->server()->createSession($password);
         $this->accessJwt = $newSession->accessJwt;
         $this->refreshJwt = $newSession->refreshJwt;
 
         return $this;
     }
 
-    public function server(): ServerContract
+    public function atproto(): ATProtoNamespaceContract
     {
-        return new Server($this->connector, $this->username);
+        return new ATProtoNamespace($this->connector, $this->username);
     }
 
-    public function app(): AppNamespaceContract
+    public function bsky(): BskyNamespaceContract
     {
-        return new AppNamespace($this->connector, $this->username, $this->accessJwt);
+        return new BskyNamespace($this->connector, $this->username, $this->accessJwt);
     }
 
     /**
@@ -71,16 +69,11 @@ final class Client
             throw new AuthenticationException('Refresh JWT is required to refresh a session.');
         }
 
-        $refreshedSession = $this->server()->refreshSession($this->refreshJwt);
+        $refreshedSession = $this->atproto()->server()->refreshSession($this->refreshJwt);
         $this->accessJwt = $refreshedSession->accessJwt;
         $this->refreshJwt = $refreshedSession->refreshJwt;
 
         return $this;
-    }
-
-    public function atproto(): ATProtoNamespaceContract
-    {
-        return new ATProtoNamespace($this->connector, $this->username);
     }
 
     public function getRefreshJwt(): ?string
