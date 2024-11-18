@@ -16,6 +16,42 @@ A Bluesky PHP client compatible with your HTTP client of choice. The goal of thi
 easy-to-use PHP HTTP client to interact with [Bluesky's API](https://docs.bsky.app/), providing methods for calling
 both the authenticated and public endpoints.
 
+### Current API coverage status
+
+The Bluesky API surface is fairly large, and we'll be doing our best to cover as many of the endpoints as possible
+to provide a friendly client experience. In terms of currently covered resources:
+
+#### App namespace
+
+- [x] Actor
+- [x] Feed
+- [ ] Graph
+- [ ] Notification
+- [ ] Video
+
+#### Chat namespace
+
+- [ ] Actor
+- [ ] Convo
+- [ ] moderation
+
+#### AT Proto
+
+- [ ] Admin
+- [ ] Identity
+- [ ] Repo
+- [ ] Server (only session create/refresh done as of now)
+- [ ] Sync
+
+#### Tools namespace
+
+- [ ] Communication
+- [ ] Moderation
+- [ ] Server
+- [ ] Setters
+- [ ] Signature
+- [ ] Team
+
 > ℹ️ Current progress: 21/165 endpoints covered
 
 ## Bluesky PHP in action
@@ -58,6 +94,15 @@ var_dump($profile);
 
 // Create a post
 $post = $client->feed()->post('This post was brought to you by PHP!');
+
+// Get posts from the authenticated user's timeline
+$timeline = $client->feed()->getTimeline();
+var_dump($timeline);
+
+// Or, search posts based on a variety of parameters
+$searchPosts = $client->feed()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
+var_dump($searchPosts);
+
 ```
 
 ## Getting started
@@ -68,7 +113,7 @@ To get started, install Bluesky from Packagist
 $ composer install joeymckenzie/bluesky-php
 ```
 
-Within you code, instantiate a new instance of the client:
+Within your code, instantiate a new instance of the client:
 
 ```php
 $client = Bluesky::client('username.bsky.social');
