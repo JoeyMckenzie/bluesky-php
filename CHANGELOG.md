@@ -1,7 +1,5 @@
 # Changelog
 
-All notable changes to `:package_name` will be documented in this file.
-
 ## v0.1.1 - 2024-11-18
 
 ### What's New
@@ -17,6 +15,7 @@ $client->feed()->getTimeline();
 $client->app()->feed()->getTimeline();
 
 ```
+
 - Minor changes to examples
 
 **Full Changelog**: https://github.com/JoeyMckenzie/bluesky-php/compare/v0.1.0...v0.1.1
