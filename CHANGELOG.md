@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.2 - 2024-11-18
+
+### What's New
+
+- Adds a new `ATProtoNamespace` client for the `com.atproto.*` namespace APIs
+- Session creation has been moved to the new ATProto `Server` client
+
 ## v0.1.1 - 2024-11-18
 
 ### What's New
@@ -14,8 +21,8 @@ $client->feed()->getTimeline();
 // Now becomes
 $client->bsky()->feed()->getTimeline();
 
-```
 
+```
 - Minor changes to examples
 
 **Full Changelog**: https://github.com/JoeyMckenzie/bluesky-php/compare/v0.1.0...v0.1.1
