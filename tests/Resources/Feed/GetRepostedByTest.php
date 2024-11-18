@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Resources\Feed;
 
+use Bluesky\Resources\Feed;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
 use function Tests\Fixtures\repostedBy;
 
-describe('feed reposted by', function (): void {
+covers(Feed::class);
 
+describe('feed reposted by', function (): void {
     it('can retrieve posts reposted by other users', function (): void {
         // Arrange
         $client = ClientMock::createForGet(

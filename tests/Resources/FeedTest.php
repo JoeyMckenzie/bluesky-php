@@ -16,7 +16,6 @@ use Bluesky\Responses\Feed\GetFeedResponse;
 use Bluesky\Responses\Feed\GetLikesResponse;
 use Bluesky\Responses\Feed\GetPostsResponse;
 use Bluesky\Responses\Feed\GetPostThreadResponse;
-use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
 use Tests\Mocks\ClientMock;
@@ -30,7 +29,6 @@ use function Tests\Fixtures\listFeed;
 use function Tests\Fixtures\post;
 use function Tests\Fixtures\posts;
 use function Tests\Fixtures\postThread;
-use function Tests\Fixtures\quotes;
 
 covers(Feed::class);
 
@@ -418,99 +416,5 @@ describe(Feed::class, function (): void {
         expect($result)
             ->toBeInstanceOf(GetPostsResponse::class)
             ->posts->toBeArray();
-    });
-
-    it('can retrieve quotes for a post', function (): void {
-        // Arrange
-        $client = ClientMock::createForGet(
-            'app.bsky.feed.getQuotes',
-            [
-                'uri' => 'test-uri',
-                'limit' => 50,
-            ],
-            Response::from(quotes()),
-        );
-
-        // Act
-        $result = $client->feed()->getQuotes('test-uri');
-
-        // Assert
-        expect($result)
-            ->toBeInstanceOf(GetQuotesResponse::class)
-            ->posts->toBeArray()
-            ->uri->not->toBeNull()->toBeString()
-            ->cid->not->toBeNull()->toBeString()
-            ->cursor->not->toBeNull()->toBeString();
-    });
-
-    it('can retrieve quotes for a post with a cid', function (): void {
-        // Arrange
-        $client = ClientMock::createForGet(
-            'app.bsky.feed.getQuotes',
-            [
-                'uri' => 'test-uri',
-                'limit' => 50,
-                'cid' => 'test-cid',
-            ],
-            Response::from(quotes()),
-        );
-
-        // Act
-        $result = $client->feed()->getQuotes('test-uri', cid: 'test-cid');
-
-        // Assert
-        expect($result)
-            ->toBeInstanceOf(GetQuotesResponse::class)
-            ->posts->toBeArray()
-            ->uri->not->toBeNull()->toBeString()
-            ->cid->not->toBeNull()->toBeString()
-            ->cursor->not->toBeNull()->toBeString();
-    });
-
-    it('can retrieve quotes for a post with a limit', function (): void {
-        // Arrange
-        $client = ClientMock::createForGet(
-            'app.bsky.feed.getQuotes',
-            [
-                'uri' => 'test-uri',
-                'limit' => 69,
-            ],
-            Response::from(quotes()),
-        );
-
-        // Act
-        $result = $client->feed()->getQuotes('test-uri', 69);
-
-        // Assert
-        expect($result)
-            ->toBeInstanceOf(GetQuotesResponse::class)
-            ->posts->toBeArray()
-            ->uri->not->toBeNull()->toBeString()
-            ->cid->not->toBeNull()->toBeString()
-            ->cursor->not->toBeNull()->toBeString();
-    });
-
-    it('can retrieve quotes for a post with a cursor', function (): void {
-        // Arrange
-        $client = ClientMock::createForGet(
-            'app.bsky.feed.getQuotes',
-            [
-                'uri' => 'test-uri',
-                'limit' => 50,
-                'cursor' => 'test-cursor',
-            ],
-            Response::from(quotes()),
-        );
-
-        // Act
-        $result = $client->feed()->getQuotes('test-uri', cursor: 'test-cursor');
-
-        // Assert
-        expect($result)
-            ->toBeInstanceOf(GetQuotesResponse::class)
-            ->posts->toBeArray()
-            ->uri->not->toBeNull()->toBeString()
-            ->cid->not->toBeNull()->toBeString()
-            ->cursor->not->toBeNull()->toBeString();
     });
 });

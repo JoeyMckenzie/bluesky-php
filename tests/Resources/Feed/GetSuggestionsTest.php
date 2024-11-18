@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
+use Bluesky\Resources\Feed;
 use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
 use function Tests\Fixtures\suggestedFeeds;
 
-describe('feed suggestions', function (): void {
+covers(Feed::class);
 
+describe('feed suggestions', function (): void {
     it('can retrieve suggested feeds', function (): void {
         // Arrange
         $client = ClientMock::createForGet(

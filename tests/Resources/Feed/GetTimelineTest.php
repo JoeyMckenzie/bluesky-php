@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
+use Bluesky\Resources\Feed;
 use Bluesky\Responses\Feed\GetTimelineResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
 
 use function Tests\Fixtures\timeline;
 
-describe('feed resource timeline', function (): void {
+covers(Feed::class);
 
+describe('feed resource timeline', function (): void {
     it('can retrieve timelines', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
