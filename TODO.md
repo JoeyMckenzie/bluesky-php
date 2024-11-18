@@ -2,6 +2,8 @@
 
 Endpoints still to implement for client
 
+## Actor
+
 - [x] `app.bsky.actor.getPreferences`
 - [x] `app.bsky.actor.getProfile`
 - [x] `app.bsky.actor.getProfiles`
@@ -9,6 +11,9 @@ Endpoints still to implement for client
 - [x] `app.bsky.actor.putPreferences`
 - [x] `app.bsky.actor.searchActorsTypeahead`
 - [x] `app.bsky.actor.searchActors`
+
+## Feed
+
 - [ ] `app.bsky.feed.describeFeedGenerator` ⚠️(not working)
 - [ ] `app.bsky.feed.getActorFeeds` ⚠️(need some feeds to test with)
 - [x] `app.bsky.feed.getActorLikes`
@@ -27,7 +32,10 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getTimeline`
 - [x] `app.bsky.feed.searchPosts`
 - [ ] `app.bsky.feed.sendInteractions` ⚠️(getting XRPCNotSupported error)
-- [ ] `app.bsky.graph.getActorStarterPacks`
+
+## Graph
+
+- [x] `app.bsky.graph.getActorStarterPacks`
 - [ ] `app.bsky.graph.getBlocks`
 - [ ] `app.bsky.graph.getFollowers`
 - [ ] `app.bsky.graph.getFollows`

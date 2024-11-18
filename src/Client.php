@@ -8,10 +8,12 @@ use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\ActorContract;
 use Bluesky\Contracts\Resources\FeedContract;
+use Bluesky\Contracts\Resources\GraphContract;
 use Bluesky\Contracts\Resources\SessionContract;
 use Bluesky\Exceptions\AuthenticationException;
 use Bluesky\Resources\Actor;
 use Bluesky\Resources\Feed;
+use Bluesky\Resources\Graph;
 use Bluesky\Resources\Session;
 
 /**
@@ -81,6 +83,11 @@ final class Client
     public function feed(): FeedContract
     {
         return new Feed($this->connector, $this->username, $this->accessJwt);
+    }
+
+    public function graph(): GraphContract
+    {
+        return new Graph($this->connector, $this->accessJwt);
     }
 
     public function getRefreshJwt(): ?string
