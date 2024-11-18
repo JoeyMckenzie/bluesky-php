@@ -8,6 +8,7 @@ use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\GraphContract;
 use Bluesky\Responses\Graph\GetActorStarterPacksResponse;
+use Bluesky\Responses\Graph\GetBlocksResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -37,5 +38,20 @@ final readonly class Graph implements GraphContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetActorStarterPacksResponse::from($response->data());
+    }
+
+    #[Override]
+    public function getBlocks(int $limit = 50, ?string $cursor = null): GetBlocksResponse
+    {
+        $payload = Payload::get('app.bsky.graph.getBlocks', [
+            'limit' => $limit,
+        ])->withOptionalQueryParameter('cursor', $cursor);
+
+        /**
+         * @var Response<array{blocks: array<int, array{did: string, handle: string, displayName: string, avatar: string, viewer: array{muted: bool, blockedBy: bool, blocking: string}, labels: array<string>, createdAt: string, description: string, indexedAt: string}>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetBlocksResponse::from($response->data());
     }
 }
