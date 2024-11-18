@@ -93,14 +93,14 @@ $profile = $client->actor()->getProfile($username);
 var_dump($profile);
 
 // Create a post
-$post = $client->feed()->post('This post was brought to you by PHP!');
+$post = $client->app()->graph()->post('This post was brought to you by PHP!');
 
 // Get posts from the authenticated user's timeline
-$timeline = $client->feed()->getTimeline();
+$timeline = $client->app()->graph()->getTimeline();
 var_dump($timeline);
 
 // Or, search posts based on a variety of parameters
-$searchPosts = $client->feed()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
+$searchPosts = $client->app()->graph()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
 var_dump($searchPosts);
 
 ```

@@ -7,9 +7,10 @@ namespace Tests;
 use Bluesky\Client;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Exceptions\AuthenticationException;
-use Bluesky\Resources\Actor;
-use Bluesky\Resources\Feed;
-use Bluesky\Resources\Session;
+use Bluesky\Resources\App\Actor;
+use Bluesky\Resources\App\Feed;
+use Bluesky\Resources\App\Graph;
+use Bluesky\Resources\App\Session;
 use Bluesky\ValueObjects\Connector\Response;
 use Mockery;
 
@@ -25,10 +26,11 @@ describe(Client::class, function (): void {
         $this->client = new Client($this->connector, $this->username);
     });
 
-    it('creates resource instances', function (): void {
+    it('creates namespaced resource instances', function (): void {
         expect($this->client->session())->toBeInstanceOf(Session::class)
-            ->and($this->client->actor())->toBeInstanceOf(Actor::class)
-            ->and($this->client->feed())->toBeInstanceOf(Feed::class);
+            ->and($this->client->app()->actor())->toBeInstanceOf(Actor::class)
+            ->and($this->client->app()->graph())->toBeInstanceOf(Graph::class)
+            ->and($this->client->app()->feed())->toBeInstanceOf(Feed::class);
     });
 
     it('creates new session', function (): void {
@@ -73,7 +75,7 @@ describe(Client::class, function (): void {
         $this->client = new Client($this->connector, $this->username);
 
         // Act & Assert
-        expect(fn (): \Bluesky\Client => $this->client->refreshSession())
+        expect(fn (): Client => $this->client->refreshSession())
             ->toThrow(AuthenticationException::class, 'Refresh JWT is required to refresh a session.');
     });
 
@@ -83,11 +85,13 @@ describe(Client::class, function (): void {
         $this->client = new Client($this->connector, $this->username, $accessToken);
 
         // Act
-        $actor = $this->client->actor();
-        $feed = $this->client->feed();
+        $actor = $this->client->app()->actor();
+        $feed = $this->client->app()->feed();
+        $graph = $this->client->app()->graph();
 
         expect($actor->getAccessJwt())->toBe($accessToken)
-            ->and($feed->getAccessJwt())->toBe($accessToken);
+            ->and($feed->getAccessJwt())->toBe($accessToken)
+            ->and($graph->getAccessJwt())->toBe($accessToken);
     });
 
     it('passes username to resources', function (): void {
@@ -97,7 +101,7 @@ describe(Client::class, function (): void {
 
         // Act
         $session = $client->session();
-        $feed = $client->feed();
+        $feed = $client->app()->feed();
 
         expect($session->getUsername())->toBe($username)
             ->and($feed->getUsername())->toBe($username);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Feed\GetQuotesResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -24,7 +24,7 @@ describe('quotes', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getQuotes('test-uri');
+        $result = $client->app()->feed()->getQuotes('test-uri');
 
         // Assert
         expect($result)
@@ -48,7 +48,7 @@ describe('quotes', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getQuotes('test-uri', cid: 'test-cid');
+        $result = $client->app()->feed()->getQuotes('test-uri', cid: 'test-cid');
 
         // Assert
         expect($result)
@@ -71,7 +71,7 @@ describe('quotes', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getQuotes('test-uri', 69);
+        $result = $client->app()->feed()->getQuotes('test-uri', 69);
 
         // Assert
         expect($result)
@@ -95,7 +95,7 @@ describe('quotes', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getQuotes('test-uri', cursor: 'test-cursor');
+        $result = $client->app()->feed()->getQuotes('test-uri', cursor: 'test-cursor');
 
         // Assert
         expect($result)

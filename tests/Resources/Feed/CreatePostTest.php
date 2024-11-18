@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Resources\Feed;
 
 use Bluesky\Enums\HttpMethod;
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
@@ -37,7 +37,7 @@ describe('creating posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->post($text, $createdAt);
+        $result = $client->app()->feed()->post($text, $createdAt);
 
         // Assert
         expect($result)
@@ -64,7 +64,7 @@ describe('creating posts', function (): void {
             Response::from(post()),
         );
 
-        $result = $client->feed()->post($text, $dateTime);
+        $result = $client->app()->feed()->post($text, $dateTime);
 
         expect($result)->toBeInstanceOf(CreatePostResponse::class);
         expect($dateTime)->toBeInstanceOf(DateTime::class);
@@ -90,7 +90,7 @@ describe('creating posts', function (): void {
             Response::from(post()),
         );
 
-        $result = $client->feed()->post($text);
+        $result = $client->app()->feed()->post($text);
 
         expect($result)->toBeInstanceOf(CreatePostResponse::class);
 

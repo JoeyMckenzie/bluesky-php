@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources;
 
-use Bluesky\Resources\Actor;
+use Bluesky\Resources\App\Actor;
 use Bluesky\Responses\Actor\GetPreferencesResponse;
 use Bluesky\Responses\Actor\GetProfileResponse;
 use Bluesky\Responses\Actor\GetProfilesResponse;
@@ -31,7 +31,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->getProfile('test');
+        $result = $client->app()->actor()->getProfile('test');
 
         // Assert
         expect($result)
@@ -60,7 +60,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->getProfiles(['user1', 'user2']);
+        $result = $client->app()->actor()->getProfiles(['user1', 'user2']);
 
         // Assert
         expect($result)
@@ -78,7 +78,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->getPreferences();
+        $result = $client->app()->actor()->getPreferences();
 
         // Assert
         expect($result)
@@ -96,7 +96,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act & Assert the call went through as expected
-        $client->actor()->putPreferences($preferences['preferences']);
+        $client->app()->actor()->putPreferences($preferences['preferences']);
     });
 
     it('can retrieve suggestions', function (): void {
@@ -111,7 +111,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->getSuggestions();
+        $result = $client->app()->actor()->getSuggestions();
 
         // Assert
         expect($result)
@@ -135,7 +135,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->getSuggestions($limit, $cursor);
+        $result = $client->app()->actor()->getSuggestions($limit, $cursor);
 
         // Assert
         expect($result)
@@ -158,7 +158,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->searchActors('php');
+        $result = $client->app()->actor()->searchActors('php');
 
         // Assert
         expect($result)
@@ -183,7 +183,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->searchActors('php', $limit, $cursor);
+        $result = $client->app()->actor()->searchActors('php', $limit, $cursor);
 
         // Assert
         expect($result)
@@ -205,7 +205,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->searchActorsTypeahead('php');
+        $result = $client->app()->actor()->searchActorsTypeahead('php');
 
         // Assert
         expect($result)
@@ -228,7 +228,7 @@ describe(Actor::class, function (): void {
         );
 
         // Act
-        $result = $client->actor()->searchActorsTypeahead('php', $limit);
+        $result = $client->app()->actor()->searchActorsTypeahead('php', $limit);
 
         // Assert
         expect($result)

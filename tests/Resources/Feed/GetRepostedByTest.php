@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources\Feed;
 
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Feed\GetRepostedByResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -25,7 +25,7 @@ describe('feed reposted by', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getRepostedBy('test-uri');
+        $result = $client->app()->feed()->getRepostedBy('test-uri');
 
         // Assert
         expect($result)
@@ -48,7 +48,7 @@ describe('feed reposted by', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getRepostedBy('test-uri', cid: 'test-cid');
+        $result = $client->app()->feed()->getRepostedBy('test-uri', cid: 'test-cid');
 
         // Assert
         expect($result)
@@ -71,7 +71,7 @@ describe('feed reposted by', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getRepostedBy('test-uri', cursor: 'test-cursor');
+        $result = $client->app()->feed()->getRepostedBy('test-uri', cursor: 'test-cursor');
 
         // Assert
         expect($result)

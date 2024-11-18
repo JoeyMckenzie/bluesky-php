@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Feed\GetTimelineResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -23,7 +23,7 @@ describe('feed resource timeline', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getTimeline();
+        $result = $client->app()->feed()->getTimeline();
 
         // Assert
         expect($result)
@@ -43,7 +43,7 @@ describe('feed resource timeline', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getTimeline(limit: 69);
+        $result = $client->app()->feed()->getTimeline(limit: 69);
 
         // Assert
         expect($result)
@@ -64,7 +64,7 @@ describe('feed resource timeline', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getTimeline(cursor: 'test-cursor');
+        $result = $client->app()->feed()->getTimeline(cursor: 'test-cursor');
 
         // Assert
         expect($result)
@@ -85,7 +85,7 @@ describe('feed resource timeline', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getTimeline(algorithm: 'test-algorithm');
+        $result = $client->app()->feed()->getTimeline(algorithm: 'test-algorithm');
 
         // Assert
         expect($result)

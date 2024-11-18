@@ -34,4 +34,4 @@ $profile = $client->actor()->getProfile($username);
 var_dump($profile);
 
 // Create a post
-$post = $client->feed()->post('This post was brought to you by PHP. Working on yet another Bluesky client for PHP, heavily inspired Nuno\'s OpenAI client. Coming to a Packagist feed near you... 🤠');
+$post = $client->app()->graph()->post('This post was brought to you by PHP. Working on yet another Bluesky client for PHP, heavily inspired Nuno\'s OpenAI client. Coming to a Packagist feed near you... 🤠');

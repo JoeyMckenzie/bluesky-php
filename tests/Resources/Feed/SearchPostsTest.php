@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources\Feed;
 
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Feed\SearchPostsResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Carbon\Carbon;
@@ -27,7 +27,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php');
+        $result = $client->app()->feed()->searchPosts('php');
 
         // Assert
         expect($result)
@@ -50,7 +50,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', cursor: 'test-cursor');
+        $result = $client->app()->feed()->searchPosts('php', cursor: 'test-cursor');
 
         // Assert
         expect($result)
@@ -73,7 +73,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', sort: 'latest');
+        $result = $client->app()->feed()->searchPosts('php', sort: 'latest');
 
         // Assert
         expect($result)
@@ -97,7 +97,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', since: $since);
+        $result = $client->app()->feed()->searchPosts('php', since: $since);
 
         // Assert
         expect($result)
@@ -121,7 +121,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', until: $until);
+        $result = $client->app()->feed()->searchPosts('php', until: $until);
 
         // Assert
         expect($result)
@@ -144,7 +144,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', mentions: 'user-did');
+        $result = $client->app()->feed()->searchPosts('php', mentions: 'user-did');
 
         // Assert
         expect($result)
@@ -167,7 +167,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', author: 'user-did');
+        $result = $client->app()->feed()->searchPosts('php', author: 'user-did');
 
         // Assert
         expect($result)
@@ -190,7 +190,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', lang: 'en');
+        $result = $client->app()->feed()->searchPosts('php', lang: 'en');
 
         // Assert
         expect($result)
@@ -213,7 +213,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', domain: 'joeymckenzie.tech');
+        $result = $client->app()->feed()->searchPosts('php', domain: 'joeymckenzie.tech');
 
         // Assert
         expect($result)
@@ -236,7 +236,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', url: 'joeymckenzie.tech');
+        $result = $client->app()->feed()->searchPosts('php', url: 'joeymckenzie.tech');
 
         // Assert
         expect($result)
@@ -262,7 +262,7 @@ describe('search posts', function (): void {
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', tag: ['tag-1', 'tag-2']);
+        $result = $client->app()->feed()->searchPosts('php', tag: ['tag-1', 'tag-2']);
 
         // Assert
         expect($result)

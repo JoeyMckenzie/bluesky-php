@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Resources;
+namespace Bluesky\Resources\App;
 
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
-use Bluesky\Contracts\Resources\ActorContract;
+use Bluesky\Contracts\Resources\App\ActorContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Responses\Actor\GetPreferencesResponse;
 use Bluesky\Responses\Actor\GetProfileResponse;

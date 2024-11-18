@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Contracts\Resources;
+namespace Bluesky\Contracts\Resources\App;
 
 use Bluesky\Responses\Actor\GetListFeedResponse;
 use Bluesky\Responses\Feed\CreatePostResponse;

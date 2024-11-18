@@ -6,7 +6,7 @@ namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
 use Bluesky\Exceptions\AuthenticationException;
-use Bluesky\Resources\Session;
+use Bluesky\Resources\App\Session;
 use Bluesky\Responses\Session\CreateSessionResponse;
 use Bluesky\ValueObjects\Connector\BaseUri;
 use Bluesky\ValueObjects\Connector\Headers;

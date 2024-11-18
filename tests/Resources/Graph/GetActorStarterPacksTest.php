@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources\Feed;
 
-use Bluesky\Resources\Graph;
+use Bluesky\Resources\App\Graph;
 use Bluesky\Responses\Graph\GetActorStarterPacksResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -24,7 +24,7 @@ describe('actor starter packs', function (): void {
         );
 
         // Act
-        $result = $client->graph()->getActorStarterPacks('user-did');
+        $result = $client->app()->graph()->getActorStarterPacks('user-did');
 
         // Assert
         expect($result)
@@ -45,7 +45,7 @@ describe('actor starter packs', function (): void {
         );
 
         // Act
-        $result = $client->graph()->getActorStarterPacks('user-did', 420);
+        $result = $client->app()->graph()->getActorStarterPacks('user-did', 420);
 
         // Assert
         expect($result)
@@ -67,7 +67,7 @@ describe('actor starter packs', function (): void {
         );
 
         // Act
-        $result = $client->graph()->getActorStarterPacks('user-did', cursor: 'test-cursor');
+        $result = $client->app()->graph()->getActorStarterPacks('user-did', cursor: 'test-cursor');
 
         // Assert
         expect($result)

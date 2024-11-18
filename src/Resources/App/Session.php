@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Resources;
+namespace Bluesky\Resources\App;
 
 use Bluesky\Concerns\HasUserContext;
 use Bluesky\Contracts\ConnectorContract;
-use Bluesky\Contracts\Resources\SessionContract;
+use Bluesky\Contracts\Resources\App\SessionContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Exceptions\AuthenticationException;
 use Bluesky\Responses\Session\CreateSessionResponse;

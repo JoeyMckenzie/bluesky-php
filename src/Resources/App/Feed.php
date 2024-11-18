@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Resources;
+namespace Bluesky\Resources\App;
 
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Concerns\HasUserContext;
 use Bluesky\Contracts\ConnectorContract;
-use Bluesky\Contracts\Resources\FeedContract;
+use Bluesky\Contracts\Resources\App\FeedContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Resources\Utilities\PostUtilities;
 use Bluesky\Responses\Actor\GetListFeedResponse;

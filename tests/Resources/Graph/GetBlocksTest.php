@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Resources\Feed;
 
-use Bluesky\Resources\Graph;
+use Bluesky\Resources\App\Graph;
 use Bluesky\Responses\Graph\GetBlocksResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -23,7 +23,7 @@ describe('blocks', function (): void {
         );
 
         // Act
-        $result = $client->graph()->getBlocks();
+        $result = $client->app()->graph()->getBlocks();
 
         // Assert
         expect($result)
@@ -43,7 +43,7 @@ describe('blocks', function (): void {
         );
 
         // Act
-        $result = $client->graph()->getBlocks(420);
+        $result = $client->app()->graph()->getBlocks(420);
 
         // Assert
         expect($result)
@@ -64,7 +64,7 @@ describe('blocks', function (): void {
         );
 
         // Act
-        $result = $client->graph()->getBlocks(cursor: 'test-cursor');
+        $result = $client->app()->graph()->getBlocks(cursor: 'test-cursor');
 
         // Assert
         expect($result)

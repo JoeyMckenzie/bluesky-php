@@ -6,15 +6,11 @@ namespace Bluesky;
 
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
-use Bluesky\Contracts\Resources\ActorContract;
-use Bluesky\Contracts\Resources\FeedContract;
-use Bluesky\Contracts\Resources\GraphContract;
-use Bluesky\Contracts\Resources\SessionContract;
+use Bluesky\Contracts\Resources\App\SessionContract;
+use Bluesky\Contracts\Resources\AppNamespaceContract;
 use Bluesky\Exceptions\AuthenticationException;
-use Bluesky\Resources\Actor;
-use Bluesky\Resources\Feed;
-use Bluesky\Resources\Graph;
-use Bluesky\Resources\Session;
+use Bluesky\Resources\App\Session;
+use Bluesky\Resources\AppNamespace;
 
 /**
  * The primary client gateway for connecting to Bluesky's API containing all connections to the available resources.
@@ -75,19 +71,9 @@ final class Client
         return $this;
     }
 
-    public function actor(): ActorContract
+    public function app(): AppNamespaceContract
     {
-        return new Actor($this->connector, $this->accessJwt);
-    }
-
-    public function feed(): FeedContract
-    {
-        return new Feed($this->connector, $this->username, $this->accessJwt);
-    }
-
-    public function graph(): GraphContract
-    {
-        return new Graph($this->connector, $this->accessJwt);
+        return new AppNamespace($this->connector, $this->username, $this->accessJwt);
     }
 
     public function getRefreshJwt(): ?string

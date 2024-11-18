@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Resources;
+namespace Bluesky\Resources\App;
 
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
-use Bluesky\Contracts\Resources\GraphContract;
+use Bluesky\Contracts\Resources\App\GraphContract;
 use Bluesky\Responses\Graph\GetActorStarterPacksResponse;
 use Bluesky\Responses\Graph\GetBlocksResponse;
 use Bluesky\ValueObjects\Connector\Response;

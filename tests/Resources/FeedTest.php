@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Resources;
 
 use Bluesky\Enums\HttpMethod;
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Actor\GetListFeedResponse;
 use Bluesky\Responses\Feed\CreatePostResponse;
 use Bluesky\Responses\Feed\GetActorLikesResponse;
@@ -46,7 +46,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getActorLikes($username);
+        $result = $client->app()->feed()->getActorLikes($username);
 
         // Assert
         expect($result)
@@ -70,7 +70,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getAuthorFeed($username);
+        $result = $client->app()->feed()->getAuthorFeed($username);
 
         // Assert
         expect($result)
@@ -95,7 +95,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getAuthorFeed($username, 69, '420', 'another_filter', true);
+        $result = $client->app()->feed()->getAuthorFeed($username, 69, '420', 'another_filter', true);
 
         // Assert
         expect($result)
@@ -121,7 +121,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getFeedGenerator('feed_uri');
+        $result = $client->app()->feed()->getFeedGenerator('feed_uri');
 
         // Assert
         expect($result)
@@ -145,7 +145,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getFeedGenerators(['feed_1', 'feed_2']);
+        $result = $client->app()->feed()->getFeedGenerators(['feed_1', 'feed_2']);
 
         // Assert
         expect($result)
@@ -165,7 +165,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getFeed('test-feed');
+        $result = $client->app()->feed()->getFeed('test-feed');
 
         // Assert
         expect($result)
@@ -185,7 +185,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getLikes('test-feed');
+        $result = $client->app()->feed()->getLikes('test-feed');
 
         // Assert
         expect($result)
@@ -213,7 +213,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->post($text);
+        $result = $client->app()->feed()->post($text);
 
         // Assert
         expect($result)
@@ -234,7 +234,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getFeed('test-feed', 50, $cursor);
+        $result = $client->app()->feed()->getFeed('test-feed', 50, $cursor);
 
         // Assert
         expect($result)
@@ -256,7 +256,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getLikes('test-feed', 50, $cursor);
+        $result = $client->app()->feed()->getLikes('test-feed', 50, $cursor);
 
         // Assert
         expect($result)
@@ -279,7 +279,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getListFeed('test-list-feed', 69, $cursor);
+        $result = $client->app()->feed()->getListFeed('test-list-feed', 69, $cursor);
 
         // Assert
         expect($result)
@@ -300,7 +300,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getListFeed('test-list-feed', 69);
+        $result = $client->app()->feed()->getListFeed('test-list-feed', 69);
 
         // Assert
         expect($result)
@@ -321,7 +321,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getListFeed('test-list-feed');
+        $result = $client->app()->feed()->getListFeed('test-list-feed');
 
         // Assert
         expect($result)
@@ -343,7 +343,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getPostThread('test-uri', 69);
+        $result = $client->app()->feed()->getPostThread('test-uri', 69);
 
         // Assert
         expect($result)
@@ -365,7 +365,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getPostThread('test-uri', parentHeight: 69);
+        $result = $client->app()->feed()->getPostThread('test-uri', parentHeight: 69);
 
         // Assert
         expect($result)
@@ -387,7 +387,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getPostThread('test-uri');
+        $result = $client->app()->feed()->getPostThread('test-uri');
 
         // Assert
         expect($result)
@@ -410,7 +410,7 @@ describe(Feed::class, function (): void {
         );
 
         // Act
-        $result = $client->feed()->getPosts(['test-uri-1', 'test-uri-2']);
+        $result = $client->app()->feed()->getPosts(['test-uri-1', 'test-uri-2']);
 
         // Assert
         expect($result)

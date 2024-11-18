@@ -31,38 +31,38 @@ assert($refreshed->getRefreshJwt() !== null);
 assert($refreshed->getAccessJwt() !== $originalAccessJwt);
 assert($refreshed->getRefreshJwt() !== $originalRefreshJwt);
 
-$feedGenerator = $client->feed()->getFeedGenerator('at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot');
+$feedGenerator = $client->app()->graph()->getFeedGenerator('at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot');
 var_dump($feedGenerator);
 
-$feedGenerators = $client->feed()->getFeedGenerators([
+$feedGenerators = $client->app()->graph()->getFeedGenerators([
     'at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.generator/whats-hot',
     'at://did:plc:jfhpnnst6flqway4eaeqzj2a/app.bsky.feed.generator/for-science',
 ]);
 var_dump($feedGenerators);
 
-$likes = $client->feed()->getLikes('at://did:plc:dg5diaehkfj3c66spqqvf7dp/app.bsky.feed.post/3lavri2jxhc24');
+$likes = $client->app()->graph()->getLikes('at://did:plc:dg5diaehkfj3c66spqqvf7dp/app.bsky.feed.post/3lavri2jxhc24');
 var_dump($likes);
 
-$listFeed = $client->feed()->getListFeed('at://did:plc:3ond7kebhvszgzsqo5llyipd/app.bsky.graph.list/3lawjh5t6pa2f');
+$listFeed = $client->app()->graph()->getListFeed('at://did:plc:3ond7kebhvszgzsqo5llyipd/app.bsky.graph.list/3lawjh5t6pa2f');
 var_dump($listFeed);
 
-$postThread = $client->feed()->getPostThread('at://coulb.com/app.bsky.feed.post/3lawmrlrrjk23');
+$postThread = $client->app()->graph()->getPostThread('at://coulb.com/app.bsky.feed.post/3lawmrlrrjk23');
 var_dump($postThread);
 
-$posts = $client->feed()->getPosts([
+$posts = $client->app()->graph()->getPosts([
     'at://did:plc:avuq73eppt7qxyxsnou6afcl/app.bsky.feed.post/3lawmrlrrjk23',
     'at://did:plc:ounoudlvca7fujj4hy4hec3c/app.bsky.feed.post/3lawuwuhnek2t',
 ]);
 var_dump($posts);
 
-$quotes = $client->feed()->getQuotes('at://did:plc:epouc7jtubjdv64mum274hv2/app.bsky.feed.post/3layv3ui35c27');
+$quotes = $client->app()->graph()->getQuotes('at://did:plc:epouc7jtubjdv64mum274hv2/app.bsky.feed.post/3layv3ui35c27');
 var_dump($quotes);
 
-$suggestedFeeds = $client->feed()->getSuggestedFeeds();
+$suggestedFeeds = $client->app()->graph()->getSuggestedFeeds();
 var_dump($suggestedFeeds);
 
-$timeline = $client->feed()->getTimeline();
+$timeline = $client->app()->graph()->getTimeline();
 var_dump($timeline);
 
-$searchPosts = $client->feed()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
+$searchPosts = $client->app()->graph()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
 var_dump($searchPosts);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Bluesky\Resources\Feed;
+use Bluesky\Resources\App\Feed;
 use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Tests\Mocks\ClientMock;
@@ -23,7 +23,7 @@ describe('feed suggestions', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getSuggestedFeeds();
+        $result = $client->app()->feed()->getSuggestedFeeds();
 
         // Assert
         expect($result)
@@ -43,7 +43,7 @@ describe('feed suggestions', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getSuggestedFeeds(69);
+        $result = $client->app()->feed()->getSuggestedFeeds(69);
 
         // Assert
         expect($result)
@@ -64,7 +64,7 @@ describe('feed suggestions', function (): void {
         );
 
         // Act
-        $result = $client->feed()->getSuggestedFeeds(cursor: 'test-cursor');
+        $result = $client->app()->feed()->getSuggestedFeeds(cursor: 'test-cursor');
 
         // Assert
         expect($result)

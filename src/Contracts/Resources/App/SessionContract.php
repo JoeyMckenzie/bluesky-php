@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bluesky\Contracts\Resources;
+namespace Bluesky\Contracts\Resources\App;
 
 use Bluesky\Responses\Session\CreateSessionResponse;
 
