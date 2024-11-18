@@ -55,7 +55,13 @@ Endpoints still to implement for client
 - [ ] `app.bsky.graph.unmuteActorList`
 - [ ] `app.bsky.graph.unmuteActor`
 - [ ] `app.bsky.graph.unmuteThread`
+
+## Labeler
+
 - [ ] `app.bsky.labeler.getServices`
+
+## Notification
+
 - [ ] `app.bsky.notification.getUnreadCount`
 - [ ] `app.bsky.notification.listNotifications`
 - [ ] `app.bsky.notification.putPreferences`
