@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Bluesky\Contracts\Resources\App;
 
-use Bluesky\Responses\Graph\GetActorStarterPacksResponse;
-use Bluesky\Responses\Graph\GetBlocksResponse;
+use Bluesky\Responses\App\Graph\GetActorStarterPacksResponse;
+use Bluesky\Responses\App\Graph\GetBlocksResponse;
 
 interface GraphContract
 {

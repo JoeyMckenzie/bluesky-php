@@ -8,23 +8,24 @@ use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Concerns\HasUserContext;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\App\FeedContract;
+use Bluesky\Contracts\Resources\ResourceNamespaceContract;
 use Bluesky\Enums\MediaType;
 use Bluesky\Resources\Utilities\PostUtilities;
-use Bluesky\Responses\Actor\GetListFeedResponse;
-use Bluesky\Responses\Feed\CreatePostResponse;
-use Bluesky\Responses\Feed\GetActorLikesResponse;
-use Bluesky\Responses\Feed\GetAuthorFeedResponse;
-use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
-use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
-use Bluesky\Responses\Feed\GetFeedResponse;
-use Bluesky\Responses\Feed\GetLikesResponse;
-use Bluesky\Responses\Feed\GetPostsResponse;
-use Bluesky\Responses\Feed\GetPostThreadResponse;
-use Bluesky\Responses\Feed\GetQuotesResponse;
-use Bluesky\Responses\Feed\GetRepostedByResponse;
-use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
-use Bluesky\Responses\Feed\GetTimelineResponse;
-use Bluesky\Responses\Feed\SearchPostsResponse;
+use Bluesky\Responses\App\Actor\GetListFeedResponse;
+use Bluesky\Responses\App\Feed\CreatePostResponse;
+use Bluesky\Responses\App\Feed\GetActorLikesResponse;
+use Bluesky\Responses\App\Feed\GetAuthorFeedResponse;
+use Bluesky\Responses\App\Feed\GetFeedGeneratorResponse;
+use Bluesky\Responses\App\Feed\GetFeedGeneratorsResponse;
+use Bluesky\Responses\App\Feed\GetFeedResponse;
+use Bluesky\Responses\App\Feed\GetLikesResponse;
+use Bluesky\Responses\App\Feed\GetPostsResponse;
+use Bluesky\Responses\App\Feed\GetPostThreadResponse;
+use Bluesky\Responses\App\Feed\GetQuotesResponse;
+use Bluesky\Responses\App\Feed\GetRepostedByResponse;
+use Bluesky\Responses\App\Feed\GetSuggestedFeedsResponse;
+use Bluesky\Responses\App\Feed\GetTimelineResponse;
+use Bluesky\Responses\App\Feed\SearchPostsResponse;
 use Bluesky\Types\FeedGenerator;
 use Bluesky\Types\FeedPost;
 use Bluesky\Types\FeedPostReply;
@@ -40,7 +41,7 @@ use Carbon\Carbon;
 use DateTime;
 use Override;
 
-final readonly class Feed implements FeedContract
+final readonly class Feed implements FeedContract, ResourceNamespaceContract
 {
     use HasAccessToken, HasUserContext;
 
@@ -62,7 +63,7 @@ final readonly class Feed implements FeedContract
 
         $payload = Payload::post('com.atproto.repo.createRecord', [
             'repo' => $this->username,
-            'collection' => 'app.bsky.feed.post',
+            'collection' => $this->getNamespace().'.post',
             'record' => $record,
         ], MediaType::JSON);
 
@@ -75,9 +76,15 @@ final readonly class Feed implements FeedContract
     }
 
     #[Override]
+    public function getNamespace(): string
+    {
+        return 'app.bsky.feed';
+    }
+
+    #[Override]
     public function getActorLikes(string $username, int $limit = 25): GetActorLikesResponse
     {
-        $payload = Payload::get('app.bsky.feed.getActorLikes', [
+        $payload = Payload::get($this->getNamespace().'.getActorLikes', [
             'actor' => $username,
             'limit' => $limit,
         ]);
@@ -93,7 +100,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getFeedGenerator(string $feed): GetFeedGeneratorResponse
     {
-        $payload = Payload::get('app.bsky.feed.getFeedGenerator', [
+        $payload = Payload::get($this->getNamespace().'.getFeedGenerator', [
             'feed' => $feed,
         ]);
 
@@ -108,7 +115,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getFeedGenerators(array $feeds): GetFeedGeneratorsResponse
     {
-        $payload = Payload::get('app.bsky.feed.getFeedGenerators', [
+        $payload = Payload::get($this->getNamespace().'.getFeedGenerators', [
             'feeds' => $feeds,
         ]);
 
@@ -123,7 +130,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getAuthorFeed(string $username, int $limit = 50, ?string $cursor = null, string $filter = 'posts_with_replies', bool $includePins = false): GetAuthorFeedResponse
     {
-        $payload = Payload::get('app.bsky.feed.getAuthorFeed', [
+        $payload = Payload::get($this->getNamespace().'.getAuthorFeed', [
             'actor' => $username,
             'limit' => $limit,
             'filter' => $filter,
@@ -141,7 +148,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getFeed(string $feed, int $limit = 50, ?string $cursor = null): GetFeedResponse
     {
-        $payload = Payload::get('app.bsky.feed.getFeed', [
+        $payload = Payload::get($this->getNamespace().'.getFeed', [
             'feed' => $feed,
             'limit' => $limit,
         ])->withOptionalQueryParameter('cursor', $cursor);
@@ -157,7 +164,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getLikes(string $uri, int $limit = 50, ?string $cursor = null): GetLikesResponse
     {
-        $payload = Payload::get('app.bsky.feed.getLikes', [
+        $payload = Payload::get($this->getNamespace().'.getLikes', [
             'uri' => $uri,
             'limit' => $limit,
         ])->withOptionalQueryParameter('cursor', $cursor);
@@ -173,7 +180,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getListFeed(string $list, int $limit = 50, ?string $cursor = null): GetListFeedResponse
     {
-        $payload = Payload::get('app.bsky.feed.getListFeed', [
+        $payload = Payload::get($this->getNamespace().'.getListFeed', [
             'list' => $list,
             'limit' => $limit,
         ])->withOptionalQueryParameter('cursor', $cursor);
@@ -189,7 +196,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getPostThread(string $uri, int $depth = 6, ?int $parentHeight = 80): GetPostThreadResponse
     {
-        $payload = Payload::get('app.bsky.feed.getPostThread', [
+        $payload = Payload::get($this->getNamespace().'.getPostThread', [
             'uri' => $uri,
             'depth' => $depth,
             'parentHeight' => $parentHeight,
@@ -209,7 +216,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getPosts(array $uris): GetPostsResponse
     {
-        $payload = Payload::get('app.bsky.feed.getPosts', [
+        $payload = Payload::get($this->getNamespace().'.getPosts', [
             'uris' => $uris,
         ]);
 
@@ -224,7 +231,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getQuotes(string $uri, int $limit = 50, ?string $cid = null, ?string $cursor = null): GetQuotesResponse
     {
-        $payload = Payload::get('app.bsky.feed.getQuotes', [
+        $payload = Payload::get($this->getNamespace().'.getQuotes', [
             'uri' => $uri,
             'limit' => $limit,
         ])
@@ -242,7 +249,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getRepostedBy(string $uri, ?string $cid = null, ?string $cursor = null): GetRepostedByResponse
     {
-        $payload = Payload::get('app.bsky.feed.getRepostedBy', [
+        $payload = Payload::get($this->getNamespace().'.getRepostedBy', [
             'uri' => $uri,
         ])
             ->withOptionalQueryParameter('cid', $cid)
@@ -259,7 +266,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getSuggestedFeeds(int $limit = 50, ?string $cursor = null): GetSuggestedFeedsResponse
     {
-        $payload = Payload::get('app.bsky.feed.getSuggestedFeeds', [
+        $payload = Payload::get($this->getNamespace().'.getSuggestedFeeds', [
             'limit' => $limit,
         ])->withOptionalQueryParameter('cursor', $cursor);
 
@@ -274,7 +281,7 @@ final readonly class Feed implements FeedContract
     #[Override]
     public function getTimeline(?string $algorithm = null, int $limit = 50, ?string $cursor = null): GetTimelineResponse
     {
-        $payload = Payload::get('app.bsky.feed.getTimeline', [
+        $payload = Payload::get($this->getNamespace().'.getTimeline', [
             'limit' => $limit,
         ])
             ->withOptionalQueryParameter('algorithm', $algorithm)
@@ -306,7 +313,7 @@ final readonly class Feed implements FeedContract
         ?string $url = null,
         array $tag = []): SearchPostsResponse
     {
-        $payload = Payload::get('app.bsky.feed.searchPosts', [
+        $payload = Payload::get($this->getNamespace().'.searchPosts', [
             'q' => $query,
             'limit' => $limit,
         ])

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Bluesky\Contracts\Resources\App;
 
-use Bluesky\Responses\Actor\GetListFeedResponse;
-use Bluesky\Responses\Feed\CreatePostResponse;
-use Bluesky\Responses\Feed\GetActorLikesResponse;
-use Bluesky\Responses\Feed\GetAuthorFeedResponse;
-use Bluesky\Responses\Feed\GetFeedGeneratorResponse;
-use Bluesky\Responses\Feed\GetFeedGeneratorsResponse;
-use Bluesky\Responses\Feed\GetFeedResponse;
-use Bluesky\Responses\Feed\GetLikesResponse;
-use Bluesky\Responses\Feed\GetPostsResponse;
-use Bluesky\Responses\Feed\GetPostThreadResponse;
-use Bluesky\Responses\Feed\GetQuotesResponse;
-use Bluesky\Responses\Feed\GetRepostedByResponse;
-use Bluesky\Responses\Feed\GetSuggestedFeedsResponse;
-use Bluesky\Responses\Feed\GetTimelineResponse;
-use Bluesky\Responses\Feed\SearchPostsResponse;
+use Bluesky\Responses\App\Actor\GetListFeedResponse;
+use Bluesky\Responses\App\Feed\CreatePostResponse;
+use Bluesky\Responses\App\Feed\GetActorLikesResponse;
+use Bluesky\Responses\App\Feed\GetAuthorFeedResponse;
+use Bluesky\Responses\App\Feed\GetFeedGeneratorResponse;
+use Bluesky\Responses\App\Feed\GetFeedGeneratorsResponse;
+use Bluesky\Responses\App\Feed\GetFeedResponse;
+use Bluesky\Responses\App\Feed\GetLikesResponse;
+use Bluesky\Responses\App\Feed\GetPostsResponse;
+use Bluesky\Responses\App\Feed\GetPostThreadResponse;
+use Bluesky\Responses\App\Feed\GetQuotesResponse;
+use Bluesky\Responses\App\Feed\GetRepostedByResponse;
+use Bluesky\Responses\App\Feed\GetSuggestedFeedsResponse;
+use Bluesky\Responses\App\Feed\GetTimelineResponse;
+use Bluesky\Responses\App\Feed\SearchPostsResponse;
 use Carbon\Carbon;
 use DateTime;
 

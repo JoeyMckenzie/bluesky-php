@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Bluesky\Contracts\Resources\App;
 
-use Bluesky\Responses\Actor\GetPreferencesResponse;
-use Bluesky\Responses\Actor\GetProfileResponse;
-use Bluesky\Responses\Actor\GetProfilesResponse;
-use Bluesky\Responses\Actor\GetSuggestionsResponse;
-use Bluesky\Responses\Actor\SearchActorsResponse;
+use Bluesky\Responses\App\Actor\GetPreferencesResponse;
+use Bluesky\Responses\App\Actor\GetProfileResponse;
+use Bluesky\Responses\App\Actor\GetProfilesResponse;
+use Bluesky\Responses\App\Actor\GetSuggestionsResponse;
+use Bluesky\Responses\App\Actor\SearchActorsResponse;
 
 /**
  * A contract for interacting with the actor endpoints.

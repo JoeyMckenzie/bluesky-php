@@ -7,13 +7,14 @@ namespace Bluesky\Resources\App;
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\App\GraphContract;
-use Bluesky\Responses\Graph\GetActorStarterPacksResponse;
-use Bluesky\Responses\Graph\GetBlocksResponse;
+use Bluesky\Contracts\Resources\ResourceNamespaceContract;
+use Bluesky\Responses\App\Graph\GetActorStarterPacksResponse;
+use Bluesky\Responses\App\Graph\GetBlocksResponse;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
 
-final readonly class Graph implements GraphContract
+final readonly class Graph implements GraphContract, ResourceNamespaceContract
 {
     use HasAccessToken;
 
@@ -27,7 +28,7 @@ final readonly class Graph implements GraphContract
     #[Override]
     public function getActorStarterPacks(string $actor, int $limit = 50, ?string $cursor = null): GetActorStarterPacksResponse
     {
-        $payload = Payload::get('app.bsky.graph.getActorStarterPacks', [
+        $payload = Payload::get($this->getNamespace().'.getActorStarterPacks', [
             'actor' => $actor,
             'limit' => $limit,
         ])->withOptionalQueryParameter('cursor', $cursor);
@@ -41,9 +42,15 @@ final readonly class Graph implements GraphContract
     }
 
     #[Override]
+    public function getNamespace(): string
+    {
+        return 'app.bsky.graph';
+    }
+
+    #[Override]
     public function getBlocks(int $limit = 50, ?string $cursor = null): GetBlocksResponse
     {
-        $payload = Payload::get('app.bsky.graph.getBlocks', [
+        $payload = Payload::get($this->getNamespace().'.getBlocks', [
             'limit' => $limit,
         ])->withOptionalQueryParameter('cursor', $cursor);
 

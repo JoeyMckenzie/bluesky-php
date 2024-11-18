@@ -7,18 +7,19 @@ namespace Bluesky\Resources\App;
 use Bluesky\Concerns\HasAccessToken;
 use Bluesky\Contracts\ConnectorContract;
 use Bluesky\Contracts\Resources\App\ActorContract;
+use Bluesky\Contracts\Resources\ResourceNamespaceContract;
 use Bluesky\Enums\MediaType;
-use Bluesky\Responses\Actor\GetPreferencesResponse;
-use Bluesky\Responses\Actor\GetProfileResponse;
-use Bluesky\Responses\Actor\GetProfilesResponse;
-use Bluesky\Responses\Actor\GetSuggestionsResponse;
-use Bluesky\Responses\Actor\SearchActorsResponse;
+use Bluesky\Responses\App\Actor\GetPreferencesResponse;
+use Bluesky\Responses\App\Actor\GetProfileResponse;
+use Bluesky\Responses\App\Actor\GetProfilesResponse;
+use Bluesky\Responses\App\Actor\GetSuggestionsResponse;
+use Bluesky\Responses\App\Actor\SearchActorsResponse;
 use Bluesky\Types\Profile;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
 
-final readonly class Actor implements ActorContract
+final readonly class Actor implements ActorContract, ResourceNamespaceContract
 {
     use HasAccessToken;
 
@@ -32,7 +33,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getProfile(string $actor): GetProfileResponse
     {
-        $payload = Payload::get('app.bsky.actor.getProfile', [
+        $payload = Payload::get($this->getNamespace().'.getProfile', [
             'actor' => $actor,
         ]);
 
@@ -44,13 +45,19 @@ final readonly class Actor implements ActorContract
         return GetProfileResponse::from($response->data());
     }
 
+    #[Override]
+    public function getNamespace(): string
+    {
+        return 'app.bsky.actor';
+    }
+
     /**
      * @param  string[]  $actors
      */
     #[Override]
     public function getProfiles(array $actors): GetProfilesResponse
     {
-        $payload = Payload::get('app.bsky.actor.getProfiles', [
+        $payload = Payload::get($this->getNamespace().'.getProfiles', [
             'actors' => $actors,
         ]);
 
@@ -65,7 +72,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getPreferences(?string $accessJwt = null): GetPreferencesResponse
     {
-        $payload = Payload::get('app.bsky.actor.getPreferences');
+        $payload = Payload::get($this->getNamespace().'.getPreferences');
 
         /**
          * @var Response<array{preferences: list<array{"$type": string}&array<string, mixed>>}> $response
@@ -78,7 +85,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function getSuggestions(int $limit = 50, int $cursor = 0, ?string $accessJwt = null): GetSuggestionsResponse
     {
-        $payload = Payload::get('app.bsky.actor.getSuggestions', [
+        $payload = Payload::get($this->getNamespace().'.getSuggestions', [
             'limit' => $limit,
             'cursor' => $cursor,
         ]);
@@ -94,7 +101,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function putPreferences(array $preferences): void
     {
-        $payload = Payload::postWithoutResponse('app.bsky.actor.putPreferences',
+        $payload = Payload::postWithoutResponse($this->getNamespace().'.putPreferences',
             [
                 'preferences' => $preferences,
             ],
@@ -106,7 +113,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function searchActors(string $query, int $limit = 25, int $cursor = 0): SearchActorsResponse
     {
-        $payload = Payload::get('app.bsky.actor.searchActors', [
+        $payload = Payload::get($this->getNamespace().'.searchActors', [
             'q' => $query,
             'limit' => $limit,
             'cursor' => $cursor,
@@ -123,7 +130,7 @@ final readonly class Actor implements ActorContract
     #[Override]
     public function searchActorsTypeahead(string $query, int $limit = 25): SearchActorsResponse
     {
-        $payload = Payload::get('app.bsky.actor.searchActorsTypeahead', [
+        $payload = Payload::get($this->getNamespace().'.searchActorsTypeahead', [
             'q' => $query,
             'limit' => $limit,
         ]);

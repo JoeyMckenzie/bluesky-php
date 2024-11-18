@@ -10,7 +10,7 @@ use Bluesky\Exceptions\AuthenticationException;
 use Bluesky\Resources\App\Actor;
 use Bluesky\Resources\App\Feed;
 use Bluesky\Resources\App\Graph;
-use Bluesky\Resources\App\Session;
+use Bluesky\Resources\ATProto\Server;
 use Bluesky\ValueObjects\Connector\Response;
 use Mockery;
 
@@ -27,7 +27,7 @@ describe(Client::class, function (): void {
     });
 
     it('creates namespaced resource instances', function (): void {
-        expect($this->client->session())->toBeInstanceOf(Session::class)
+        expect($this->client->server())->toBeInstanceOf(Server::class)
             ->and($this->client->app()->actor())->toBeInstanceOf(Actor::class)
             ->and($this->client->app()->graph())->toBeInstanceOf(Graph::class)
             ->and($this->client->app()->feed())->toBeInstanceOf(Feed::class);
@@ -100,7 +100,7 @@ describe(Client::class, function (): void {
         $client = new Client($this->connector, $username);
 
         // Act
-        $session = $client->session();
+        $session = $client->server();
         $feed = $client->app()->feed();
 
         expect($session->getUsername())->toBe($username)
