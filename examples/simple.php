@@ -19,19 +19,12 @@ $client = Bluesky::client($username);
 // It's also possible to use the public API as well
 $publicApi = Bluesky::publicClient();
 
-// Option 1, we can manually a session and forward the token
-$session = $client->session()->createSession($password);
+// Next, create a new session for the API
+$session = $client->newSession($password);
 var_dump($session);
 
-$profile = $client->actor()->getProfile($username);
-var_dump($profile);
-
-// OR option 2, create a new session through the client instance
-$newSession = $client->newSession($password);
-var_dump($newSession);
-
-$profile = $client->actor()->getProfile($username);
+$profile = $client->app()->actor()->getProfile($username);
 var_dump($profile);
 
 // Create a post
-$post = $client->app()->graph()->post('This post was brought to you by PHP. Working on yet another Bluesky client for PHP, heavily inspired Nuno\'s OpenAI client. Coming to a Packagist feed near you... 🤠');
+$post = $client->app()->feed()->post('This post was brought to you by PHP. Working on yet another Bluesky client for PHP, heavily inspired Nuno\'s OpenAI client. Coming to a Packagist feed near you... 🤠');
