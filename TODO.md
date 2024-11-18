@@ -26,7 +26,7 @@ Endpoints still to implement for client
 - [x] `app.bsky.feed.getSuggestedFeeds`
 - [x] `app.bsky.feed.getTimeline`
 - [x] `app.bsky.feed.searchPosts`
-- [ ] `app.bsky.feed.sendInteractions`
+- [ ] `app.bsky.feed.sendInteractions` ⚠️(getting XRPCNotSupported error)
 - [ ] `app.bsky.graph.getActorStarterPacks`
 - [ ] `app.bsky.graph.getBlocks`
 - [ ] `app.bsky.graph.getFollowers`
