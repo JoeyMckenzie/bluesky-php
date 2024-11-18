@@ -10,12 +10,12 @@ use Bluesky\Types\PostMetadata;
 use Override;
 
 /**
- * @implements ResponseContract<array{posts: PostMetadata[], hitsTotal: int, cursor: ?string}>
+ * @implements ResponseContract<array{posts: PostMetadata[], hitsTotal: ?int, cursor: ?string}>
  */
 final readonly class SearchPostsResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{posts: PostMetadata[], hitsTotal: int, cursor: ?string}>
+     * @use ArrayAccessible<array{posts: PostMetadata[], hitsTotal: ?int, cursor: ?string}>
      */
     use ArrayAccessible;
 
@@ -24,12 +24,12 @@ final readonly class SearchPostsResponse implements ResponseContract
      */
     public function __construct(
         public array $posts,
-        public int $hitsTotal,
+        public ?int $hitsTotal,
         public ?string $cursor
     ) {}
 
     /**
-     * @param  array{posts: PostMetadata[], hitsTotal: int, cursor: ?string}  $attributes
+     * @param  array{posts: PostMetadata[], hitsTotal: ?int, cursor: ?string}  $attributes
      */
     public static function from(array $attributes): self
     {

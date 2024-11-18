@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Bluesky\Bluesky;
+use Carbon\Carbon;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -62,3 +63,6 @@ var_dump($suggestedFeeds);
 
 $timeline = $client->feed()->getTimeline();
 var_dump($timeline);
+
+$searchPosts = $client->feed()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
+var_dump($searchPosts);

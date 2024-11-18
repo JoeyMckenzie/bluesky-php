@@ -312,8 +312,8 @@ final readonly class Feed implements FeedContract
         ])
             ->withOptionalQueryParameter('cursor', $cursor)
             ->withOptionalQueryParameter('sort', $sort)
-            ->withOptionalQueryParameter('since', $since?->toDateString())
-            ->withOptionalQueryParameter('until', $until?->toDateString())
+            ->withOptionalQueryParameter('since', $since?->toIso8601String())
+            ->withOptionalQueryParameter('until', $until?->toIso8601String())
             ->withOptionalQueryParameter('mentions', $mentions)
             ->withOptionalQueryParameter('author', $author)
             ->withOptionalQueryParameter('lang', $lang)
@@ -322,7 +322,7 @@ final readonly class Feed implements FeedContract
             ->withOptionalQueryParameter('tag', $tag);
 
         /**
-         * @var Response<array{posts: PostMetadata[], hitsTotal: int, cursor: ?string}> $response
+         * @var Response<array{posts: PostMetadata[], hitsTotal: ?int, cursor: ?string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 

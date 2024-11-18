@@ -85,18 +85,19 @@ describe('search posts', function (): void {
 
     it('can search posts with a since date', function (): void {
         // Arrange
+        $since = Carbon::now()->subWeek();
         $client = ClientMock::createForGet(
             'app.bsky.feed.searchPosts',
             [
                 'q' => 'php',
                 'limit' => 25,
-                'since' => '2024-11-17',
+                'since' => $since->toIso8601String(),
             ],
             Response::from(searchPosts()),
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', since: Carbon::parse('2024-11-17'));
+        $result = $client->feed()->searchPosts('php', since: $since);
 
         // Assert
         expect($result)
@@ -108,18 +109,19 @@ describe('search posts', function (): void {
 
     it('can search posts with an until date', function (): void {
         // Arrange
+        $until = Carbon::yesterday();
         $client = ClientMock::createForGet(
             'app.bsky.feed.searchPosts',
             [
                 'q' => 'php',
                 'limit' => 25,
-                'until' => '2024-11-17',
+                'until' => $until->toIso8601String(),
             ],
             Response::from(searchPosts()),
         );
 
         // Act
-        $result = $client->feed()->searchPosts('php', until: Carbon::parse('2024-11-17'));
+        $result = $client->feed()->searchPosts('php', until: $until);
 
         // Assert
         expect($result)
