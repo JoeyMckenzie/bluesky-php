@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.3 - 2024-11-19
+
+### What's New
+
+- Refactors namespaces into bsky and atproto
+- Adds more coverage for the graph bsky namespace
+
 ## v0.1.2 - 2024-11-18
 
 ### What's New
@@ -20,6 +27,7 @@ $client->feed()->getTimeline();
 
 // Now becomes
 $client->bsky()->feed()->getTimeline();
+
 
 
 ```
