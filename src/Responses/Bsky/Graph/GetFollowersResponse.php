@@ -10,17 +10,17 @@ use Bluesky\Types\Profile;
 use Override;
 
 /**
- * @implements ResponseContract<array{subject: Profile, followers: array<int, Profile>, cursor: ?string}>
+ * @implements ResponseContract<array{subject: array<key-of<Profile>, mixed>, followers: array<int, Profile>, cursor: ?string}>
  */
 final readonly class GetFollowersResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<array{subject: Profile, followers: array<int, Profile>, cursor: ?string}>
+     * @use ArrayAccessible<array{subject: array<key-of<Profile, mixed>>, followers: array<int, Profile>, cursor: ?string}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<Profile>  $subject
+     * @param  array<key-of<Profile>, mixed>  $subject
      * @param  array<int, Profile>  $followers
      */
     public function __construct(
@@ -30,7 +30,7 @@ final readonly class GetFollowersResponse implements ResponseContract
     ) {}
 
     /**
-     * @param  array{subject: Profile, followers: array<int, Profile>, cursor: ?string}  $attributes
+     * @param  array{subject: array<key-of<Profile>, mixed>, followers: array<int, Profile>, cursor: ?string}  $attributes
      */
     public static function from(array $attributes): self
     {

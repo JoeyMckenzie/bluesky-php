@@ -73,7 +73,7 @@ final readonly class Graph implements GraphContract, ResourceNamespaceContract
         ])->withOptionalQueryParameter('cursor', $cursor);
 
         /**
-         * @var Response<array{subject: Profile, followers: array<int, Profile>, cursor: ?string}> $response
+         * @var Response<array{subject: array<key-of<Profile>, mixed>, followers: array<int, Profile>, cursor: ?string}> $response
          */
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 

@@ -67,5 +67,8 @@ var_dump($timeline);
 $searchPosts = $client->bsky()->feed()->searchPosts('php', sort: 'latest', since: Carbon::yesterday());
 var_dump($searchPosts);
 
-$unreadCount = $client->bsky()->notification()->getUnreadCount(seenAt: Carbon::yesterday());
+$unreadCount = $client->bsky()->notification()->getUnreadCount();
 var_dump($unreadCount);
+
+$followers = $client->bsky()->graph()->getFollowers('did:plc:3ond7kebhvszgzsqo5llyipd');
+var_dump($followers);

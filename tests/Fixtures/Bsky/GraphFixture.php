@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use function Pest\Faker\fake;
 
 /**
- * @return array{starterPacks: array<array{uri: string, cid: string, record: array{"$type": string, createdAt: string, list: string, name: string}, creator: array{did: string, handle: string, displayName: string, avatar: string, viewer: array{muted: bool, blockedBy: bool}, labels: array<string>, createdAt: string}, joinedAllTimeCount: int, joinedWeekCount: int, labels: array<string>, indexedAt: string}>}
+ * @return array{starterPacks: array<int, array{uri: string, cid: string, record: array{"$type": string, createdAt: string, list: string, name: string}, creator: array{did: string, handle: string, displayName: string, avatar: string, viewer: array{muted: bool, blockedBy: bool}, labels: array<string>, createdAt: string}, joinedAllTimeCount: int, joinedWeekCount: int, labels: array<string>, indexedAt: string}>}
  */
 function starterPacks(): array
 {
@@ -91,7 +91,7 @@ function blocks(): array
 }
 
 /**
- * @return array{subject: Profile, followers: array<int, Profile>, cursor: ?string}
+ * @return array{subject: array<key-of<Profile>, mixed>, followers: array<int, Profile>, cursor: ?string}
  */
 function followers(): array
 {
