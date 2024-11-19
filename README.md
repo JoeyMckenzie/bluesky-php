@@ -18,7 +18,7 @@ both the authenticated and public endpoints.
 
 ### Current API coverage status
 
-> ℹ️ Current progress: 23/165 endpoints covered
+> ℹ️ Current progress: 24/165 endpoints covered
 
 The Bluesky API surface is fairly large, and we'll be doing our best to cover as many of the endpoints as possible
 to provide a friendly client experience. In terms of currently covered resources:
