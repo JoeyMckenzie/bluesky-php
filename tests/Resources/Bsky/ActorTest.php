@@ -21,7 +21,6 @@ use function Tests\Fixtures\Bsky\suggestions;
 covers(Actor::class);
 
 describe(Actor::class, function (): void {
-
     it('can retrieve a profile given a did or handle', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
