@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures\Bsky;
 
+use Bluesky\Types\Profile;
 use Carbon\Carbon;
 
 use function Pest\Faker\fake;
@@ -84,6 +85,21 @@ function blocks(): array
                 ];
             },
             range(1, fake()->numberBetween(1, 10))
+        ),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+    ];
+}
+
+/**
+ * @return array{subject: Profile, followers: array<int, Profile>, cursor: ?string}
+ */
+function followers(): array
+{
+    return [
+        'subject' => profile(),
+        'followers' => array_map(
+            fn (): array => profile(),
+            range(1, fake()->numberBetween(10, 50))
         ),
         'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
     ];
