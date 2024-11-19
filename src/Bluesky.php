@@ -23,7 +23,7 @@ final class Bluesky
      */
     public static function client(string $username): Client
     {
-        $version = Version::getComposerVersion();
+        $version = Version::getVersion();
 
         return self::builder()
             ->withUsername($username)
@@ -44,7 +44,7 @@ final class Bluesky
      */
     public static function publicClient(): Client
     {
-        $version = Version::getComposerVersion();
+        $version = Version::getVersion();
 
         return self::builder()
             ->withHeader('User-Agent', "bluesky-php-client/$version")
