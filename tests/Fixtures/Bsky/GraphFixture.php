@@ -104,3 +104,18 @@ function followers(): array
         'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
     ];
 }
+
+/**
+ * @return array{subject: array<key-of<Profile>, mixed>, follows: array<int, Profile>, cursor: ?string}
+ */
+function follows(): array
+{
+    return [
+        'subject' => profile(),
+        'follows' => array_map(
+            fn (): array => profile(),
+            range(1, fake()->numberBetween(10, 50))
+        ),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+    ];
+}

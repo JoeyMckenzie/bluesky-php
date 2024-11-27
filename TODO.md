@@ -38,7 +38,7 @@ Endpoints still to implement for client
 - [x] `app.bsky.graph.getActorStarterPacks`
 - [x] `app.bsky.graph.getBlocks`
 - [x] `app.bsky.graph.getFollowers`
-- [ ] `app.bsky.graph.getFollows`
+- [x] `app.bsky.graph.getFollows`
 - [ ] `app.bsky.graph.getKnownFollowers`
 - [ ] `app.bsky.graph.getListBlocks`
 - [ ] `app.bsky.graph.getListMutes`

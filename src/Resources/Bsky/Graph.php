@@ -11,6 +11,7 @@ use Bluesky\Contracts\Resources\ResourceNamespaceContract;
 use Bluesky\Responses\Bsky\Graph\GetActorStarterPacksResponse;
 use Bluesky\Responses\Bsky\Graph\GetBlocksResponse;
 use Bluesky\Responses\Bsky\Graph\GetFollowersResponse;
+use Bluesky\Responses\Bsky\Graph\GetFollowsResponse;
 use Bluesky\Types\Profile;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
@@ -78,5 +79,21 @@ final readonly class Graph implements GraphContract, ResourceNamespaceContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetFollowersResponse::from($response->data());
+    }
+
+    #[Override]
+    public function getFollows(string $actor, int $limit = 50, ?string $cursor = null): GetFollowsResponse
+    {
+        $payload = Payload::get($this->getNamespace().'.getFollows', [
+            'actor' => $actor,
+            'limit' => $limit,
+        ])->withOptionalQueryParameter('cursor', $cursor);
+
+        /**
+         * @var Response<array{subject: array<key-of<Profile>, mixed>, follows: array<int, Profile>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetFollowsResponse::from($response->data());
     }
 }
