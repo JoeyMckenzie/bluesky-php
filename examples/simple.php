@@ -10,7 +10,11 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
 // By default, the client assumes we're going to authenticate as a valid user
+
+/** @var string $username */
 $username = $_ENV['BLUESKY_USERNAME'];
+
+/** @var string $password */
 $password = $_ENV['BLUESKY_PASSWORD'];
 
 // Construct the client using the default builder with no customizations
