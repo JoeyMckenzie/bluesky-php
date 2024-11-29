@@ -17,5 +17,7 @@ interface GraphContract
 
     public function getFollowers(string $actor, int $limit = 50, ?string $cursor = null): GetFollowersResponse;
 
+    public function getKnownFollowers(string $actor, int $limit = 50, ?string $cursor = null): GetFollowersResponse;
+
     public function getFollows(string $actor, int $limit = 50, ?string $cursor = null): GetFollowsResponse;
 }

@@ -82,6 +82,22 @@ final readonly class Graph implements GraphContract, ResourceNamespaceContract
     }
 
     #[Override]
+    public function getKnownFollowers(string $actor, int $limit = 50, ?string $cursor = null): GetFollowersResponse
+    {
+        $payload = Payload::get($this->getNamespace().'.getKnownFollowers', [
+            'actor' => $actor,
+            'limit' => $limit,
+        ])->withOptionalQueryParameter('cursor', $cursor);
+
+        /**
+         * @var Response<array{subject: array<key-of<Profile>, mixed>, followers: array<int, Profile>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetFollowersResponse::from($response->data());
+    }
+
+    #[Override]
     public function getFollows(string $actor, int $limit = 50, ?string $cursor = null): GetFollowsResponse
     {
         $payload = Payload::get($this->getNamespace().'.getFollows', [
