@@ -12,7 +12,9 @@ use Bluesky\Responses\Bsky\Graph\GetActorStarterPacksResponse;
 use Bluesky\Responses\Bsky\Graph\GetBlocksResponse;
 use Bluesky\Responses\Bsky\Graph\GetFollowersResponse;
 use Bluesky\Responses\Bsky\Graph\GetFollowsResponse;
+use Bluesky\Responses\Bsky\Graph\GetListResponse;
 use Bluesky\Types\Profile;
+use Bluesky\Types\UserList;
 use Bluesky\ValueObjects\Connector\Response;
 use Bluesky\ValueObjects\Payload;
 use Override;
@@ -111,5 +113,21 @@ final readonly class Graph implements GraphContract, ResourceNamespaceContract
         $response = $this->connector->makeRequest($payload, $this->accessJwt);
 
         return GetFollowsResponse::from($response->data());
+    }
+
+    #[Override]
+    public function getList(string $list, int $limit = 50, ?string $cursor = null): GetListResponse
+    {
+        $payload = Payload::get($this->getNamespace().'.getList', [
+            'list' => $list,
+            'limit' => $limit,
+        ])->withOptionalQueryParameter('cursor', $cursor);
+
+        /**
+         * @var Response<array{list: array<key-of<UserList>, mixed>, items: array<int, Profile>, cursor: ?string}> $response
+         */
+        $response = $this->connector->makeRequest($payload, $this->accessJwt);
+
+        return GetListResponse::from($response->data());
     }
 }

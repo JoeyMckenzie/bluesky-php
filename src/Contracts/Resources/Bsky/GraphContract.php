@@ -8,6 +8,7 @@ use Bluesky\Responses\Bsky\Graph\GetActorStarterPacksResponse;
 use Bluesky\Responses\Bsky\Graph\GetBlocksResponse;
 use Bluesky\Responses\Bsky\Graph\GetFollowersResponse;
 use Bluesky\Responses\Bsky\Graph\GetFollowsResponse;
+use Bluesky\Responses\Bsky\Graph\GetListResponse;
 
 interface GraphContract
 {
@@ -20,4 +21,6 @@ interface GraphContract
     public function getKnownFollowers(string $actor, int $limit = 50, ?string $cursor = null): GetFollowersResponse;
 
     public function getFollows(string $actor, int $limit = 50, ?string $cursor = null): GetFollowsResponse;
+
+    public function getList(string $list, int $limit = 50, ?string $cursor = null): GetListResponse;
 }

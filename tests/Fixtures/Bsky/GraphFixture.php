@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fixtures\Bsky;
 
 use Bluesky\Types\Profile;
+use Bluesky\Types\UserList;
 use Carbon\Carbon;
 
 use function Pest\Faker\fake;
@@ -113,6 +114,39 @@ function follows(): array
     return [
         'subject' => profile(),
         'follows' => array_map(
+            fn (): array => profile(),
+            range(1, fake()->numberBetween(10, 50))
+        ),
+        'cursor' => '3l'.fake()->regexify('[a-z0-9]{10}'),
+    ];
+}
+
+/**
+ * @return array{list: array<key-of<UserList>, mixed>, items: array<int, Profile>, cursor: ?string}
+ */
+function userList(): array
+{
+    $creator = profile();
+    $itemCount = fake()->numberBetween(1, 10);
+
+    return [
+        'list' => [
+            [
+                'uri' => "at://{$creator['did']}/app.bsky.graph.list/".fake()->regexify('[a-z0-9]{10}'),
+                'cid' => 'bafyrei'.fake()->regexify('[a-z0-9]{46}'),
+                'name' => fake()->words(2, true),
+                'purpose' => 'app.bsky.graph.defs#curatelist',
+                'listItemCount' => $itemCount,
+                'indexedAt' => fake()->dateTimeThisMonth()->format('Y-m-d\TH:i:s.v\Z'),
+                'labels' => [],
+                'viewer' => [
+                    'muted' => fake()->boolean(),
+                ],
+                'creator' => $creator,
+                'description' => fake()->optional(0.7)->sentence(),
+            ],
+        ],
+        'items' => array_map(
             fn (): array => profile(),
             range(1, fake()->numberBetween(10, 50))
         ),

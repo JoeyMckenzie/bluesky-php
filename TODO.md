@@ -40,8 +40,8 @@ Endpoints still to implement for client
 - [x] `app.bsky.graph.getFollowers`
 - [x] `app.bsky.graph.getFollows`
 - [x] `app.bsky.graph.getKnownFollowers`
-- [ ] `app.bsky.graph.getListBlocks`
-- [ ] `app.bsky.graph.getListMutes`
+- [ ] `app.bsky.graph.getListBlocks` ⚠️(need an example)
+- [ ] `app.bsky.graph.getListMutes` ⚠️(need an example)
 - [ ] `app.bsky.graph.getList`
 - [ ] `app.bsky.graph.getLists`
 - [ ] `app.bsky.graph.getMutes`

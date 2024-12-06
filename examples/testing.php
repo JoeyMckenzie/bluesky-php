@@ -72,3 +72,6 @@ var_dump($unreadCount);
 
 $followers = $client->bsky()->graph()->getFollowers('did:plc:3ond7kebhvszgzsqo5llyipd');
 var_dump($followers);
+
+$list = $client->bsky()->graph()->getList('at://did:plc:3ond7kebhvszgzsqo5llyipd/app.bsky.graph.list/3lawjh5t6pa2f');
+var_dump($list);
